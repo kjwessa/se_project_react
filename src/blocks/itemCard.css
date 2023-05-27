@@ -1,0 +1,29 @@
+.card__section {
+  margin-top: 20px;
+}
+
+.card-section__container {
+  position: relative;
+}
+
+.card-section__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-section__image {
+  width: 328px;
+  height: 328px;
+  border-radius: 8px;
+}
+
+.card-section__name {
+  text-align: center;
+  position: absolute;
+  top: 17px;
+  left: 0;
+  cursor: pointer;
+}

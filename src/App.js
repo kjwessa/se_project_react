@@ -1,15 +1,16 @@
-import Header from "./components/Header";
-import WeatherCard from "./components/WeatherCard";
 import "./App.css";
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
+// import ClothesSection from "./components/ClothesSection";
 
 function App() {
+  const weatherTemp = "90° F";
   return (
     <div>
       <Header />
-      <main>
-        <WeatherCard day={true} type="clear" />
-        <section id="card Section"></section>
-      </main>
+      <Main weatherTemp={weatherTemp} />
+      <Footer />
     </div>
   );
 }

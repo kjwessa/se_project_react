@@ -1,3 +1,5 @@
 @import url(./vendor/normalize.css);
 @import url(./blocks/header.css);
 @import url(./blocks/weatherCard.css);
+@import url(./blocks/itemCard.css);
+@import url(./blocks/footer.css);

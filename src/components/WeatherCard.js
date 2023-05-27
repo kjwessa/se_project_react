@@ -1,5 +1,5 @@
 import { weatherOptions } from "../utils/constants";
-function WeatherCard({ day, type = "" }) {
+function WeatherCard({ day, type, weatherTemp = "" }) {
   const findWeather = (weatherOption) => {
     return weatherOption.day === day && weatherOption.type === type;
   };
@@ -9,7 +9,7 @@ function WeatherCard({ day, type = "" }) {
   console.log("WeatherCard");
   return (
     <section className="weather" id="weather">
-      <div className="weather__info">75F</div>
+      <div className="weather__info">{weatherTemp}</div>
       <img alt="weather-app" src={weatherPath} className="weather__image" />
     </section>
   );
