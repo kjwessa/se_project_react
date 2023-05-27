@@ -1,0 +1,20 @@
+.header {
+  background-color: orange;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+  padding: 0 20px;
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

@@ -1,10 +1,15 @@
-import logo from "./logo.svg";
+import Header from "./components/Header";
+import WeatherCard from "./components/WeatherCard";
 import "./App.css";
 
 function App() {
   return (
     <div>
-      <header></header>
+      <Header />
+      <main>
+        <WeatherCard day={true} type="clear" />
+        <section id="card Section"></section>
+      </main>
     </div>
   );
 }
