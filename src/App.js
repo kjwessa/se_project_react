@@ -31,38 +31,35 @@ function App() {
   }, []);
   return (
     <div className="page">
-      <div className="page__wrapper">
-        {" "}
-        <Header onCreateModal={handleCreateModal} />
-        <Main weatherTemp={temp} onSelectCard={handleSelectedCard} />
-        <Footer />
-        {activeModal === "create" && (
-          <ModalWithForm title="New Garment" onClose={handleCloseModal}>
-            <label>
-              name<input type="text" name="name " minLength="1" maxLength="30"></input>
-            </label>
-            <label>
-              Image<input type="url" name="link " minLength="1" maxLength="30"></input>
-            </label>
-            <p>Select the weather type:</p>
+      <Header onCreateModal={handleCreateModal} />
+      <Main weatherTemp={temp} onSelectCard={handleSelectedCard} />
+      <Footer />
+      {activeModal === "create" && (
+        <ModalWithForm title="New Garment" onClose={handleCloseModal}>
+          <label>
+            name<input type="text" name="name " minLength="1" maxLength="30"></input>
+          </label>
+          <label>
+            Image<input type="url" name="link " minLength="1" maxLength="30"></input>
+          </label>
+          <p>Select the weather type:</p>
+          <div>
             <div>
-              <div>
-                <input type="radio" id="hot" value="hot" />
-                <label for="hot">Hot</label>
-              </div>
-              <div>
-                <input type="radio" id="warm" value="warm" />
-                <label for="warm">Warm</label>
-              </div>
-              <div>
-                <input type="radio" id="cold" value="cold" />
-                <label for="cold">Cold</label>
-              </div>
+              <input type="radio" id="hot" value="hot" />
+              <label for="hot">Hot</label>
             </div>
-          </ModalWithForm>
-        )}
-        {activeModal && <ItemModal selectedCard={selectedCard} onClose={handleCloseModal} />}
-      </div>
+            <div>
+              <input type="radio" id="warm" value="warm" />
+              <label for="warm">Warm</label>
+            </div>
+            <div>
+              <input type="radio" id="cold" value="cold" />
+              <label for="cold">Cold</label>
+            </div>
+          </div>
+        </ModalWithForm>
+      )}
+      {activeModal && <ItemModal selectedCard={selectedCard} onClose={handleCloseModal} />}
     </div>
   );
 }
