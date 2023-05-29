@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import "./index.css";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
@@ -26,42 +26,43 @@ function App() {
   useEffect(() => {
     getForecastWeather().then((data) => {
       const temperature = parseWeatherData(data);
-      console.log(temperature);
       setTemp(temperature);
     });
   }, []);
-  console.log(temp);
   return (
-    <div>
-      <Header onCreateModal={handleCreateModal} />
-      <Main weatherTemp={temp} onSelectCard={handleSelectedCard} />
-      <Footer />
-      {activeModal === "create" && (
-        <ModalWithForm title="New Garment" onClose={handleCloseModal}>
-          <label>
-            name<input type="text" name="name " minLength="1" maxLength="30"></input>
-          </label>
-          <label>
-            Image<input type="url" name="link " minLength="1" maxLength="30"></input>
-          </label>
-          <p>Select the weather type:</p>
-          <div>
+    <div className="page">
+      <div className="page__wrapper">
+        {" "}
+        <Header onCreateModal={handleCreateModal} />
+        <Main weatherTemp={temp} onSelectCard={handleSelectedCard} />
+        <Footer />
+        {activeModal === "create" && (
+          <ModalWithForm title="New Garment" onClose={handleCloseModal}>
+            <label>
+              name<input type="text" name="name " minLength="1" maxLength="30"></input>
+            </label>
+            <label>
+              Image<input type="url" name="link " minLength="1" maxLength="30"></input>
+            </label>
+            <p>Select the weather type:</p>
             <div>
-              <input type="radio" id="hot" value="hot" />
-              <label for="hot">Hot</label>
+              <div>
+                <input type="radio" id="hot" value="hot" />
+                <label for="hot">Hot</label>
+              </div>
+              <div>
+                <input type="radio" id="warm" value="warm" />
+                <label for="warm">Warm</label>
+              </div>
+              <div>
+                <input type="radio" id="cold" value="cold" />
+                <label for="cold">Cold</label>
+              </div>
             </div>
-            <div>
-              <input type="radio" id="warm" value="warm" />
-              <label for="warm">Warm</label>
-            </div>
-            <div>
-              <input type="radio" id="cold" value="cold" />
-              <label for="cold">Cold</label>
-            </div>
-          </div>
-        </ModalWithForm>
-      )}
-      {activeModal && <ItemModal selectedCard={selectedCard} onClose={handleCloseModal} />}
+          </ModalWithForm>
+        )}
+        {activeModal && <ItemModal selectedCard={selectedCard} onClose={handleCloseModal} />}
+      </div>
     </div>
   );
 }

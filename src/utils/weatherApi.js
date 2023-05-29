@@ -15,10 +15,7 @@ export const getForecastWeather = () => {
 };
 
 export const parseWeatherData = (data) => {
-  console.log(data);
   const main = data.main;
-  console.log(main);
   const temperature = main && main.temp;
-  console.log(Math.ceil(temperature));
   return Math.ceil(temperature);
 };
