@@ -1,20 +1,50 @@
 .header {
-  background-color: orange;
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: 60px;
-  padding: 0 20px;
+  padding: 0 18px;
 }
 
 .header__left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
+}
+
+.header__logo {
+  height: 40px;
+  width: 89px;
+}
+
+.header__date {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0;
 }
 
 .header__right {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.header__button {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.header__button:hover {
+  cursor: pointer;
+}
+
+.header__name {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
 }

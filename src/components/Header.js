@@ -2,17 +2,21 @@ import logoPath from "../images/logo.svg";
 import avatarPath from "../images/avatar.svg";
 
 const Header = ({ onCreateModal }) => {
+  const currentDate = new Date().toLocaleDateString("default", {
+    month: "long",
+    day: "numeric",
+  });
   return (
     <header className="header">
       <div className="header__left">
         <img src={logoPath} alt="logo" className="header__logo" />
-        <div>Date</div>
+        <h2 className="header__date">{currentDate}</h2>
       </div>
       <div className="header__right">
-        <button type="text" onClick={onCreateModal}>
+        <button className="header__button" type="text" onClick={onCreateModal}>
           + New Clothes
         </button>
-        <div>Name</div>
+        <div className="header__name">Name</div>
         <img src={avatarPath} alt="avatar" className="header__avatar" />
       </div>
     </header>
