@@ -1,5 +1,4 @@
 const ModalWithForm = ({ children, buttonText = "Add garment", title, onClose, name }) => {
-  console.log("ModalWithForm");
   return (
     <div className={`modal modal_type_${name}`}>
       <div className="modal__content">

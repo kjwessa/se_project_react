@@ -14,14 +14,10 @@ function Main({ weatherTemp, onSelectCard }) {
     }
   }, [weatherTemp]);
 
-  console.log(weatherType);
-
   const filteredCards = defaultClothingItems.filter((clothingItem) => {
-    console.log(clothingItem);
     return clothingItem.weather.toLowerCase() === weatherType;
   });
 
-  console.log(filteredCards);
   return (
     <main>
       <WeatherCard day={true} type="clear" weatherTemp={weatherTemp} />
