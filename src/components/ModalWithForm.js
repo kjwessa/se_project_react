@@ -15,5 +15,3 @@ const ModalWithForm = ({ children, buttonText = "Add garment", title, onClose, n
 };
 
 export default ModalWithForm;
-
-// 8f8faa090162b60e560bccce20cff5b2
