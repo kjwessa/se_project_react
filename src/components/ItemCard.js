@@ -1,15 +1,15 @@
-const ItemCard = ({ clothingItem, onSelectCard }) => {
+const ItemCard = ({ card, onSelectCard }) => {
   return (
     <div>
       <div className="card-section__container">
         <img
-          src={clothingItem.link}
-          alt={clothingItem.name}
+          src={card.link}
+          alt={card.name}
           className="card-section__image"
-          onClick={() => onSelectCard(clothingItem)}
+          onClick={() => onSelectCard(card)}
         />
-        <div className="card-section__name">
-          <span className="card-section__span">{clothingItem.name}</span>
+        <div className="card-section__name-wrap">
+          <span className="card-section__name">{card.name}</span>
         </div>
       </div>
     </div>

@@ -8,19 +8,39 @@ import ItemModal from "./components/ItemModal";
 import { getForecastWeather, parseWeatherData } from "./utils/weatherApi";
 
 function App() {
-  const weatherTemp = "90";
   const [activeModal, setActiveModal] = React.useState("");
   const [selectedCard, setSelectedCard] = React.useState({});
   const [temp, setTemp] = useState(0);
+  const [city, setCity] = useState("Unknown");
+
   const handleCreateModal = () => {
     setActiveModal("create");
+    document.addEventListener("keyup", handleEscUp);
+    document.addEventListener("click", handleOverlayClick);
   };
   const handleCloseModal = () => {
     setActiveModal("");
+    document.removeEventListener("keyup", handleEscUp);
+    document.removeEventListener("click", handleOverlayClick);
   };
   const handleSelectedCard = (card) => {
-    setActiveModal("preview");
     setSelectedCard(card);
+    setActiveModal("preview");
+  };
+
+  const handleEscUp = (evt) => {
+    if (evt.key === "Escape") {
+      handleCloseModal();
+    }
+  };
+
+  const handleOverlayClick = (evt) => {
+    if (
+      evt.target.classList.contains("modal") ||
+      evt.target.classList.contains("modal__close-button")
+    ) {
+      handleCloseModal();
+    }
   };
 
   useEffect(() => {
