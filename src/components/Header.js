@@ -1,7 +1,7 @@
 import logoPath from "../images/logo.svg";
 import avatarPath from "../images/avatar.svg";
 
-const Header = () => {
+const Header = ({ onCreateModal }) => {
   console.log("Header");
   return (
     <header className="header">
@@ -11,7 +11,9 @@ const Header = () => {
         <div>Date</div>
       </div>
       <div className="header__right">
-        <button type="text">+ New Clothes</button>
+        <button type="text" onClick={onCreateModal}>
+          + New Clothes
+        </button>
         <div>Name</div>
         <img src={avatarPath} alt="avatar" className="header__avatar" />
       </div>
