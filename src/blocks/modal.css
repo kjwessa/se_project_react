@@ -20,12 +20,16 @@
   font-family: "space-grotesk", sans-serif;
   font-weight: 700;
   padding: 28px 28px 36px;
+  overflow: hidden;
 }
 
 .modal__close-button {
   position: absolute;
   top: 23px;
   right: 31px;
+  background: transparent;
+  width: 20px;
+  height: 20px;
 }
 
 .modal__close-button:hover {

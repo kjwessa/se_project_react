@@ -1,0 +1,14 @@
+.item-modal__content {
+  padding: 0;
+}
+
+.item-modal__image {
+  width: 100%;
+}
+
+.item-modal__bottom {
+  padding: 12px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
