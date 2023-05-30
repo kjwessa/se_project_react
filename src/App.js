@@ -13,35 +13,48 @@ function App() {
   const [temp, setTemp] = useState(0);
   const [city, setCity] = useState("");
 
-  const handleCreateModal = () => {
-    setActiveModal("create");
-    document.addEventListener("keyup", handleEscUp);
-    document.addEventListener("click", handleOverlayClick);
-  };
-  const handleCloseModal = () => {
-    setActiveModal("");
-    document.removeEventListener("keyup", handleEscUp);
-    document.removeEventListener("click", handleOverlayClick);
-  };
   const handleSelectedCard = (card) => {
     setSelectedCard(card);
     setActiveModal("preview");
   };
 
-  const handleEscUp = (evt) => {
-    if (evt.key === "Escape") {
-      handleCloseModal();
-    }
+  const handleCreateModal = () => {
+    setActiveModal("create");
   };
 
-  const handleOverlayClick = (evt) => {
-    if (
-      evt.target.classList.contains("modal") ||
-      evt.target.classList.contains("modal__close-button")
-    ) {
-      handleCloseModal();
-    }
+  const handleCloseModal = () => {
+    setActiveModal("");
   };
+
+  useEffect(() => {
+    const handleEscUp = (evt) => {
+      if (evt.key === "Escape") {
+        handleCloseModal();
+      }
+    };
+
+    const handleOverlayClick = (evt) => {
+      if (
+        evt.target.classList.contains("modal") ||
+        evt.target.classList.contains("modal__close-button")
+      ) {
+        handleCloseModal();
+      }
+    };
+
+    if (activeModal === "create" || activeModal === "preview") {
+      document.addEventListener("keyup", handleEscUp);
+      document.addEventListener("click", handleOverlayClick);
+    } else {
+      document.removeEventListener("keyup", handleEscUp);
+      document.removeEventListener("click", handleOverlayClick);
+    }
+
+    return () => {
+      document.removeEventListener("keyup", handleEscUp);
+      document.removeEventListener("click", handleOverlayClick);
+    };
+  }, [activeModal]);
 
   useEffect(() => {
     getForecastWeather()
@@ -94,7 +107,7 @@ function App() {
                 className="modal-form__radio-button"
                 name="weather-type"
               />
-              <label for="hot">Hot</label>
+              <label htmlFor="hot">Hot</label>
             </div>
             <div className="modal-form__radio">
               <input
@@ -104,7 +117,7 @@ function App() {
                 className="modal-form__radio-button"
                 name="weather-type"
               />
-              <label for="warm">Warm</label>
+              <label htmlFor="warm">Warm</label>
             </div>
             <div className="modal-form__radio">
               <input
@@ -114,7 +127,7 @@ function App() {
                 className="modal-form__radio-button"
                 name="weather-type"
               />
-              <label for="cold">Cold</label>
+              <label htmlFor="cold">Cold</label>
             </div>
           </div>
         </ModalWithForm>
