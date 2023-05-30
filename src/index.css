@@ -4,4 +4,6 @@
 @import url(./blocks/weatherCard.css);
 @import url(./blocks/cardSection.css);
 @import url(./blocks/footer.css);
+@import url(./blocks/modal.css);
 @import url(./blocks/modalWithForm.css);
+@import url(./blocks/itemModal.css);

@@ -61,25 +61,59 @@ function App() {
       <Main weatherTemp={temp} onSelectCard={handleSelectedCard} />
       <Footer />
       {activeModal === "create" && (
-        <ModalWithForm title="New Garment" onClose={handleCloseModal}>
+        <ModalWithForm title="New Garment" onClose={handleCloseModal} buttonText="Add garment">
           <label>
-            name<input type="text" name="name " minLength="1" maxLength="30"></input>
+            <h2 className="modal-form__input-title">Name</h2>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              minLength="1"
+              maxLength="30"
+              className="modal-form__input-field"
+              required></input>
           </label>
           <label>
-            Image<input type="url" name="link " minLength="1" maxLength="30"></input>
+            <h2 className="modal-form__input-title">Image</h2>
+            <input
+              type="url"
+              name="link"
+              placeholder="Image URL"
+              minLength="1"
+              maxLength="30"
+              className="modal-form__input-field"
+              required></input>
           </label>
-          <p>Select the weather type:</p>
-          <div>
-            <div>
-              <input type="radio" id="hot" value="hot" />
+          <p className="modal-form__text">Select the weather type:</p>
+          <div className="modal-form__radio-wrap">
+            <div className="modal-form__radio">
+              <input
+                type="radio"
+                id="hot"
+                value="hot"
+                className="modal-form__radio-button"
+                name="weather-type"
+              />
               <label for="hot">Hot</label>
             </div>
-            <div>
-              <input type="radio" id="warm" value="warm" />
+            <div className="modal-form__radio">
+              <input
+                type="radio"
+                id="warm"
+                value="warm"
+                className="modal-form__radio-button"
+                name="weather-type"
+              />
               <label for="warm">Warm</label>
             </div>
-            <div>
-              <input type="radio" id="cold" value="cold" />
+            <div className="modal-form__radio">
+              <input
+                type="radio"
+                id="cold"
+                value="cold"
+                className="modal-form__radio-button"
+                name="weather-type"
+              />
               <label for="cold">Cold</label>
             </div>
           </div>

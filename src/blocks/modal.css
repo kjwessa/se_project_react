@@ -1,0 +1,33 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal__content {
+  position: relative;
+  background-color: white;
+  max-width: 496px;
+  width: 100%;
+  border-radius: 20px;
+  font-size: 16px;
+  font-family: "space-grotesk", sans-serif;
+  font-weight: 700;
+  padding: 28px 28px 36px;
+}
+
+.modal__close-button {
+  position: absolute;
+  top: 23px;
+  right: 31px;
+}
+
+.modal__close-button:hover {
+  cursor: pointer;
+}
