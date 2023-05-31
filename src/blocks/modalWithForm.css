@@ -65,10 +65,11 @@
   padding: 0;
   border-radius: 4px;
   color: white;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease-in-out;
 }
 
 .modal-form__submit-button:hover {
   cursor: pointer;
-  background-color: rgb(0, 0, 0, 0.95);
+  background-color: rgb(0, 0, 0, 1);
 }

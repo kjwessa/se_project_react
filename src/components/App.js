@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./index.css";
-import Header from "./components/Header";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
-import ModalWithForm from "./components/ModalWithForm";
-import ItemModal from "./components/ItemModal";
-import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "./utils/weatherApi";
+import "../index.css";
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+import ModalWithForm from "./ModalWithForm";
+import ItemModal from "./ItemModal";
+import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../utils/weatherApi";
 
 function App() {
   const [activeModal, setActiveModal] = React.useState("");
@@ -42,13 +42,8 @@ function App() {
       }
     };
 
-    if (activeModal === "create" || activeModal === "preview") {
-      document.addEventListener("keyup", handleEscUp);
-      document.addEventListener("click", handleOverlayClick);
-    } else {
-      document.removeEventListener("keyup", handleEscUp);
-      document.removeEventListener("click", handleOverlayClick);
-    }
+    document.addEventListener("keyup", handleEscUp);
+    document.addEventListener("click", handleOverlayClick);
 
     return () => {
       document.removeEventListener("keyup", handleEscUp);
