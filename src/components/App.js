@@ -3,12 +3,13 @@ import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import ModalWithForm from "./ModalWithForm";
+// import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
 import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
 import { Switch, Route } from "react-router-dom";
 import AddItemModal from "./AddItemModal";
+import Profile from "./Profile";
 
 function App() {
   const [activeModal, setActiveModal] = React.useState("");
@@ -91,7 +92,9 @@ function App() {
           <Route exact path="/">
             <Main weatherTemp={temp} onSelectCard={handleSelectedCard} />
           </Route>
-          <Route path="/profile">Route</Route>
+          <Route path="/profile">
+            <Profile onSelectCard={handleSelectedCard}></Profile>
+          </Route>
         </Switch>
 
         <Footer />

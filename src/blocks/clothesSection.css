@@ -1,0 +1,32 @@
+.clothesSection {
+}
+
+.clothesSection__text {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.clothesSection__your-items {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0 10px 0 0;
+}
+
+.clothesSection__add-new {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.clothesSection__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 17px;
+  justify-content: end;
+  margin-bottom: 85px;
+  max-width: 1027px;
+  color: rgb(0, 0, 0, 0.6);
+}

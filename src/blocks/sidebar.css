@@ -1,0 +1,23 @@
+.sidebar {
+  display: flex;
+  flex-direction: row;
+  width: 345px;
+}
+
+.sidebar__info {
+  display: flex;
+  height: 56px;
+}
+
+.sidebar__avatar {
+  height: 56px;
+  width: 56px;
+  margin-right: 16px;
+}
+
+.sidebar__name {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  align-self: center;
+}

@@ -1,0 +1,5 @@
+.profile {
+  display: flex;
+  flex-direction: row;
+  margin-top: 52px;
+}
