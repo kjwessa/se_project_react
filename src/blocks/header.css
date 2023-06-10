@@ -130,3 +130,8 @@
 .header__toggle_text_active {
   color: white;
 }
+
+.header__profile-link {
+  text-decoration: none;
+  color: black;
+}
