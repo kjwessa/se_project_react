@@ -1,12 +1,19 @@
+import React, { useContext } from "react";
 import WeatherCard from "./WeatherCard";
 import ItemCard from "./ItemCard";
 import { defaultClothingItems } from "../utils/constants";
+import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
 
 function Main({ weatherTemp, onSelectCard }) {
+  const { currentTemperatureUnit, handleToggleSwitchChange } = React.useContext(
+    CurrentTemperatureUnitContext
+  );
+  const temp = weatherTemp?.temperature?.[currentTemperatureUnit] || 999;
+  console.log(currentTemperatureUnit);
   const getWeatherType = () => {
-    if (weatherTemp >= 86) {
+    if (temp >= 86) {
       return "hot";
-    } else if (weatherTemp >= 66 && weatherTemp <= 85) {
+    } else if (temp >= 66 && temp <= 85) {
       return "warm";
     } else {
       return "cold";
@@ -21,9 +28,9 @@ function Main({ weatherTemp, onSelectCard }) {
 
   return (
     <main>
-      <WeatherCard day={true} type="clear" weatherTemp={weatherTemp} />
+      <WeatherCard day={true} type="clear" weatherTemp={temp} />
       <section className="card-section">
-        Today is {weatherTemp}° F / You may want to wear:
+        Today is {temp}° F / You may want to wear:
         <div className="card-section__items">
           {filteredCards.map((card) => {
             return <ItemCard key={card._id} card={card} onSelectCard={onSelectCard} />;
