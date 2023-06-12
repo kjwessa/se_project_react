@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import WeatherCard from "./WeatherCard";
 import ItemCard from "./ItemCard";
-import { defaultClothingItems } from "../utils/constants";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
+// import { defaultClothingItems } from "../utils/constants";
 
-function Main({ weatherTemp, onSelectCard }) {
-  const { currentTemperatureUnit, handleToggleSwitchChange } = React.useContext(
+function Main({ weatherTemp, onSelectCard, clothingItems }) {
+  console.log("These are the clothing items passed into Main", clothingItems);
+  const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
   );
   const temp = weatherTemp?.temperature?.[currentTemperatureUnit] || 999;
-  console.log(currentTemperatureUnit);
   const getWeatherType = () => {
     if (temp >= 86) {
       return "hot";
@@ -22,8 +22,8 @@ function Main({ weatherTemp, onSelectCard }) {
 
   const weatherType = getWeatherType();
 
-  const filteredCards = defaultClothingItems.filter((clothingItem) => {
-    return clothingItem.weather.toLowerCase() === weatherType;
+  const filteredCards = clothingItems.filter((item) => {
+    return item.weather.toLowerCase() === weatherType;
   });
 
   return (
@@ -33,7 +33,7 @@ function Main({ weatherTemp, onSelectCard }) {
         Today is {temp}° F / You may want to wear:
         <div className="card-section__items">
           {filteredCards.map((card) => {
-            return <ItemCard key={card._id} card={card} onSelectCard={onSelectCard} />;
+            return <ItemCard key={card.id} card={card} onSelectCard={onSelectCard} />;
           })}
         </div>
       </section>
