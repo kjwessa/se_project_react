@@ -16,7 +16,12 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
-  const [temp, setTemp] = useState(0);
+  const [temp, setTemp] = useState({
+    temperature: {
+      F: 0,
+      C: 0,
+    },
+  });
   const [city, setCity] = useState("");
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
@@ -25,7 +30,11 @@ function App() {
     getForecastWeather()
       .then((data) => {
         const temperature = parseWeatherData(data);
-        setTemp(temperature);
+        console.log("The temperature from the API is:", temperature);
+        setTemp({
+          F: `${Math.round(temperature)}°F`,
+          C: `${Math.round(((temperature - 32) * 5) / 9)}°C`,
+        });
         const location = parseWeatherLocation(data);
         setCity(location);
       })
@@ -40,7 +49,6 @@ function App() {
       .getItemList()
       .then((items) => {
         setClothingItems(items);
-        console.log("These are items from the API", items);
       })
       .catch((err) => {
         console.log(err);
