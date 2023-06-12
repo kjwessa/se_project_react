@@ -12,7 +12,6 @@ import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUni
 import { api } from "../utils/api";
 
 function App() {
-  //TODO Return here to the top clean up to make sure everything is good
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
@@ -74,7 +73,6 @@ function App() {
   };
 
   const handleItemSubmit = (item) => {
-    console.log("The raw data from submitting:", item);
     api
       .addItem(item)
       .then((newItem) => {
