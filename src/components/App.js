@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Route,
-  Switch,
-  BrowserRouter,
-  HashRouter,
-} from "react-router-dom/cjs/react-router-dom.min";
+import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
@@ -110,7 +105,7 @@ function App() {
         <Header onCreateModal={handleCreateModal} location={city} />
         <Switch>
           <Route path="/profile">
-            <Profile onSelectCard={handleSelectedCard}></Profile>
+            <Profile onSelectCard={handleSelectedCard} clothingItems={clothingItems}></Profile>
           </Route>
           <Route exact path="/">
             <Main

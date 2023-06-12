@@ -2,12 +2,12 @@ import ItemCard from "./ItemCard";
 
 export function ClothesSection({ onSelectCard, clothingItems }) {
   return (
-    <section className="clothesSection">
-      <div className="clothesSection__text">
-        <h2 className="clothesSection__your-items">Your items</h2>
-        <h2 className="clothesSection__add-new">+ Add new</h2>
+    <section className="clothes-section">
+      <div className="clothes-section__text">
+        <h2 className="clothes-section__your-items">Your items</h2>
+        <h2 className="clothes-section__add-new">+ Add new</h2>
       </div>
-      <div className="clothesSection__items">
+      <div className="clothes-section__items">
         {clothingItems.map((card) => {
           return <ItemCard key={card.id} card={card} onSelectCard={onSelectCard} />;
         })}
