@@ -30,7 +30,6 @@ function App() {
     getForecastWeather()
       .then((data) => {
         const temperature = parseWeatherData(data);
-        console.log("The temperature from the API is:", temperature);
         setTemp({
           F: `${Math.round(temperature)}°F`,
           C: `${Math.round(((temperature - 32) * 5) / 9)}°C`,

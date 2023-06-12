@@ -2,17 +2,13 @@ import { useEffect, useState, useContext } from "react";
 import WeatherCard from "./WeatherCard";
 import ItemCard from "./ItemCard";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
-//TODO Delete the import statement below if unneeded
-// import { defaultClothingItems } from "../utils/constants";
 
 function Main({ weatherTemp, onSelectCard, clothingItems }) {
-  console.log("The weather temp in Main is", weatherTemp);
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
   );
 
   const weatherTempString = String(weatherTemp[currentTemperatureUnit]).split("°", 2);
-  console.log("Weather Temp Spring", weatherTempString);
   const weatherTempNumber = weatherTempString[0] || 999;
   const weatherTempUnit = weatherTempString[1] || "F";
 

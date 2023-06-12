@@ -6,7 +6,6 @@ function WeatherCard({ day, type, weatherTemp, weatherUnit = "" }) {
 
   const weatherOption = weatherOptions.find(findWeather);
   const weatherPath = weatherOption.url || "";
-  console.log("Weather temp in WeatherCard", weatherTemp);
 
   return (
     <section className="weather" id="weather">

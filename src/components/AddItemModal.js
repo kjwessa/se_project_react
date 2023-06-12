@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
-// TODO: Return here and make the form fields required
+
 const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
   const [name, setName] = useState("");
   const handleNameChange = (e) => {
@@ -38,7 +38,8 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
           maxLength="30"
           value={name}
           onChange={handleNameChange}
-          className="modal-form__input-field"></input>
+          className="modal-form__input-field"
+          required></input>
       </label>
       <label>
         <h2 className="modal-form__input-title">Image</h2>
@@ -49,7 +50,8 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
           minLength="1"
           value={imageUrl}
           onChange={handleImageUrlChange}
-          className="modal-form__input-field"></input>
+          className="modal-form__input-field"
+          required></input>
       </label>
       <p className="modal-form__text">Select the weather type:</p>
       <div className="modal-form__radio-wrap">
