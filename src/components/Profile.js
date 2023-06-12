@@ -1,10 +1,10 @@
 import ClothesSection from "./ClothesSection";
-import Sidebar from "./Sidebar";
+import SideBar from "./SideBar";
 
 export function Profile({ onSelectCard, clothingItems }) {
   return (
     <section className="profile">
-      <Sidebar />
+      <SideBar />
       <ClothesSection clothingItems={clothingItems} onSelectCard={onSelectCard} />
     </section>
   );
