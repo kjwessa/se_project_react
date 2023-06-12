@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
-
+// TODO: Return here and make the form fields required
 const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
-  const [name, setName] = React.useState("");
+  const [name, setName] = useState("");
   const handleNameChange = (e) => {
-    console.log(e.target.value);
     setName(e.target.value);
   };
 
-  const [link, setLink] = React.useState("");
-  const handleLinkChange = (e) => {
-    console.log(e.target.value);
-    setLink(e.target.value);
+  const [imageUrl, setImageUrl] = useState("");
+  const handleImageUrlChange = (e) => {
+    setImageUrl(e.target.value);
   };
 
+  const [weather, setWeather] = useState("");
+
+  const handleWeatherChange = (e) => {
+    setWeather(e.target.value);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
-    onAddItem({ name, link });
+    onAddItem({ name, weather, imageUrl });
   };
   return (
     <ModalWithForm
@@ -36,8 +38,7 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
           maxLength="30"
           value={name}
           onChange={handleNameChange}
-          className="modal-form__input-field"
-          required></input>
+          className="modal-form__input-field"></input>
       </label>
       <label>
         <h2 className="modal-form__input-title">Image</h2>
@@ -46,11 +47,9 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
           name="link"
           placeholder="Image URL"
           minLength="1"
-          maxLength="30"
-          value={link}
-          onChange={handleLinkChange}
-          className="modal-form__input-field"
-          required></input>
+          value={imageUrl}
+          onChange={handleImageUrlChange}
+          className="modal-form__input-field"></input>
       </label>
       <p className="modal-form__text">Select the weather type:</p>
       <div className="modal-form__radio-wrap">
@@ -61,6 +60,7 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
             value="hot"
             className="modal-form__radio-button"
             name="weather-type"
+            onChange={handleWeatherChange}
           />
           <label htmlFor="hot">Hot</label>
         </div>
@@ -71,6 +71,7 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
             value="warm"
             className="modal-form__radio-button"
             name="weather-type"
+            onChange={handleWeatherChange}
           />
           <label htmlFor="warm">Warm</label>
         </div>
@@ -81,6 +82,7 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
             value="cold"
             className="modal-form__radio-button"
             name="weather-type"
+            onChange={handleWeatherChange}
           />
           <label htmlFor="cold">Cold</label>
         </div>

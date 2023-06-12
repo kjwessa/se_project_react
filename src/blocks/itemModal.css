@@ -12,3 +12,18 @@
   flex-direction: column;
   gap: 12px;
 }
+
+.item-modal__delete {
+  position: absolute;
+  right: 32px;
+  bottom: 68px;
+  background: white;
+  border: none;
+  color: #ff4d00;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.item-modal__delete:hover {
+  cursor: pointer;
+}

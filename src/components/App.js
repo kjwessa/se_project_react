@@ -77,8 +77,29 @@ function App() {
     }
   };
 
-  const onAddItem = (values) => {
-    console.log(values);
+  const handleItemSubmit = (item) => {
+    console.log("The raw data from submitting:", item);
+    api
+      .addItem(item)
+      .then((newItem) => {
+        setClothingItems([newItem, ...clothingItems]);
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCardDelete = (card) => {
+    api
+      .removeItem(card.id)
+      .then(() => {
+        setClothingItems((cards) => cards.filter((c) => c.id !== card.id));
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -123,17 +144,16 @@ function App() {
             />
           </Route>
         </Switch>
-
         <Footer />
         {activeModal === "create" && (
           <AddItemModal
             handleCloseModal={handleCloseModal}
             isOpen={activeModal === "create"}
-            onAddItem={onAddItem}
+            onAddItem={handleItemSubmit}
           />
         )}
         {activeModal === "preview" && (
-          <ItemModal selectedCard={selectedCard} onClose={handleCloseModal} />
+          <ItemModal card={selectedCard} onClose={handleCloseModal} onDelete={handleCardDelete} />
         )}
       </CurrentTemperatureUnitContext.Provider>
     </div>
