@@ -1,4 +1,9 @@
-import { processServerResponse } from "./weatherApi";
+export const processServerResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error: ${res.status}`);
+};
 
 const baseUrl = "https://my-json-server.typicode.com/kjwessa/se_project_react";
 // When the local server is needed

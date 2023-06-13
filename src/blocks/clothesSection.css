@@ -27,7 +27,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 17px;
-  justify-content: start;
+  justify-content: left;
   margin-bottom: 85px;
   max-width: 1027px;
   color: rgb(0, 0, 0, 0.6);
