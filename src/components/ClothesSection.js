@@ -1,11 +1,13 @@
 import ItemCard from "./ItemCard";
 
-export function ClothesSection({ onSelectCard, clothingItems }) {
+export function ClothesSection({ onSelectCard, clothingItems, onCreateModal }) {
   return (
     <section className="clothes-section">
       <div className="clothes-section__text">
         <h2 className="clothes-section__your-items">Your items</h2>
-        <h2 className="clothes-section__add-new">+ Add new</h2>
+        <button onClick={onCreateModal} className="clothes-section__add-new">
+          + Add new
+        </button>
       </div>
       <div className="clothes-section__items">
         {clothingItems.map((card) => {

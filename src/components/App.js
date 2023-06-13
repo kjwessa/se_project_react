@@ -59,6 +59,8 @@ function App() {
   };
 
   const handleCreateModal = () => {
+    console.log("Create modal function called"); // Add this line
+
     setActiveModal("create");
   };
 
@@ -97,6 +99,7 @@ function App() {
   };
 
   useEffect(() => {
+    if (!activeModal) return;
     const handleEscUp = (evt) => {
       if (evt.key === "Escape") {
         handleCloseModal();
@@ -128,7 +131,10 @@ function App() {
         <Header onCreateModal={handleCreateModal} location={city} />
         <Switch>
           <Route path="/profile">
-            <Profile onSelectCard={handleSelectedCard} clothingItems={clothingItems}></Profile>
+            <Profile
+              onSelectCard={handleSelectedCard}
+              clothingItems={clothingItems}
+              onCreateModal={handleCreateModal}></Profile>
           </Route>
           <Route exact path="/">
             <Main
