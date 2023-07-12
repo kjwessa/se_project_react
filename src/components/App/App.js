@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import "../index.css";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
+import Header from "../Header/Header";
+import Main from "../Main/Main";
+import Footer from "../Footer/Footer";
 import AddItemModal from "./AddItemModal";
-import ItemModal from "./ItemModal";
-import Profile from "./Profile";
-import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../utils/weatherApi";
-import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
-import { api } from "../utils/api";
+import ItemModal from "../ItemModal/ItemModal";
+import Profile from "../Profile/Profile";
+import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../../utils/weatherApi";
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import { api } from "../../utils/api";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");

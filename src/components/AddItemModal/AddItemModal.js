@@ -1,5 +1,8 @@
+// TODO import useEffect
 import { useState } from "react";
-import ModalWithForm from "./ModalWithForm";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
+// TODO import FORMADD
+// TODO import NewItemValidation
 
 const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
   const [name, setName] = useState("");

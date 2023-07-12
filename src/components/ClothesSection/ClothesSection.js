@@ -1,4 +1,4 @@
-import ItemCard from "./ItemCard";
+import ItemCard from "../ItemCard/ItemCard";
 
 export function ClothesSection({ onSelectCard, clothingItems, onCreateModal }) {
   return (

@@ -1,5 +1,5 @@
-import ClothesSection from "./ClothesSection";
-import SideBar from "./SideBar";
+import ClothesSection from "../ClothesSection/ClothesSection";
+import SideBar from "../Sidebar/SideBar";
 
 export function Profile({ onSelectCard, clothingItems, onCreateModal }) {
   return (
