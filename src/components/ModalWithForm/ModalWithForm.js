@@ -1,4 +1,4 @@
-import closeButton from "../images/close-icon-gray.svg";
+import closeButton from "../../images/close-icon-gray.svg";
 
 const ModalWithForm = ({ children, title, buttonText, onClose, name, isOpen, onSubmit }) => {
   return (

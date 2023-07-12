@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
-import "../index.css";
+import "../../index.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
-import AddItemModal from "./AddItemModal";
+import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../../utils/weatherApi";

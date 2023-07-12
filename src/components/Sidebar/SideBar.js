@@ -1,4 +1,4 @@
-import avatarPath from "../images/avatar.svg";
+import avatarPath from "../../images/avatar.svg";
 
 export function SideBar() {
   return (

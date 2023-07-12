@@ -1,4 +1,4 @@
-import closeButton from "../images/close-icon-white.svg";
+import closeButton from "../../images/close-icon-white.svg";
 
 const ItemModal = ({ card, onClose, onDelete }) => {
   return (

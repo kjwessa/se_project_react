@@ -1,5 +1,5 @@
-import logoPath from "../images/logo.svg";
-import avatarPath from "../images/avatar.svg";
+import logoPath from "../../images/logo.svg";
+import avatarPath from "../../images/avatar.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
 
