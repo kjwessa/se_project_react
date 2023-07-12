@@ -1,3 +1,7 @@
+export const latitude = 30.4213;
+export const longitude = -87.2169;
+export const APIkey = "8f8faa090162b60e560bccce20cff5b2";
+
 export const weatherOptions = [
   {
     url: require("../images/weatherConditions/day/clear.svg").default,
@@ -60,7 +64,3 @@ export const weatherOptions = [
     type: "storm",
   },
 ];
-
-export const latitude = 30.4213;
-export const longitude = -87.2169;
-export const APIkey = "8f8faa090162b60e560bccce20cff5b2";
