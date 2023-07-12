@@ -1,7 +1,6 @@
-import React from "react";
+import { createContext } from "react";
 
-//TODO See if I still need handleToggleSwitchChange here
-const CurrentTemperatureUnitContext = React.createContext({
+const CurrentTemperatureUnitContext = createContext({
   currentTemperatureUnit: "",
   handleToggleSwitchChange: () => {},
 });
