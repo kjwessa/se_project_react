@@ -1,6 +1,4 @@
-const baseUrl = "https://my-json-server.typicode.com/kjwessa/se_project_react";
-// When the local server is needed
-// const baseUrl = "http://localhost:3001";
+import { baseUrl } from "./constants";
 
 //TODO Considering updating with async
 export const processServerResponse = (res) => {
