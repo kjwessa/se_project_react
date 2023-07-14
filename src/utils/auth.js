@@ -1,6 +1,6 @@
-//TODO Import the request from API
 import { baseUrl } from "./constants";
-// TODO Import the baseURL and consider moving it to constants.js
+import { checkStatus } from "./api";
+//TODO Remove console.log statements
 
 //TODO Create a function for signup
 

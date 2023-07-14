@@ -44,7 +44,7 @@ function App() {
   //* The App component saves default clothing items in the state
   useEffect(() => {
     api
-      .getItemList()
+      .getItems()
       .then((items) => {
         setClothingItems(items);
       })
@@ -86,9 +86,10 @@ function App() {
       });
   };
 
+  //TODO updated this from removeItem to deleteItem. Return here if there are any issues.
   const handleCardDelete = (card) => {
     api
-      .removeItem(card.id)
+      .deleteItem(card.id)
       .then(() => {
         setClothingItems((cards) => cards.filter((c) => c.id !== card.id));
         handleCloseModal();

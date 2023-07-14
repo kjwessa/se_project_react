@@ -1,48 +1,75 @@
 import { baseUrl } from "./constants";
+//TODO Remove console.log statements
 
-//TODO Considering updating with async
-export const processServerResponse = (res) => {
+export const checkStatus = (res) => {
   if (res.ok) {
+    console.log("Response is ok");
     return res.json();
   }
+  console.log("Response Error", res.status);
   return Promise.reject(`Error: ${res.status}`);
 };
 
-const getItemList = () => {
+const getItems = () => {
+  console.log("Getting items");
   return fetch(`${baseUrl}/items`, {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(processServerResponse);
+  }).then(checkStatus);
 };
 
-//TODO Update with the token and authorization
-const addItem = ({ name, weather, imageUrl }) => {
+const addItem = ({ name, weather, imageUrl }, token) => {
+  console.log("Adding item...");
   return fetch(`${baseUrl}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name, weather, imageUrl }),
-  }).then(processServerResponse);
+  }).then(checkStatus);
 };
 
-//TODO Update with the token and authorization
-const removeItem = (id) => {
+const deleteItem = (id, token) => {
+  console.log(`Deleting item with ID: ${id}`);
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-  }).then(processServerResponse);
+  }).then(checkStatus);
 };
 
-//TODO Add code for liking cards
+const addCardLike = ({ _id, user }, token) => {
+  console.log(`Adding like for card with ID: ${_id}`);
+  return fetch(`${baseUrl}/items/${_id}/likes`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ _id, user }),
+  }).then(checkStatus);
+};
 
-//TODO Add code for unliking cards
+const removeCardLike = ({ _id }, token) => {
+  console.log(`Removing like for card with ID: ${_id}`);
+  return fetch(`${baseUrl}/items/${_id}/likes`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ _id }),
+  }).then(checkStatus);
+};
 
 export const api = {
-  getItemList,
+  getItems,
   addItem,
-  removeItem,
+  deleteItem,
+  addCardLike,
+  removeCardLike,
 };
