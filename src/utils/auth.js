@@ -2,12 +2,33 @@ import { baseUrl } from "./constants";
 import { checkStatus } from "./api";
 //TODO Remove console.log statements
 
-//TODO Create a function for signup
+const signUp = (data) => {
+  const { name, avatar, email, password } = data;
 
-//TODO create a function for login
+  return fetch(`${baseUrl}/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, avatar, email, password }),
+  }).then(checkStatus);
+};
 
-//TODO Create a function for checkingToken
+const signIn = (user) => {
+  const { email, password } = user;
 
-//TODO Create a function for updating profile
+  return fetch(`${baseUrl}/signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  }).then(checkStatus);
+};
 
-//TODO Export all the functions
+export const auth = {
+  signUp,
+  signIn,
+  checkToken,
+  updateProfile,
+};
