@@ -26,6 +26,29 @@ const signIn = (user) => {
   }).then(checkStatus);
 };
 
+const checkToken = (token) => {
+  return fetch(`${baseUrl}/users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkStatus);
+};
+
+const updateProfile = (data, token) => {
+  const { name, avatar } = data;
+
+  return fetch(`${baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name, avatar }),
+  }).then(checkStatus);
+};
+
 export const auth = {
   signUp,
   signIn,
