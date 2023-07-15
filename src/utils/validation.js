@@ -1,9 +1,26 @@
-//TODO Create validation for login
+import { emailRegex } from "./constants";
 
-//TODO Create validation for signup
+const LoginValidation = (email, password) => {
+  return emailRegex.test(email) && password.length >= 4;
+};
 
-//TODO Create validation for new items
+const SignUpValidation = (email, password, name) => {
+  return emailRegex.test(email) && password.length >= 4 && name.length > 2;
+};
 
-//TODO Create validation for updating profile
+const NewItemValidation = (itemName, itemLink, weatherType) => {
+  return (
+    itemName.length > 0 && itemLink.length > 0 && ["hot", "warm", "cold"].includes(weatherType)
+  );
+};
 
-//TODO Export all the functions
+const UpdateProfileValidation = (name, avatar) => {
+  return name.length > 2 && avatar.length > 2;
+};
+
+export const validation = {
+  LoginValidation,
+  SignUpValidation,
+  NewItemValidation,
+  UpdateProfileValidation,
+};

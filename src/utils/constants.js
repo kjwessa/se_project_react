@@ -4,6 +4,7 @@ export const APIkey = "8f8faa090162b60e560bccce20cff5b2";
 // export const baseUrl = "https://my-json-server.typicode.com/kjwessa/se_project_react";
 // When the local server is needed
 export const baseUrl = "http://localhost:3001";
+export const emailRegex = "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/gim";
 
 export const weatherOptions = [
   {
