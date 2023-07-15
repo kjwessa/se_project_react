@@ -1,32 +1,73 @@
 //* Import the basic React features
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 
-//* Import the styles
-import "../../index.css";
-
 //* Import the components
-import Header from "../Header/Header";
 import Main from "../Main/Main";
+import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+
+//* Import the styles
+import "../../index.css";
 
 //* Import the variables
 import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { api } from "../../utils/api";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
-//? Where should this go Current user Context
+//! Where should this go? Current user Context
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [activeModal, setActiveModal] = useState("");
-  const [selectedCard, setSelectedCard] = useState({});
+  //* The App component saves the Clothing Item cards in the state
   const [cards, setCards] = useState([]);
+
+  //* The App component saves the current user in the state
+  const [currentUser, setCurrentUser] = useState(null);
+
+  //* The App component sets the active modal in the state
+  const [activeModal, setActiveModal] = useState("");
+
+  //* The App component saves the selected card in the state
+  const [selectedCard, setSelectedCard] = useState({});
+
+  //* The App component saves the currently loading state
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleEditProfile = (name, avatar) => {
+    setIsLoading(true);
+    const token = localStorage.getItem("token");
+    api
+      .updateProfile(name, avatar, token)
+      .then((res) => {
+        closeAllModals();
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const handleEditProfileOpen = () => {
+    setIsEditProfileModalOpen(true);
+  };
+
+  const handleEditProfileClose = () => {
+    setIsEditProfileModalOpen(false);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    setCurrentUser(null);
+  };
+
   const [temp, setTemp] = useState({
     temperature: {
       F: 0,
@@ -142,7 +183,7 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
           <Header
-            weatherData={weatherData}
+            // weatherData={weatherData}
             handleAddCardClick={() => setActiveModal("create")}
             openLoginModal={() => setIsLoginModalOpen(true)}
             openRegisterModal={() => setIsRegisterModalOpen(true)}
