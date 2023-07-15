@@ -1,15 +1,25 @@
+//* Import the basic React features
 import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
+
+//* Import the styles
 import "../../index.css";
+
+//* Import the components
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
+
+//* Import the variables
 import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { api } from "../../utils/api";
+
+//? Where should this go Current user Context
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");
