@@ -17,11 +17,13 @@ import Profile from "../Profile/Profile";
 import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { api } from "../../utils/api";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 //? Where should this go Current user Context
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
@@ -136,38 +138,40 @@ function App() {
   }, [activeModal]);
 
   return (
-    <div className="page">
+    <CurrentUserContext.Provider value={currentUser}>
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
-        <Header onCreateModal={handleCreateModal} location={city} />
-        <Switch>
-          <Route path="/profile">
-            <Profile
-              onSelectCard={handleSelectedCard}
-              clothingItems={clothingItems}
-              onCreateModal={handleCreateModal}></Profile>
-          </Route>
-          <Route exact path="/">
-            <Main
-              weatherTemp={temp}
-              onSelectCard={handleSelectedCard}
-              clothingItems={clothingItems}
+        <div className="page">
+          <Header onCreateModal={handleCreateModal} location={city} />
+          <Switch>
+            <ProtectedRoute path="/profile">
+              <Profile
+                onSelectCard={handleSelectedCard}
+                clothingItems={clothingItems}
+                onCreateModal={handleCreateModal}></Profile>
+            </ProtectedRoute>
+            <Route exact path="/">
+              <Main
+                weatherTemp={temp}
+                onSelectCard={handleSelectedCard}
+                clothingItems={clothingItems}
+              />
+            </Route>
+          </Switch>
+          <Footer />
+          {activeModal === "create" && (
+            <AddItemModal
+              handleCloseModal={handleCloseModal}
+              isOpen={activeModal === "create"}
+              onAddItem={handleItemSubmit}
             />
-          </Route>
-        </Switch>
-        <Footer />
-        {activeModal === "create" && (
-          <AddItemModal
-            handleCloseModal={handleCloseModal}
-            isOpen={activeModal === "create"}
-            onAddItem={handleItemSubmit}
-          />
-        )}
-        {activeModal === "preview" && (
-          <ItemModal card={selectedCard} onClose={handleCloseModal} onDelete={handleCardDelete} />
-        )}
+          )}
+          {activeModal === "preview" && (
+            <ItemModal card={selectedCard} onClose={handleCloseModal} onDelete={handleCardDelete} />
+          )}
+        </div>
       </CurrentTemperatureUnitContext.Provider>
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 
