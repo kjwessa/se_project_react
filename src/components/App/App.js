@@ -26,7 +26,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
-  const [clothingItems, setClothingItems] = useState([]);
+  const [cards, setCards] = useState([]);
   const [temp, setTemp] = useState({
     temperature: {
       F: 0,
@@ -57,8 +57,8 @@ function App() {
   useEffect(() => {
     api
       .getItems()
-      .then((items) => {
-        setClothingItems(items);
+      .then((cards) => {
+        setCards(cards);
       })
       .catch((err) => {
         console.log(err);
@@ -70,9 +70,8 @@ function App() {
     setActiveModal("preview");
   };
 
-  const handleCreateModal = () => {
-    console.log("Create modal function called"); // Add this line
-
+  const handleAddCardClick = () => {
+    console.log("Create modal function called");
     setActiveModal("create");
   };
 
@@ -90,7 +89,7 @@ function App() {
     api
       .addItem(item)
       .then((newItem) => {
-        setClothingItems([newItem, ...clothingItems]);
+        setCards([newItem, ...cards]);
         handleCloseModal();
       })
       .catch((err) => {
@@ -103,7 +102,7 @@ function App() {
     api
       .deleteItem(card.id)
       .then(() => {
-        setClothingItems((cards) => cards.filter((c) => c.id !== card.id));
+        setCards((cards) => cards.filter((c) => c.id !== card.id));
         handleCloseModal();
       })
       .catch((err) => {
@@ -142,19 +141,40 @@ function App() {
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
-          <Header onCreateModal={handleCreateModal} location={city} />
+          <Header
+            weatherData={weatherData}
+            handleAddCardClick={() => setActiveModal("create")}
+            openLoginModal={() => setIsLoginModalOpen(true)}
+            openRegisterModal={() => setIsRegisterModalOpen(true)}
+            // onCreateModal={handleCreateModal}
+            // location={city}
+            setCurrentUser={setCurrentUser}
+          />
           <Switch>
-            <ProtectedRoute path="/profile">
-              <Profile
-                onSelectCard={handleSelectedCard}
-                clothingItems={clothingItems}
-                onCreateModal={handleCreateModal}></Profile>
-            </ProtectedRoute>
+            <ProtectedRoute
+              path="/profile"
+              isAuthenticated={currentUser}
+              component={Profile}
+              cards={cards}
+              onAddNewClick={handleAddNewClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              handleSetUserNull={handleSetUserNull}
+              onEditProfileOpen={handleEditProfileOpen}
+              onSignOut={handleSignOut}
+              // onSelectCard={handleSelectedCard}
+              // clothingItems={clothingItems}
+              // onCreateModal={handleCreateModal}
+            />
             <Route exact path="/">
               <Main
-                weatherTemp={temp}
-                onSelectCard={handleSelectedCard}
-                clothingItems={clothingItems}
+                weatherData={weatherData}
+                cards={cards}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                // weatherTemp={temp}
+                // onSelectCard={handleSelectedCard}
+                // clothingItems={clothingItems}
               />
             </Route>
           </Switch>
