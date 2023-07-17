@@ -1,5 +1,6 @@
 export const latitude = 30.4213;
 export const longitude = -87.2169;
+export const location = { latitude, longitude };
 export const APIkey = "8f8faa090162b60e560bccce20cff5b2";
 // export const baseUrl = "https://my-json-server.typicode.com/kjwessa/se_project_react";
 // When the local server is needed

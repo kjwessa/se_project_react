@@ -1,6 +1,5 @@
 import { baseUrl } from "./constants";
 import { checkStatus } from "./api";
-//TODO Remove console.log statements
 
 const signUp = (data) => {
   const { name, avatar, email, password } = data;
@@ -51,8 +50,8 @@ const updateProfile = (data, token) => {
 };
 
 export const auth = {
+  checkToken,
   signUp,
   signIn,
-  checkToken,
   updateProfile,
 };

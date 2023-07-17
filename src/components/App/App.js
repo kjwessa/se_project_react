@@ -10,22 +10,31 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import { checkToken, signUp, signIn } from "../../utils/auth";
+import { auth } from "../../utils/auth";
+import { location, APIkey } from "../../utils/constants";
 
 //* Import the styles
 import "../../index.css";
 
 //* Import the variables
-import { getForecastWeather, parseWeatherData, parseWeatherLocation } from "../../utils/weatherApi";
+import {
+  getForecastWeather,
+  // parseWeatherData,
+  // parseWeatherLocation,
+  filterDataFromWeatherApi,
+} from "../../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { api } from "../../utils/api";
 
 //! Where should this go? Current user Context
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { use } from "bcrypt/promises";
-import { is } from "jsdom/lib/jsdom/living/generated/Element";
+// import { use } from "bcrypt/promises";
+// import { is } from "jsdom/lib/jsdom/living/generated/Element";
 
 function App() {
+  //* The App component saves the weatherData in the state
+  const [weatherData, setWeatherData] = useState({});
+
   //* The App component saves the Clothing Item cards in the state
   const [cards, setCards] = useState([]);
 
@@ -40,6 +49,9 @@ function App() {
 
   //* The App component saves the currently loading state
   const [isLoading, setIsLoading] = useState(false);
+
+  //* The App component saves the current temperature unit in the state
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
   //* The App component saves the deletion state
   const [isDeleting, setIsDeleting] = useState(false);
@@ -92,7 +104,8 @@ function App() {
 
   const isReloading = (token) => {
     console.log("Checking token...", token);
-    checkToken(token)
+    auth
+      .checkToken(token)
       .then((res) => {
         console.log("Token check response", res);
         setCurrentUser(res.data);
@@ -142,7 +155,8 @@ function App() {
 
   const handleLogin = ({ email, password }) => {
     console.log("Handling login with:", { email, password });
-    signIn(email, password)
+    auth
+      .signIn(email, password)
       .then((res) => {
         console.log("Got signIn response:", res);
         if (res && res.token) {
@@ -164,7 +178,8 @@ function App() {
 
   const handleSignUp = ({ name, avatar, email, password }) => {
     console.log("Handling sign up with:", { name, avatar, email, password });
-    signUp(name, avatar, email, password)
+    auth
+      .signUp(name, avatar, email, password)
       .then((res) => {
         console.log("Got signUp response:", res);
         handleLogin({ email, password });
@@ -204,7 +219,6 @@ function App() {
       });
   };
 
-  //TODO Removed the parameter from the function
   const handleCardDeleteSubmit = () => {
     setIsDeleting(true);
     api
@@ -222,7 +236,7 @@ function App() {
       });
   };
 
-  const handleLike = (card, isLiked) => {
+  const handleCardLike = (card, isLiked) => {
     // Log card data
     console.log("Handle like for card:", card);
     // Destructure card id
@@ -239,13 +253,13 @@ function App() {
           console.log("Got updated card:", updatedCard);
           // Update cards state
           setCards((cards) =>
-            cards.map((c) => {
-              if (c._id === id) {
+            cards.map((card) => {
+              if (card._id === id) {
                 // Return updated card if match
                 return updatedCard.data;
               } else {
                 // Keep existing
-                return c;
+                return card;
               }
             })
           );
@@ -264,34 +278,10 @@ function App() {
     }
   };
 
-  //* The useEffect hook is used to fetch data from the API and update the state of the component on mounting
-  useEffect(() => {
-    getForecastWeather()
-      .then((data) => {
-        const temperature = parseWeatherData(data);
-        setTemp({
-          F: `${Math.round(temperature)}°F`,
-          C: `${Math.round(((temperature - 32) * 5) / 9)}°C`,
-        });
-        const location = parseWeatherLocation(data);
-        setCity(location);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  //* The App component saves default clothing items in the state
-  useEffect(() => {
-    api
-      .getItems()
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    setActiveModal("");
+  };
 
   const handleCloseModals = () => {
     console.log("Closing all modals");
@@ -299,37 +289,85 @@ function App() {
     setIsEditProfileModalOpen(false);
   };
 
+  // useEffect(() => {
+  //   getForecastWeather()
+  //     .then((data) => {
+  //       const temperature = parseWeatherData(data);
+  //       setTemp({
+  //         F: `${Math.round(temperature)}°F`,
+  //         C: `${Math.round(((temperature - 32) * 5) / 9)}°C`,
+  //       });
+  //       const location = parseWeatherLocation(data);
+  //       setCity(location);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  //TODO Return here to polish this and update the weather data with the new format
+  const fetchWeatherData = () => {
+    if (location.latitude && location.longitude) {
+      getForecastWeather(location, APIkey)
+        .then((data) => {
+          setWeatherData(filterDataFromWeatherApi(data));
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const handleSetUserNull = useCallback(() => {
+    setCurrentUser(null);
+  }, [setCurrentUser]);
+  useEffect(() => {
+    fetchWeatherData();
+  }, []);
+
+  //* The App component saves default clothing items in the state
+  useEffect(() => {
+    if (token) {
+      api
+        .getCards(token)
+        .then(({ data }) => {
+          setCards(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [token]);
+
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
   };
 
-  useEffect(() => {
-    if (!activeModal) return;
-    const handleEscUp = (evt) => {
-      if (evt.key === "Escape") {
-        handleCloseModals();
-      }
-    };
+  // useEffect(() => {
+  //   if (!activeModal) return;
+  //   const handleEscUp = (evt) => {
+  //     if (evt.key === "Escape") {
+  //       handleCloseModals();
+  //     }
+  //   };
 
-    const handleOverlayClick = (evt) => {
-      if (
-        evt.target.classList.contains("modal") ||
-        evt.target.classList.contains("modal__close-button")
-      ) {
-        handleCloseModals();
-      }
-    };
+  //   const handleOverlayClick = (evt) => {
+  //     if (
+  //       evt.target.classList.contains("modal") ||
+  //       evt.target.classList.contains("modal__close-button")
+  //     ) {
+  //       handleCloseModals();
+  //     }
+  //   };
 
-    document.addEventListener("keyup", handleEscUp);
-    document.addEventListener("click", handleOverlayClick);
+  //   document.addEventListener("keyup", handleEscUp);
+  //   document.addEventListener("click", handleOverlayClick);
 
-    return () => {
-      document.removeEventListener("keyup", handleEscUp);
-      document.removeEventListener("click", handleOverlayClick);
-    };
-  }, [activeModal]);
+  //   return () => {
+  //     document.removeEventListener("keyup", handleEscUp);
+  //     document.removeEventListener("click", handleOverlayClick);
+  //   };
+  // }, [activeModal]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -337,7 +375,7 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
           <Header
-            // weatherData={weatherData}
+            weatherData={weatherData}
             handleAddCardClick={() => setActiveModal("create")}
             openLoginModal={() => setIsLoginModalOpen(true)}
             openRegisterModal={() => setIsRegisterModalOpen(true)}
@@ -376,16 +414,16 @@ function App() {
           <Footer />
           {activeModal === "create" && (
             <AddItemModal
-              handleCloseModal={handleCloseModals}
+              onClose={handleCloseModals}
               isOpen={activeModal === "create"}
-              onAddItem={handleItemSubmit}
+              onAddItem={handleAddCardSubmit}
             />
           )}
           {activeModal === "preview" && (
             <ItemModal
               card={selectedCard}
               onClose={handleCloseModals}
-              onDelete={handleCardDelete}
+              onOpenDeleteModal={openDeleteModal}
             />
           )}
         </div>

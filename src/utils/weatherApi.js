@@ -19,3 +19,24 @@ export const parseWeatherLocation = (data) => {
   const city = data.name;
   return city;
 };
+
+export const filterDataFromWeatherApi = (data) => {
+  if (!data) {
+    return null;
+  }
+
+  const weather = {};
+
+  weather.city = data.name;
+  weather.temperature = data.main.temp;
+  weather.condition = () => {
+    if (data.main.temp >= 86) {
+      return "hot";
+    } else if (data.main.temp >= 66 && data.main.temp < 85) {
+      return "warm";
+    } else if (data.main.temp <= 65) {
+      return "cold";
+    }
+  };
+  return weather;
+};
