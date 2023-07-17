@@ -172,6 +172,14 @@ function App() {
       });
   };
 
+  const handleCardClick = (card) => {
+    console.log("Card clicked:", card);
+    setSelectedCard(card);
+    console.log("Set selected card to:", card);
+    setActiveModal("preview");
+    console.log("Opened preview modal");
+  };
+
   const closeModals = () => {
     console.log("Closing all modals");
     setActiveModal("");
@@ -205,11 +213,6 @@ function App() {
         console.log(err);
       });
   }, []);
-
-  const handleSelectedCard = (card) => {
-    setSelectedCard(card);
-    setActiveModal("preview");
-  };
 
   const handleAddCardClick = () => {
     console.log("Create modal function called");
