@@ -10,7 +10,7 @@ export const checkStatus = (res) => {
   return Promise.reject(`Error: ${res.status}`);
 };
 
-const getItems = () => {
+const getCards = () => {
   console.log("Getting items");
   return fetch(`${baseUrl}/items`, {
     headers: {
@@ -19,7 +19,7 @@ const getItems = () => {
   }).then(checkStatus);
 };
 
-const addItem = ({ name, weather, imageUrl }, token) => {
+const addCard = ({ name, imageUrl, weather }, token) => {
   console.log("Adding item...");
   return fetch(`${baseUrl}/items`, {
     method: "POST",
@@ -27,11 +27,11 @@ const addItem = ({ name, weather, imageUrl }, token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name, weather, imageUrl }),
+    body: JSON.stringify({ name, imageUrl, weather }),
   }).then(checkStatus);
 };
 
-const deleteItem = (id, token) => {
+const deleteCard = (id, token) => {
   console.log(`Deleting item with ID: ${id}`);
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
@@ -67,9 +67,9 @@ const removeCardLike = ({ _id }, token) => {
 };
 
 export const api = {
-  getItems,
-  addItem,
-  deleteItem,
+  getCards,
+  addCard,
+  deleteCard,
   addCardLike,
   removeCardLike,
 };

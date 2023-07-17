@@ -60,7 +60,7 @@ function App() {
     api
       .updateProfile(name, avatar, token)
       .then((res) => {
-        closeModals();
+        handleCloseModals();
         setCurrentUser(res);
       })
       .catch((err) => {
@@ -180,11 +180,27 @@ function App() {
     console.log("Opened preview modal");
   };
 
-  const closeModals = () => {
-    console.log("Closing all modals");
-    setActiveModal("");
-    setIsEditProfileModalOpen(false);
+  const handleAddNewClick = () => {
+    console.log("Create modal function called");
+    setActiveModal("create");
   };
+
+  const handleAddCardSubmit = ({ name, imageUrl, weather }) => {
+    console.log("Handling add card submit with:", { name, imageUrl, weather });
+    api
+      .addCard({ name, imageUrl, weather })
+      .then((newCard) => {
+        console.log("Got add card response:", newCard);
+        setCards([newCard, ...cards]);
+        console.log("Updated cards state with new card");
+        handleCloseModals();
+        console.log("Closed modals after add");
+      })
+      .catch((err) => {
+        console.log("Error adding card:", err);
+      });
+  };
+
   //* The useEffect hook is used to fetch data from the API and update the state of the component on mounting
   useEffect(() => {
     getForecastWeather()
@@ -214,13 +230,10 @@ function App() {
       });
   }, []);
 
-  const handleAddCardClick = () => {
-    console.log("Create modal function called");
-    setActiveModal("create");
-  };
-
-  const handleCloseModal = () => {
+  const handleCloseModals = () => {
+    console.log("Closing all modals");
     setActiveModal("");
+    setIsEditProfileModalOpen(false);
   };
 
   const handleToggleSwitchChange = () => {
@@ -229,25 +242,13 @@ function App() {
       : setCurrentTemperatureUnit("F");
   };
 
-  const handleItemSubmit = (item) => {
-    api
-      .addItem(item)
-      .then((newItem) => {
-        setCards([newItem, ...cards]);
-        handleCloseModal();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   //TODO updated this from removeItem to deleteItem. Return here if there are any issues.
   const handleCardDelete = (card) => {
     api
       .deleteItem(card.id)
       .then(() => {
         setCards((cards) => cards.filter((c) => c.id !== card.id));
-        handleCloseModal();
+        handleCloseModals();
       })
       .catch((err) => {
         console.log(err);
@@ -258,7 +259,7 @@ function App() {
     if (!activeModal) return;
     const handleEscUp = (evt) => {
       if (evt.key === "Escape") {
-        handleCloseModal();
+        handleCloseModals();
       }
     };
 
@@ -267,7 +268,7 @@ function App() {
         evt.target.classList.contains("modal") ||
         evt.target.classList.contains("modal__close-button")
       ) {
-        handleCloseModal();
+        handleCloseModals();
       }
     };
 
@@ -325,13 +326,17 @@ function App() {
           <Footer />
           {activeModal === "create" && (
             <AddItemModal
-              handleCloseModal={handleCloseModal}
+              handleCloseModal={handleCloseModals}
               isOpen={activeModal === "create"}
               onAddItem={handleItemSubmit}
             />
           )}
           {activeModal === "preview" && (
-            <ItemModal card={selectedCard} onClose={handleCloseModal} onDelete={handleCardDelete} />
+            <ItemModal
+              card={selectedCard}
+              onClose={handleCloseModals}
+              onDelete={handleCardDelete}
+            />
           )}
         </div>
       </CurrentTemperatureUnitContext.Provider>
