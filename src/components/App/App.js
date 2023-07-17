@@ -159,6 +159,19 @@ function App() {
       });
   };
 
+  const handleSignUp = ({ name, avatar, email, password }) => {
+    console.log("Handling sign up with:", { name, avatar, email, password });
+    signUp(name, avatar, email, password)
+      .then((res) => {
+        console.log("Got signUp response:", res);
+        handleLogin({ email, password });
+        console.log("Signed up, now logging in");
+      })
+      .catch((err) => {
+        console.log("Error signing up:", err);
+      });
+  };
+
   const closeModals = () => {
     console.log("Closing all modals");
     setActiveModal("");
