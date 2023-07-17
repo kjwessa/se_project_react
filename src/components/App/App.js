@@ -22,6 +22,8 @@ import { api } from "../../utils/api";
 
 //! Where should this go? Current user Context
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { use } from "bcrypt/promises";
+import { is } from "jsdom/lib/jsdom/living/generated/Element";
 
 function App() {
   //* The App component saves the Clothing Item cards in the state
@@ -70,48 +72,98 @@ function App() {
   };
 
   const handleEditProfileOpen = () => {
+    console.log("Opening edit profile modal");
     setIsEditProfileModalOpen(true);
   };
 
   const handleEditProfileClose = () => {
+    console.log("Closing edit profile modal");
     setIsEditProfileModalOpen(false);
   };
 
   const handleSignOut = () => {
+    console.log("Signing out user");
     localStorage.removeItem("token");
     setCurrentUser(null);
   };
 
-  const closeModals = () => {
-    setActiveModal("");
-    setIsEditProfileModalOpen(false);
-  };
-
   const isReloading = (token) => {
+    console.log("Checking token...", token);
     checkToken(token)
       .then((res) => {
+        console.log("Token check response", res);
         setCurrentUser(res.data);
         setIsLoginModalOpen(false);
         setIsRegisterModalOpen(false);
         setIsDeleteModalOpen(false);
         setAuthError("");
         setToken(token);
+        console.log("User authenticated!");
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error checking token", err);
         setAuthError("Please enter a valid email and password");
       });
   };
 
-  const [temp, setTemp] = useState({
-    temperature: {
-      F: 0,
-      C: 0,
-    },
-  });
-  const [city, setCity] = useState("");
-  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  // const [temp, setTemp] = useState({
+  //   temperature: {
+  //     F: 0,
+  //     C: 0,
+  //   },
+  // });
+  // const [city, setCity] = useState("");
+  // const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
+  //* The useEffect hook is used to check for valid auth on initial load.
+  useEffect(() => {
+    // Log that loading state will be set to true
+    console.log("Setting isLoading to true");
+    // Set loading state to true
+    setIsLoading(true);
+    // Try to get token from local storage
+    const storedToken = localStorage.getItem("token");
+    // Log if a token was found
+    if (storedToken) {
+      console.log("Found stored token", storedToken);
+    } else {
+      console.log("No stored token found");
+    }
+    // If there is a token, validate it
+    if (storedToken) {
+      isReloading(storedToken);
+    }
+    // Set loading state back to false once done
+    setIsLoading(false);
+  }, []);
+
+  const handleLogin = ({ email, password }) => {
+    console.log("Handling login with:", { email, password });
+    signIn(email, password)
+      .then((res) => {
+        console.log("Got signIn response:", res);
+        if (res && res.token) {
+          console.log("Got token in response", res.token);
+          localStorage.setItem("token", res.token);
+          console.log("Token saved to localStorage");
+          isReloading(res.token);
+        } else {
+          console.log("No token in response");
+          setAuthError(res.message || "Invalid credentials");
+          console.log("Set auth error message");
+        }
+      })
+      .catch(() => {
+        console.log("Error signing in");
+        setAuthError("Invalid credentials");
+      });
+  };
+
+  const closeModals = () => {
+    console.log("Closing all modals");
+    setActiveModal("");
+    setIsEditProfileModalOpen(false);
+  };
   //* The useEffect hook is used to fetch data from the API and update the state of the component on mounting
   useEffect(() => {
     getForecastWeather()
