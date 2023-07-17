@@ -3,12 +3,12 @@ import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 
-function Main({ weatherTemp, onSelectCard, clothingItems }) {
+function Main({ cards, weatherData, onCardClick, onCardLike }) {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
   );
 
-  const weatherTempString = String(weatherTemp[currentTemperatureUnit]).split("°", 2);
+  const weatherTempString = String(weatherData[currentTemperatureUnit]).split("°", 2);
   const weatherTempNumber = weatherTempString[0] || 999;
   const weatherTempUnit = weatherTempString[1] || "F";
 
@@ -43,7 +43,7 @@ function Main({ weatherTemp, onSelectCard, clothingItems }) {
 
   const weatherType = getWeatherType();
 
-  const filteredCards = clothingItems.filter((item) => {
+  const filteredCards = cards.filter((item) => {
     return item.weather.toLowerCase() === weatherType;
   });
 
@@ -59,7 +59,14 @@ function Main({ weatherTemp, onSelectCard, clothingItems }) {
         Today is {weatherTempNumber}°{weatherTempUnit} / You may want to wear:
         <div className="card-section__items">
           {filteredCards.map((card) => {
-            return <ItemCard key={card.id} card={card} onSelectCard={onSelectCard} />;
+            return (
+              <ItemCard
+                key={card.id}
+                card={card}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+              />
+            );
           })}
         </div>
       </section>
