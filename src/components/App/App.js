@@ -12,6 +12,7 @@ import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { auth } from "../../utils/auth";
 import { location, APIkey } from "../../utils/constants";
+import RegisterModal from "../RegisterModal/RegisterModal";
 
 //* Import the styles
 import "../../index.css";
@@ -59,7 +60,7 @@ function App() {
   //* The App component saves the modal states
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   //* The App component saves the current Token state
@@ -110,7 +111,7 @@ function App() {
         console.log("Token check response", res);
         setCurrentUser(res.data);
         setIsLoginModalOpen(false);
-        setIsRegisterModalOpen(false);
+        setIsSignUpModalOpen(false);
         setIsDeleteModalOpen(false);
         setAuthError("");
         setToken(token);
@@ -378,7 +379,7 @@ function App() {
             weatherData={weatherData}
             handleAddCardClick={() => setActiveModal("create")}
             openLoginModal={() => setIsLoginModalOpen(true)}
-            openRegisterModal={() => setIsRegisterModalOpen(true)}
+            openSignUpModal={() => setIsSignUpModalOpen(true)}
             // onCreateModal={handleCreateModal}
             // location={city}
             setCurrentUser={setCurrentUser}
@@ -424,6 +425,18 @@ function App() {
               card={selectedCard}
               onClose={handleCloseModals}
               onOpenDeleteModal={openDeleteModal}
+            />
+          )}
+          {isSignUpModalOpen && (
+            <RegisterModal
+              isOpen={isSignUpModalOpen}
+              onClose={() => setIsSignUpModalOpen(false)}
+              onRegister={handleSignUp}
+              authError={authError}
+              switchToLogin={() => {
+                setIsLoginModalOpen(true);
+                setIsSignUpModalOpen(false);
+              }}
             />
           )}
         </div>
