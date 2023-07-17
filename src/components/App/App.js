@@ -41,6 +41,9 @@ function App() {
   //* The App component saves the currently loading state
   const [isLoading, setIsLoading] = useState(false);
 
+  //* The App component saves the deletion state
+  const [isDeleting, setIsDeleting] = useState(false);
+
   //* The App component saves the modal states
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -201,6 +204,66 @@ function App() {
       });
   };
 
+  //TODO Removed the parameter from the function
+  const handleCardDeleteSubmit = () => {
+    setIsDeleting(true);
+    api
+      .deleteCard(selectedCard._id, token)
+      .then(() => {
+        setCards((cards) => cards.filter((c) => c.id !== selectedCard._id));
+        setActiveModal("");
+        setIsDeleteModalOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsDeleting(false);
+      });
+  };
+
+  const handleLike = (card, isLiked) => {
+    // Log card data
+    console.log("Handle like for card:", card);
+    // Destructure card id
+    const { _id: id } = card;
+    // Get token
+    const token = localStorage.getItem("token");
+    // Check if already liked
+    if (isLiked) {
+      console.log("Card already liked, removing like...");
+      // API call to remove like
+      api
+        .removeCardLike(id, token)
+        .then((updatedCard) => {
+          console.log("Got updated card:", updatedCard);
+          // Update cards state
+          setCards((cards) =>
+            cards.map((c) => {
+              if (c._id === id) {
+                // Return updated card if match
+                return updatedCard.data;
+              } else {
+                // Keep existing
+                return c;
+              }
+            })
+          );
+        })
+        .catch((err) => {
+          console.log("Error removing like:", err);
+        });
+    } else {
+      console.log("Card not liked, adding like...");
+      // API call to add like
+      api
+        .addCardLike(id, token)
+        // Similar logging as above
+        .then()
+        .catch();
+    }
+  };
+
   //* The useEffect hook is used to fetch data from the API and update the state of the component on mounting
   useEffect(() => {
     getForecastWeather()
@@ -240,19 +303,6 @@ function App() {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
-  };
-
-  //TODO updated this from removeItem to deleteItem. Return here if there are any issues.
-  const handleCardDelete = (card) => {
-    api
-      .deleteItem(card.id)
-      .then(() => {
-        setCards((cards) => cards.filter((c) => c.id !== card.id));
-        handleCloseModals();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   useEffect(() => {

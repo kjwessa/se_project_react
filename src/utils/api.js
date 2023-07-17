@@ -31,9 +31,9 @@ const addCard = ({ name, imageUrl, weather }, token) => {
   }).then(checkStatus);
 };
 
-const deleteCard = (id, token) => {
-  console.log(`Deleting item with ID: ${id}`);
-  return fetch(`${baseUrl}/items/${id}`, {
+const deleteCard = ({ _id, token }) => {
+  console.log(`Deleting item with ID: ${_id}`);
+  return fetch(`${baseUrl}/items/${_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
