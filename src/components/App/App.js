@@ -10,6 +10,7 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { checkToken, signUp, signIn } from "../../utils/auth";
 
 //* Import the styles
 import "../../index.css";
@@ -38,13 +39,26 @@ function App() {
   //* The App component saves the currently loading state
   const [isLoading, setIsLoading] = useState(false);
 
+  //* The App component saves the modal states
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  //* The App component saves the current Token state
+  const [token, setToken] = useState(null);
+
+  //* The App component saves the authError state
+  const [authError, setAuthError] = useState("");
+
+  //* The function to handle all the logic of the handleEditProfile
   const handleEditProfile = (name, avatar) => {
     setIsLoading(true);
     const token = localStorage.getItem("token");
     api
       .updateProfile(name, avatar, token)
       .then((res) => {
-        closeAllModals();
+        closeModals();
         setCurrentUser(res);
       })
       .catch((err) => {
@@ -66,6 +80,27 @@ function App() {
   const handleSignOut = () => {
     localStorage.removeItem("token");
     setCurrentUser(null);
+  };
+
+  const closeModals = () => {
+    setActiveModal("");
+    setIsEditProfileModalOpen(false);
+  };
+
+  const isReloading = (token) => {
+    checkToken(token)
+      .then((res) => {
+        setCurrentUser(res.data);
+        setIsLoginModalOpen(false);
+        setIsRegisterModalOpen(false);
+        setIsDeleteModalOpen(false);
+        setAuthError("");
+        setToken(token);
+      })
+      .catch((err) => {
+        console.log(err);
+        setAuthError("Please enter a valid email and password");
+      });
   };
 
   const [temp, setTemp] = useState({
