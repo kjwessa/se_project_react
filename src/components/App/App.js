@@ -13,6 +13,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { auth } from "../../utils/auth";
 import { location, APIkey } from "../../utils/constants";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import LoginModal from "../LoginModal/LoginModal";
 
 //* Import the styles
 import "../../index.css";
@@ -436,6 +437,18 @@ function App() {
               switchToLogin={() => {
                 setIsLoginModalOpen(true);
                 setIsSignUpModalOpen(false);
+              }}
+            />
+          )}
+          {isLoginModalOpen && (
+            <LoginModal
+              isOpen={isLoginModalOpen}
+              onClose={() => setIsLoginModalOpen(false)}
+              onLogin={handleLogin}
+              authError={authError}
+              switchToRegister={() => {
+                setIsRegisterModalOpen(true);
+                setIsLoginModalOpen(false);
               }}
             />
           )}
