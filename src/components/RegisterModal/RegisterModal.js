@@ -2,87 +2,130 @@ import { useState, useEffect } from "react";
 import { validation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
+//TODO Remove the error states if we're not using them, or make them really subtle
+//TODO Add the right form classes to the inputs and titles
+//TODO Double check the props being passed in because I have some unnecessary ones coming from App.js
+
 export default function RegisterModal({
-  name,
+  title,
+  buttonText,
+  onRegister,
   closeModal,
   handleClickOutsideModal,
-  handleSignup,
   handleOpenModal,
 }) {
-  const [registerValues, setRegisterValues] = useState({});
-  const [isRegisterFormValid, setIsRegisterFormValid] = useState(false);
+  //* Name State
+  const [name, setName] = useState("");
+  const [isNameValid, setIsNameValid] = useState(undefined);
+  const [isNameError, setIsNameError] = useState("");
+  //* Avatar State
+  const [avatar, setAvatar] = useState("");
+  //* Email State
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(undefined);
+  const [isEmailError, setIsEmailError] = useState("");
+  //* Password State
+  const [password, setPassword] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(undefined);
+  const [isPasswordError, setIsPasswordError] = useState("");
+  //* Form State
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setRegisterValues({ ...registerValues, [name]: value });
-  };
+  //* Check Name Validity
+  useEffect(() => {
+    const isValid = validation.validateName(name);
+    setIsNameValid(isValid);
+    if (!isValid) {
+      setIsNameError("Invalid name");
+    }
+  }, [name]);
 
+  //* Check Email Validity
+  useEffect(() => {
+    const isValid = validation.validateEmail(email);
+    setIsEmailValid(isValid);
+    if (!isValid) {
+      setIsEmailError("Invalid email");
+    }
+  }, [email]);
+
+  //* Check Password Validity
+  useEffect(() => {
+    const isValid = validation.validatePassword(password);
+    setIsPasswordValid(isValid);
+    if (!isValid) {
+      setIsPasswordError("Invalid password");
+    }
+  }, [password]);
+
+  //* Check Form Validity
+  useEffect(() => {
+    if (isNameValid && isEmailValid && isPasswordValid) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [isNameValid, isEmailValid, isPasswordValid]);
+
+  //* Handle Form Submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleSignup(registerValues);
+    console.log("Prevented default");
+    onRegister({ name, avatar, email, password });
+    console.log("Handled registration");
   };
-
-  useEffect(() => {
-    const { email, password, name } = registerValues;
-
-    if (email && password && name) {
-      setIsRegisterFormValid(validation.SignUpValidation(email, password, name));
-    } else {
-      setIsRegisterFormValid(false);
-    }
-  }, [registerValues]);
 
   return (
     <ModalWithForm
       name={name}
-      title={"Sign up"}
-      buttonText={"Next"}
+      title={title}
+      buttonText={buttonText}
+      onSubmit={handleSubmit}
       closeModal={closeModal}
       handleClickOutsideModal={handleClickOutsideModal}
       handleSubmit={handleSubmit}
-      isRegisterFormValid={isRegisterFormValid}
+      isValid={isFormValid}
       handleOpenModal={handleOpenModal}
       orButtonText={"or Login"}>
       <label className="modal__label">Email</label>
       <input
+        required
         className="modal__input"
         type="email"
         name="email"
         id="email"
         placeholder="Email"
-        required
-        minLength="1"
-        maxLength="30"
-        value={registerValues.email || ""}
-        onChange={handleInputChange}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
+      {isEmailError && <p className="error">{isEmailError}</p>}
 
       <label className="modal__label">Password</label>
       <input
+        required
         className="modal__input"
         type="password"
         name="password"
         id="password"
         placeholder="Password"
-        required
         minLength="8"
         maxLength="30"
-        value={registerValues.password || ""}
-        onChange={handleInputChange}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
       <label className="modal__label">Name</label>
       <input
+        required
         className="modal__input"
         type="text"
         name="name"
         id="name"
         placeholder="Name"
-        required
         minLength="2"
         maxLength="30"
-        value={registerValues.name || ""}
-        onChange={handleInputChange}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
 
       <label className="modal__label">Avatar URL</label>
@@ -92,8 +135,8 @@ export default function RegisterModal({
         name="avatar"
         id="avatar"
         placeholder="Avatar URL"
-        value={registerValues.avatar || ""}
-        onChange={handleInputChange}
+        value={avatar}
+        onChange={(e) => setAvatar(e.target.value)}
       />
     </ModalWithForm>
   );

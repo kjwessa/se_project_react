@@ -1,9 +1,8 @@
 import { baseUrl } from "./constants";
 import { checkStatus } from "./api";
 
-const signUp = (data) => {
-  const { name, avatar, email, password } = data;
-  console.log("Signing up user...");
+const signUp = (name, avatar, email, password) => {
+  console.log("The API is sending. Signing up user...");
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
     headers: {

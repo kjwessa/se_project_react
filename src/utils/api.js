@@ -6,7 +6,6 @@ export const checkStatus = (res) => {
     console.log("Response is ok");
     return res.json();
   }
-  console.log("Response Error", res.status);
   return Promise.reject(`Error: ${res.status}`);
 };
 

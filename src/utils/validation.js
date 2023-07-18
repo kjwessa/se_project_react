@@ -1,13 +1,27 @@
-import { emailRegex } from "./constants";
-
 const LoginValidation = (email, password) => {
   console.log("Validating login...");
-  return emailRegex.test(email) && password.length >= 4;
+  return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) && password.length >= 4;
 };
 
 const SignUpValidation = (email, password, name) => {
   console.log("Validating signup...");
-  return emailRegex.test(email) && password.length >= 4 && name.length > 2;
+  return (
+    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) &&
+    password.length >= 4 &&
+    name.length > 2
+  );
+};
+
+const validateName = (name) => {
+  return name.length > 2;
+};
+
+const validateEmail = (email) => {
+  return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email);
+};
+
+const validatePassword = (password) => {
+  return password.length >= 8;
 };
 
 const NewItemValidation = (itemName, itemLink, weatherType) => {
@@ -23,6 +37,9 @@ const UpdateProfileValidation = (name, avatar) => {
 };
 
 export const validation = {
+  validateName,
+  validatePassword,
+  validateEmail,
   LoginValidation,
   SignUpValidation,
   NewItemValidation,
