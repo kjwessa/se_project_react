@@ -74,23 +74,21 @@ export default function RegisterModal({
     onRegister({ name, avatar, email, password });
     console.log("Handled registration");
   };
-
+  //TODO Add open modal prop
+  //TODO Add close modal prop
   return (
     <ModalWithForm
-      name={name}
+      name={"SignUp"}
       title={title}
       buttonText={buttonText}
       onSubmit={handleSubmit}
-      closeModal={closeModal}
-      handleClickOutsideModal={handleClickOutsideModal}
-      handleSubmit={handleSubmit}
       isValid={isFormValid}
       handleOpenModal={handleOpenModal}
       orButtonText={"or Login"}>
-      <label className="modal__label">Email</label>
+      <label className="modal-form__input-title">Email</label>
       <input
         required
-        className="modal__input"
+        className="modal-form__input-field"
         type="email"
         name="email"
         id="email"
@@ -98,40 +96,33 @@ export default function RegisterModal({
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      {isEmailError && <p className="error">{isEmailError}</p>}
-
-      <label className="modal__label">Password</label>
+      <label className="modal-form__input-title">Password</label>
       <input
         required
-        className="modal__input"
+        className="modal-form__input-field"
         type="password"
         name="password"
         id="password"
         placeholder="Password"
-        minLength="8"
-        maxLength="30"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
-      <label className="modal__label">Name</label>
+      <label className="modal-form__input-title">Name</label>
       <input
         required
-        className="modal__input"
+        className="modal-form__input-field"
         type="text"
         name="name"
         id="name"
         placeholder="Name"
-        minLength="2"
-        maxLength="30"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
 
-      <label className="modal__label">Avatar URL</label>
+      <label className="modal-form__input-title">Avatar URL</label>
       <input
-        className="modal__input"
-        type="url"
+        className="modal-form__input-field"
+        type="text"
         name="avatar"
         id="avatar"
         placeholder="Avatar URL"
