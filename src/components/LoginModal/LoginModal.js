@@ -2,74 +2,56 @@ import { useEffect, useState } from "react";
 import { validation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-export default function LoginModal({
-  name,
-  closeModal,
-  handleClickOutsideModal,
-  handleLogin,
-  setInvalidPassword,
-  invalidPassword,
-  handleOpenModal,
-}) {
-  const [loginValues, setLoginValues] = useState({});
-  const [isFormValid, setIsFormValid] = useState(false);
+export default function LoginModal({ modalName, formTitle, buttonText, onLogin, handleOpenModal }) {
+  //* Email State
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(undefined);
+  const [isEmailError, setIsEmailError] = useState("");
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setLoginValues({ ...loginValues, [name]: value });
-    setInvalidPassword(false);
-  };
+  //* Password State
+  const [password, setPassword] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(undefined);
+  const [isPasswordError, setIsPasswordError] = useState("");
+
+  //* Form State
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin(loginValues);
+    console.log("Prevented default");
+    onLogin({ email, password });
+    console.log("LoginModal: Handled Login Submission");
   };
 
-  useEffect(() => {
-    const { email, password } = loginValues;
-    if (email && password) {
-      setIsFormValid(validation.LoginValidation(email, password));
-    } else {
-      setIsFormValid(false);
-    }
-  }, [loginValues]);
-
+  //TODO Add open/close prop
+  //TODO Clarify how props are passed
   return (
     <ModalWithForm
-      name={name}
-      title={"Log in"}
-      buttonText={"Log in"}
-      orButtonText={"or Register"}
-      closeModal={closeModal}
-      handleClickOutsideModal={handleClickOutsideModal}
-      handleSubmit={handleSubmit}
+      modalName={modalName}
+      formTitle={formTitle}
+      buttonText={buttonText}
+      onSubmit={handleSubmit}
       isFormValid={isFormValid}
       handleOpenModal={handleOpenModal}>
-      <label className="modal__label">Email</label>
+      <label className="modal-form__input-title">Email</label>
       <input
-        className="modal__input"
+        required
+        className="modal-form__input-field"
         type="email"
         name="email"
         id="email"
         placeholder="Email"
-        required
-        minLength="1"
-        maxLength="30"
         value={loginValues.email || ""}
         onChange={handleInputChange}
       />
-      <label className={`modal__label ${invalidPassword ? "modal__label-invalid" : ""}`}>
-        Password
-      </label>
+      <label className="modal-form__input-title">Password</label>
       <input
-        className={`modal__input ${invalidPassword ? "modal__input-invalid" : ""}`}
+        required
+        className="modal-form__input-field"
         type="password"
         name="password"
         id="password"
         placeholder="Password"
-        required
-        minLength="8"
-        maxLength="30"
         value={loginValues.password || ""}
         onChange={handleInputChange}
       />

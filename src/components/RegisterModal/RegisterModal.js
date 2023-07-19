@@ -7,7 +7,8 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 //TODO Double check the props being passed in because I have some unnecessary ones coming from App.js
 
 export default function RegisterModal({
-  title,
+  modalName,
+  formTitle,
   buttonText,
   onRegister,
   closeModal,
@@ -18,16 +19,20 @@ export default function RegisterModal({
   const [name, setName] = useState("");
   const [isNameValid, setIsNameValid] = useState(undefined);
   const [isNameError, setIsNameError] = useState("");
+
   //* Avatar State
   const [avatar, setAvatar] = useState("");
+
   //* Email State
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(undefined);
   const [isEmailError, setIsEmailError] = useState("");
+
   //* Password State
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(undefined);
   const [isPasswordError, setIsPasswordError] = useState("");
+
   //* Form State
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -72,14 +77,14 @@ export default function RegisterModal({
     e.preventDefault();
     console.log("Prevented default");
     onRegister({ name, avatar, email, password });
-    console.log("Handled registration");
+    console.log("RegisterModal: Handled Register Submission");
   };
   //TODO Add open modal prop
   //TODO Add close modal prop
   return (
     <ModalWithForm
-      name={"SignUp"}
-      title={title}
+      modalName={modalName}
+      formTitle={formTitle}
       buttonText={buttonText}
       onSubmit={handleSubmit}
       isValid={isFormValid}

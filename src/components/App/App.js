@@ -352,8 +352,8 @@ function App() {
           )}
           {isRegistrationModalOpen && (
             <RegisterModal
-              name={"Register"}
-              title={"Sign up"}
+              modalName={"Register"}
+              formTitle={"Sign up"}
               buttonText={"Next"}
               isOpen={isRegistrationModalOpen}
               onClose={() => setIsRegistrationModalOpen(false)}
