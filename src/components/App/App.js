@@ -97,34 +97,34 @@ function App() {
   };
 
   const isReloading = (token) => {
-    console.log("Checking token...", token);
+    console.log("App: Checking token...", token);
     auth
       .checkToken(token)
       .then((res) => {
-        console.log("Token check response", res);
+        console.log("App: Token check response", res);
         setCurrentUser(res.data);
         setIsLoginModalOpen(false);
         setIsRegistrationModalOpen(false);
         setIsDeleteModalOpen(false);
         setAuthError("");
         setToken(token);
-        console.log("User authenticated!");
+        console.log("App: User authenticated!");
       })
       .catch((err) => {
-        console.log("Error checking token", err);
-        setAuthError("Please enter a valid email and password");
+        console.log("App: Error checking token", err);
+        setAuthError("App: Please enter a valid email and password");
       });
   };
 
   //* The useEffect hook is used to check for valid auth on initial load.
   useEffect(() => {
-    console.log("Setting isLoading to true");
+    console.log("App: Setting isLoading to true");
     setIsLoading(true);
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
-      console.log("Found stored token", storedToken);
+      console.log("App: Found stored token", storedToken);
     } else {
-      console.log("No stored token found");
+      console.log("App: No stored token found");
     }
     if (storedToken) {
       isReloading(storedToken);
@@ -133,30 +133,30 @@ function App() {
   }, []);
 
   const handleLogin = ({ email, password }) => {
-    console.log("Handling login with:", { email, password });
+    console.log("App: Handling login with:", { email, password });
     auth
       .signIn(email, password)
       .then((res) => {
-        console.log("Got signIn response:", res);
+        console.log("App: Got signIn response:", res);
         if (res && res.token) {
-          console.log("Got token in response", res.token);
+          console.log("App: Got token in response", res.token);
           localStorage.setItem("token", res.token);
-          console.log("Token saved to localStorage");
+          console.log("App: Token saved to localStorage");
           isReloading(res.token);
         } else {
-          console.log("No token in response");
-          setAuthError(res.message || "Invalid credentials");
-          console.log("Set auth error message");
+          console.log("App: No token in response");
+          setAuthError(res.message || "App: Invalid credentials");
+          console.log("App: Set auth error message");
         }
       })
       .catch(() => {
-        console.log("Error signing in");
-        setAuthError("Invalid credentials");
+        console.log("App: Error signing in");
+        setAuthError("App: Invalid credentials");
       });
   };
 
   const handleRegistration = ({ name, avatar, email, password }) => {
-    console.log("Handling sign up with:", { name, avatar, email, password });
+    console.log("App: Handling sign up with:", { name, avatar, email, password });
     auth
       .signUp(name, avatar, email, password)
       .then((res) => {
@@ -367,6 +367,9 @@ function App() {
           )}
           {isLoginModalOpen && (
             <LoginModal
+              modalName={"Login"}
+              formTitle={"Log In"}
+              buttonText={"Log In"}
               isOpen={isLoginModalOpen}
               onClose={() => setIsLoginModalOpen(false)}
               onLogin={handleLogin}

@@ -3,14 +3,14 @@ import { baseUrl } from "./constants";
 
 export const checkStatus = (res) => {
   if (res.ok) {
-    console.log("Response is ok");
+    console.log("API: Response is ok");
     return res.json();
   }
   return Promise.reject(`Error: ${res.status}`);
 };
 
 const getCards = () => {
-  console.log("Getting items");
+  console.log("API: Getting items");
   return fetch(`${baseUrl}/items`, {
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +19,7 @@ const getCards = () => {
 };
 
 const addCard = ({ name, imageUrl, weather }, token) => {
-  console.log("Adding item...");
+  console.log("API: Adding item...");
   return fetch(`${baseUrl}/items`, {
     method: "POST",
     headers: {
@@ -31,7 +31,7 @@ const addCard = ({ name, imageUrl, weather }, token) => {
 };
 
 const deleteCard = ({ _id, token }) => {
-  console.log(`Deleting item with ID: ${_id}`);
+  console.log(`API: Deleting item with ID: ${_id}`);
   return fetch(`${baseUrl}/items/${_id}`, {
     method: "DELETE",
     headers: {

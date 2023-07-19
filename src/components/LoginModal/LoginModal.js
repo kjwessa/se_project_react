@@ -51,11 +51,11 @@ export default function LoginModal({ modalName, formTitle, buttonText, onLogin, 
   //* Handle Form Submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Prevented default");
+    console.log("LoginModal: Prevented default");
     onLogin({ email, password });
     console.log("LoginModal: Handled Login Submission");
   };
-
+  //TODO Figure out why the formTitle is not being passed
   return (
     <ModalWithForm
       modalName={modalName}

@@ -2,7 +2,7 @@ import { baseUrl } from "./constants";
 import { checkStatus } from "./api";
 
 const signUp = (name, avatar, email, password) => {
-  console.log("The API is sending. Signing up user...");
+  console.log("Auth: Signing up user...");
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
     headers: {
@@ -14,7 +14,7 @@ const signUp = (name, avatar, email, password) => {
 
 const signIn = (user) => {
   const { email, password } = user;
-  console.log("Signing in user...");
+  console.log("Auth: Signing in user...");
   return fetch(`${baseUrl}/signin`, {
     method: "POST",
     headers: {
@@ -25,7 +25,7 @@ const signIn = (user) => {
 };
 
 const checkToken = (token) => {
-  console.log("Checking token...");
+  console.log("Auth: Checking token...");
   return fetch(`${baseUrl}/users/me`, {
     method: "GET",
     headers: {
@@ -37,7 +37,7 @@ const checkToken = (token) => {
 
 const updateProfile = (data, token) => {
   const { name, avatar } = data;
-  console.log("Updating user profile...");
+  console.log("Auth: Updating user profile...");
   return fetch(`${baseUrl}/users/me`, {
     method: "PATCH",
     headers: {

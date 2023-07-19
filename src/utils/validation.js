@@ -1,10 +1,10 @@
 const LoginValidation = (email, password) => {
-  console.log("Validating login...");
+  console.log("Validation: Validating login...");
   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) && password.length >= 4;
 };
 
 const SignUpValidation = (email, password, name) => {
-  console.log("Validating signup...");
+  console.log("Validation: Validating signup...");
   return (
     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) &&
     password.length >= 4 &&
@@ -25,14 +25,14 @@ const validatePassword = (password) => {
 };
 
 const NewItemValidation = (itemName, itemLink, weatherType) => {
-  console.log("Validating new item...");
+  console.log("Validation: Validating new item...");
   return (
     itemName.length > 0 && itemLink.length > 0 && ["hot", "warm", "cold"].includes(weatherType)
   );
 };
 
 const UpdateProfileValidation = (name, avatar) => {
-  console.log("Validating profile update...");
+  console.log("Validation: Validating profile update...");
   return name.length > 2 && avatar.length > 2;
 };
 
