@@ -119,6 +119,7 @@ function App() {
   //* The useEffect hook is used to check for valid auth on initial load.
   useEffect(() => {
     console.log("App: Setting isLoading to true");
+    console.log("App:", currentUser);
     setIsLoading(true);
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -267,6 +268,7 @@ function App() {
   };
 
   const handleSetUserNull = useCallback(() => {
+    console.log("App: Setting current user to null");
     setCurrentUser(null);
   }, [setCurrentUser]);
   useEffect(() => {
