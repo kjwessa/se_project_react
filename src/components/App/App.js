@@ -178,7 +178,7 @@ function App() {
     console.log("Opened preview modal");
   };
 
-  const handleAddNewClick = () => {
+  const handleAddCardClick = () => {
     console.log("Create modal function called");
     setActiveModal("create");
   };
@@ -302,7 +302,7 @@ function App() {
         <div className="page">
           <Header
             weatherData={weatherData}
-            handleAddCardClick={() => setActiveModal("create")}
+            onAddNewClick={handleAddCardClick}
             openLoginModal={() => setIsLoginModalOpen(true)}
             openSignUpModal={() => setIsRegistrationModalOpen(true)}
             // onCreateModal={handleCreateModal}
@@ -310,21 +310,18 @@ function App() {
             setCurrentUser={setCurrentUser}
           />
           <Switch>
-            <ProtectedRoute
-              path="/profile"
-              isAuthenticated={currentUser}
-              component={Profile}
-              cards={cards}
-              onAddNewClick={handleAddNewClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              handleSetUserNull={handleSetUserNull}
-              onEditProfileOpen={handleEditProfileOpen}
-              onSignOut={handleSignOut}
-              // onSelectCard={handleSelectedCard}
-              // clothingItems={clothingItems}
-              // onCreateModal={handleCreateModal}
-            />
+            <ProtectedRoute path="/profile">
+              <Profile
+                isAuthenticated={currentUser}
+                cards={cards}
+                onAddNewClick={handleAddCardClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                handleSetUserNull={handleSetUserNull}
+                onEditProfileOpen={handleEditProfileOpen}
+                onSignOut={handleSignOut}
+              />
+            </ProtectedRoute>
             <Route exact path="/">
               <Main
                 weatherData={weatherData}

@@ -1,12 +1,13 @@
 import ClothesSection from "../ClothesSection/ClothesSection";
 import SideBar from "../Sidebar/SideBar";
 
-export function Profile({ onSelectCard, clothingItems, onCreateModal }) {
+export function Profile({ cards, onAddNewClick, onSelectCard, onCreateModal }) {
   return (
     <section className="profile">
       <SideBar />
       <ClothesSection
-        clothingItems={clothingItems}
+        onAddNewClick={onAddNewClick}
+        cards={cards}
         onSelectCard={onSelectCard}
         onCreateModal={onCreateModal}
       />
