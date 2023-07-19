@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { validation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
+//TODO Determine how to handle errors in the UI
+//TODO Add OpenModal Prop
+//TODO Add CloseModal Prop
+//TODO Confirm how props are passed
+
 export default function LoginModal({ modalName, formTitle, buttonText, onLogin, handleOpenModal }) {
   //* Email State
   const [email, setEmail] = useState("");
@@ -51,8 +56,6 @@ export default function LoginModal({ modalName, formTitle, buttonText, onLogin, 
     console.log("LoginModal: Handled Login Submission");
   };
 
-  //TODO Add open/close prop
-  //TODO Clarify how props are passed
   return (
     <ModalWithForm
       modalName={modalName}

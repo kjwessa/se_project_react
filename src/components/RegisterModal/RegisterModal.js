@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { validation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-//TODO Remove the error states if we're not using them, or make them really subtle
-//TODO Add the right form classes to the inputs and titles
-//TODO Double check the props being passed in because I have some unnecessary ones coming from App.js
+//TODO Determine how to handle errors in the UI
+//TODO Add OpenModal Prop
+//TODO Add CloseModal Prop
+//TODO Confirm how props are passed
 
 export default function RegisterModal({
   modalName,
@@ -79,8 +80,7 @@ export default function RegisterModal({
     onRegister({ name, avatar, email, password });
     console.log("RegisterModal: Handled Register Submission");
   };
-  //TODO Add open modal prop
-  //TODO Add close modal prop
+
   return (
     <ModalWithForm
       modalName={modalName}
