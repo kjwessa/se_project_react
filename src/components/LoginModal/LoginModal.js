@@ -16,6 +16,34 @@ export default function LoginModal({ modalName, formTitle, buttonText, onLogin, 
   //* Form State
   const [isFormValid, setIsFormValid] = useState(false);
 
+  //* Check Password Validity
+  useEffect(() => {
+    const isValid = validation.validatePassword(password);
+    setIsPasswordValid(isValid);
+    if (!isValid) {
+      setIsPasswordError("Invalid password");
+    }
+  }, [password]);
+
+  //* Check Email Validity
+  useEffect(() => {
+    const isValid = validation.validateEmail(email);
+    setIsEmailValid(isValid);
+    if (!isValid) {
+      setIsEmailError("Invalid email");
+    }
+  }, [email]);
+
+  //* Check Form Validity
+  useEffect(() => {
+    if (isEmailValid && isPasswordValid) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [isEmailValid, isPasswordValid]);
+
+  //* Handle Form Submission
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Prevented default");
@@ -41,8 +69,9 @@ export default function LoginModal({ modalName, formTitle, buttonText, onLogin, 
         name="email"
         id="email"
         placeholder="Email"
-        value={loginValues.email || ""}
-        onChange={handleInputChange}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        autoComplete="email"
       />
       <label className="modal-form__input-title">Password</label>
       <input
@@ -52,8 +81,9 @@ export default function LoginModal({ modalName, formTitle, buttonText, onLogin, 
         name="password"
         id="password"
         placeholder="Password"
-        value={loginValues.password || ""}
-        onChange={handleInputChange}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        autoComplete="current-password"
       />
     </ModalWithForm>
   );
