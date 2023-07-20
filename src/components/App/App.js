@@ -310,18 +310,19 @@ function App() {
             setCurrentUser={setCurrentUser}
           />
           <Switch>
-            <ProtectedRoute path="/profile">
-              <Profile
-                isAuthenticated={currentUser}
-                cards={cards}
-                onAddNewClick={handleAddCardClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                handleSetUserNull={handleSetUserNull}
-                onEditProfileOpen={handleEditProfileOpen}
-                onSignOut={handleSignOut}
-              />
-            </ProtectedRoute>
+            <ProtectedRoute
+              path="/profile"
+              component={Profile}
+              isAuthenticated={currentUser}
+              cards={cards}
+              onAddNewClick={handleAddCardClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              handleSetUserNull={handleSetUserNull}
+              onEditProfileOpen={handleEditProfileOpen}
+              onSignOut={handleSignOut}
+            />
+
             <Route exact path="/">
               <Main
                 weatherData={weatherData}
