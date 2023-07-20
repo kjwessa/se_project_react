@@ -1,27 +1,36 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const ProtectedRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-  console.log("Rendering ProtectedRoute with props:", {
-    component: Component,
-    isAuthenticated,
-    rest,
-  });
+const ProtectedRoute = ({
+  component: Component,
+  isAuthenticated,
+  cards,
+  onAddNewClick,
+  onCardClick,
+  onCardLike,
+  handleSetUserNull,
+  onEditProfileOpen,
+  onSignOut,
+}) => {
+  console.log("Protected Route: rendering protected route.");
 
   return (
     <Route
-      {...rest}
-      render={(props) => {
-        console.log("ProtectedRoute render prop called with:", props);
-        if (isAuthenticated) {
-          console.log("User is authenticated, rendering component");
-          return <Component {...props} {...rest} />;
-        } else {
-          console.log("User not authenticated, redirecting to login");
-
-          return <Redirect to={{ pathname: "/", state: { from: props.location } }} />;
-        }
-      }}
+      render={(props) =>
+        isAuthenticated ? (
+          <Component
+            cards={cards}
+            onAddNewClick={onAddNewClick}
+            onCardClick={onCardClick}
+            onCardLike={onCardLike}
+            handleSetUserNull={handleSetUserNull}
+            onEditProfileOpen={onEditProfileOpen}
+            onSignOut={onSignOut}
+          />
+        ) : (
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        )
+      }
     />
   );
 };
