@@ -1,4 +1,4 @@
-import { latitude, longitude, APIKey } from "./constants";
+import { latitude, longitude, APIKey, dayWeatherCards, nightWeatherCards } from "./constants";
 import { checkStatus } from "./api";
 
 export const getForecastWeather = () => {

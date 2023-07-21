@@ -21,6 +21,25 @@ export const APIKey = "8f8faa090162b60e560bccce20cff5b2";
 //* Server Constants
 export const baseUrl = "http://localhost:3001";
 
+//* Weather Options
+export const dayWeatherCards = {
+  clear: clearDay,
+  cloudy: cloudyDay,
+  foggy: foggyDay,
+  rainy: rainyDay,
+  snowy: snowyDay,
+  stormy: stormyDay,
+};
+
+export const nightWeatherCards = {
+  clear: clearNight,
+  cloudy: cloudyNight,
+  foggy: foggyNight,
+  rainy: rainyNight,
+  snowy: snowyNight,
+  stormy: stormyNight,
+};
+
 //TODO Submission: remove code below
 // export const baseUrl = "https://my-json-server.typicode.com/kjwessa/se_project_react";
 
