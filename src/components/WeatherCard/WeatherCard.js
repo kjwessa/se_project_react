@@ -1,20 +1,17 @@
-import { weatherOptions } from "../../utils/constants";
+import { useContext } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 
-function WeatherCard({ day, type, weatherTemp, weatherUnit = "" }) {
-  const findWeather = (weatherOption) => {
-    return weatherOption.day === day && weatherOption.type === type;
-  };
-
-  const weatherOption = weatherOptions.find(findWeather);
-  const weatherPath = weatherOption.url || "";
+function WeatherCard({ currentTemp, skyCondition }) {
+  const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
   return (
     <section className="weather" id="weather">
-      <div className="weather__info">
-        {weatherTemp}°{weatherUnit}
-      </div>
-      <img alt="weather-app" src={weatherPath} className="weather__image" />
+      <div className="weather__info">{currentTemp && currentTemp.temp[currentTemperatureUnit]}</div>
+      <img
+        alt={`Sky condition: ${currentTemp?.temp?.weather}`}
+        className="weather__image"
+        src={skyCondition}
+      />
     </section>
   );
 }
