@@ -42,7 +42,7 @@ export default function Main({ currentTemp, skyCondition, cards, onCardClick, on
     </main>
   );
 }
-
+//TODO Submission: remove code below
 // function Main({ currentTemp, skyCondition, cards, onCardClick, onCardLike }) {
 //   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 

@@ -8,10 +8,11 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { auth } from "../../utils/auth";
-import { location, APIKey } from "../../utils/constants";
+import { APIKey } from "../../utils/constants";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
 
@@ -250,10 +251,10 @@ function App() {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true);
+  const openConfirmationModal = () => {
+    setIsConfirmationModalOpen(true);
     setActiveModal("");
   };
 
@@ -375,6 +376,21 @@ function App() {
                 setIsRegistrationModalOpen(true);
                 setIsLoginModalOpen(false);
               }}
+            />
+          )}
+          {isConfirmationModalOpen && (
+            <ConfirmationModal
+              onClose={() => setIsConfirmationModalOpen(false)}
+              handleDelete={handleCardDeleteSubmit}
+              isLoading={isDeleting}
+              // onItemDeleted={closeAllModals}
+            />
+          )}
+          {isEditProfileModalOpen && (
+            <EditProfileModal
+              isOpen={isEditProfileModalOpen}
+              onClose={handleEditProfileClose}
+              onUpdateUser={handleEditProfile}
             />
           )}
         </div>
