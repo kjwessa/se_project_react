@@ -23,14 +23,16 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 
 //* Import the Variables
-import { getForecastWeather, filterDataFromWeatherApi } from "../../utils/weatherApi";
-
+import { getForecastWeather, parseWeatherData, getWeatherCard } from "../../utils/weatherApi";
 import { api } from "../../utils/api";
 
 function App() {
   //* State: Weather Data
-  const [weatherData, setWeatherData] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [skyCondition, setSkyCondition] = useState();
+  const [city, setCity] = useState("");
+  const [currentTemp, setCurrentTemp] = useState(0);
+  // const [weatherData, setWeatherData] = useState({});
 
   //* State: User, Token & AuthError
   const [token, setToken] = useState(null);
@@ -164,12 +166,13 @@ function App() {
       });
   };
 
+  //TODO Return here to repair null
   const handleSetUserNull = useCallback(() => {
     console.log("App: Setting current user to null");
     setCurrentUser(null);
   }, [setCurrentUser]);
   useEffect(() => {
-    fetchWeatherData();
+    // fetchWeatherData();
   }, []);
 
   //* Card Handlers: Like, Unlike, Click
@@ -270,24 +273,27 @@ function App() {
     setIsEditProfileModalOpen(false);
   };
 
-  //! Refactor these below
-
+  //* Handlers: Weather Switch, Weather Data
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
   };
 
-  //TODO Return here to polish this and update the weather data with the new format
-  const fetchWeatherData = () => {
-    if (location.latitude && location.longitude) {
-      getForecastWeather(location, APIKey)
-        .then((data) => {
-          setWeatherData(filterDataFromWeatherApi(data));
-        })
-        .catch((err) => console.log(err));
-    }
-  };
+  useEffect(() => {
+    getForecastWeather()
+      .then((data) => {
+        const cityName = data && data.name;
+        setCity(cityName);
+        const temp = parseWeatherData(data);
+        setCurrentTemp(temp);
+        const weatherCardImg = getWeatherCard(data);
+        setSkyCondition(weatherCardImg);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -295,7 +301,8 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
           <Header
-            weatherData={weatherData}
+            city={city}
+            currentTemp={currentTemp}
             onAddNewClick={handleAddCardClick}
             openLoginModal={() => setIsLoginModalOpen(true)}
             openSignUpModal={() => setIsRegistrationModalOpen(true)}
@@ -317,7 +324,8 @@ function App() {
 
             <Route exact path="/">
               <Main
-                weatherData={weatherData}
+                currentTemp={currentTemp}
+                skyCondition={skyCondition}
                 cards={cards}
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
@@ -427,3 +435,13 @@ export default App;
 //     document.removeEventListener("click", handleOverlayClick);
 //   };
 // }, [activeModal]);
+
+// const fetchWeatherData = () => {
+//   if (location.latitude && location.longitude) {
+//     getForecastWeather(location, APIKey)
+//       .then((data) => {
+//         setWeatherData(filterDataFromWeatherApi(data));
+//       })
+//       .catch((err) => console.log(err));
+//   }
+// };

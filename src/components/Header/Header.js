@@ -6,7 +6,9 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const Header = ({
-  weatherData,
+  // weatherData,
+  city,
+  currentTemp,
   handleAddCardClick,
   openLoginModal,
   openSignUpModal,
@@ -20,7 +22,6 @@ const Header = ({
     day: "numeric",
   });
   //* Get the current city
-  const { city } = weatherData;
   const currentUser = useContext(CurrentUserContext);
 
   return (
