@@ -1,9 +1,9 @@
-import { latitude, longitude, APIkey } from "./constants";
+import { latitude, longitude, APIKey } from "./constants";
 import { checkStatus } from "./api";
 
 export const getForecastWeather = () => {
   const weatherApi = fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIKey}`
   ).then(checkStatus);
   return weatherApi;
 };

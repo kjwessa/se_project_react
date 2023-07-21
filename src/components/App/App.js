@@ -1,4 +1,4 @@
-//* Import the basic React features
+//* Import React
 import { useEffect, useState, useCallback } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -11,127 +11,52 @@ import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { auth } from "../../utils/auth";
-import { location, APIkey } from "../../utils/constants";
+import { location, APIKey } from "../../utils/constants";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
 
 //* Import the styles
 import "../../index.css";
 
-//* Import the variables
-import { getForecastWeather, filterDataFromWeatherApi } from "../../utils/weatherApi";
+//* Import the Contexts
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+
+//* Import the Variables
+import { getForecastWeather, filterDataFromWeatherApi } from "../../utils/weatherApi";
+
 import { api } from "../../utils/api";
 
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-
 function App() {
-  //* The App component saves the weatherData in the state
+  //* State: Weather Data
   const [weatherData, setWeatherData] = useState({});
-
-  //* The App component saves the Clothing Item cards in the state
-  const [cards, setCards] = useState([]);
-
-  //* The App component saves the current user in the state
-  const [currentUser, setCurrentUser] = useState(null);
-
-  //* The App component sets the active modal in the state
-  const [activeModal, setActiveModal] = useState("");
-
-  //* The App component saves the selected card in the state
-  const [selectedCard, setSelectedCard] = useState({});
-
-  //* The App component saves the currently loading state
-  const [isLoading, setIsLoading] = useState(false);
-
-  //* The App component saves the current temperature unit in the state
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
-  //* The App component saves the deletion state
+  //* State: User, Token & AuthError
+  const [token, setToken] = useState(null);
+  const [authError, setAuthError] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  //* State: Cards
+  const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
   const [isDeleting, setIsDeleting] = useState(false);
 
-  //* The App component saves the modal states
-  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  //* The App component saves the current Token state
-  const [token, setToken] = useState(null);
-
-  //* The App component saves the authError state
-  const [authError, setAuthError] = useState("");
-
-  //* The function to handle all the logic of the handleEditProfile
-  const handleEditProfile = (name, avatar) => {
-    setIsLoading(true);
-    const token = localStorage.getItem("token");
-    api
-      .updateProfile(name, avatar, token)
-      .then((res) => {
-        handleCloseModals();
-        setCurrentUser(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  const handleEditProfileOpen = () => {
-    console.log("Opening edit profile modal");
-    setIsEditProfileModalOpen(true);
-  };
-
-  const handleEditProfileClose = () => {
-    console.log("Closing edit profile modal");
-    setIsEditProfileModalOpen(false);
-  };
-
-  const handleSignOut = () => {
-    console.log("Signing out user");
-    localStorage.removeItem("token");
-    setCurrentUser(null);
-  };
-
-  const isReloading = (token) => {
-    console.log("App: Checking token...", token);
+  //* Profile Handlers: Register, Login, SignOut, Edit Profile
+  const handleRegistration = ({ name, avatar, email, password }) => {
+    console.log("App: Handling sign up with:", { name, avatar, email, password });
     auth
-      .checkToken(token)
+      .signUp(name, avatar, email, password)
       .then((res) => {
-        console.log("App: Token check response", res);
-        setCurrentUser(res.data);
-        setIsLoginModalOpen(false);
-        setIsRegistrationModalOpen(false);
-        setIsDeleteModalOpen(false);
-        setAuthError("");
-        setToken(token);
-        console.log("App: User authenticated!");
+        console.log("Got signUp response:", res);
+        handleLogin({ email, password });
+        console.log("Signed up, now logging in");
       })
       .catch((err) => {
-        console.log("App: Error checking token", err);
-        setAuthError("App: Please enter a valid email and password");
+        console.log("Registration Error:", err);
       });
   };
-
-  //* The useEffect hook is used to check for valid auth on initial load.
-  useEffect(() => {
-    console.log("App: Setting isLoading to true");
-    console.log("App:", currentUser);
-    setIsLoading(true);
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      console.log("App: Found stored token", storedToken);
-    } else {
-      console.log("App: No stored token found");
-    }
-    if (storedToken) {
-      isReloading(storedToken);
-    }
-    setIsLoading(false);
-  }, []);
 
   const handleLogin = ({ email, password }) => {
     console.log("App: Handling login with:", { email, password });
@@ -156,28 +81,30 @@ function App() {
       });
   };
 
-  const handleRegistration = ({ name, avatar, email, password }) => {
-    console.log("App: Handling sign up with:", { name, avatar, email, password });
-    auth
-      .signUp(name, avatar, email, password)
+  const handleSignOut = () => {
+    console.log("Signing out user");
+    localStorage.removeItem("token");
+    setCurrentUser(null);
+  };
+
+  const handleEditProfile = (name, avatar) => {
+    setIsLoading(true);
+    const token = localStorage.getItem("token");
+    api
+      .updateProfile(name, avatar, token)
       .then((res) => {
-        console.log("Got signUp response:", res);
-        handleLogin({ email, password });
-        console.log("Signed up, now logging in");
+        handleCloseModals();
+        setCurrentUser(res);
       })
       .catch((err) => {
-        console.log("Registration Error:", err);
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
-  const handleCardClick = (card) => {
-    console.log("Card clicked:", card);
-    setSelectedCard(card);
-    console.log("Set selected card to:", card);
-    setActiveModal("preview");
-    console.log("Opened preview modal");
-  };
-
+  //* Card Handlers: Click, Add, Delete
   const handleAddCardClick = () => {
     console.log("Create modal function called");
     setActiveModal("create");
@@ -216,6 +143,36 @@ function App() {
       });
   };
 
+  //* User Handlers: Reloading, Null User
+  const isReloading = (token) => {
+    console.log("App: Checking token...", token);
+    auth
+      .checkToken(token)
+      .then((res) => {
+        console.log("App: Token check response", res);
+        setCurrentUser(res.data);
+        setIsLoginModalOpen(false);
+        setIsRegistrationModalOpen(false);
+        setIsDeleteModalOpen(false);
+        setAuthError("");
+        setToken(token);
+        console.log("App: User authenticated!");
+      })
+      .catch((err) => {
+        console.log("App: Error checking token", err);
+        setAuthError("App: Please enter a valid email and password");
+      });
+  };
+
+  const handleSetUserNull = useCallback(() => {
+    console.log("App: Setting current user to null");
+    setCurrentUser(null);
+  }, [setCurrentUser]);
+  useEffect(() => {
+    fetchWeatherData();
+  }, []);
+
+  //* Card Handlers: Like, Unlike, Click
   const handleCardLike = (card, isLiked) => {
     console.log("Handle like for card:", card);
     const { _id: id } = card;
@@ -245,6 +202,53 @@ function App() {
     }
   };
 
+  const handleCardClick = (card) => {
+    console.log("Card clicked:", card);
+    setSelectedCard(card);
+    console.log("Set selected card to:", card);
+    setActiveModal("preview");
+    console.log("Opened preview modal");
+  };
+
+  //* useEffect: Check for valid token on load
+  useEffect(() => {
+    console.log("App: Setting isLoading to true");
+    console.log("App:", currentUser);
+    setIsLoading(true);
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      console.log("App: Found stored token", storedToken);
+    } else {
+      console.log("App: No stored token found");
+    }
+    if (storedToken) {
+      isReloading(storedToken);
+    }
+    setIsLoading(false);
+  }, []);
+
+  //* useEffect: Render Cards
+  useEffect(() => {
+    if (token) {
+      api
+        .getCards(token)
+        .then(({ data }) => {
+          setCards(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [token]);
+
+  //! Refactor these below
+  //* The App component saves the modal states
+  const [activeModal, setActiveModal] = useState("");
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const openDeleteModal = () => {
     setIsDeleteModalOpen(true);
     setActiveModal("");
@@ -256,43 +260,33 @@ function App() {
     setIsEditProfileModalOpen(false);
   };
 
-  //TODO Return here to polish this and update the weather data with the new format
-  const fetchWeatherData = () => {
-    if (location.latitude && location.longitude) {
-      getForecastWeather(location, APIkey)
-        .then((data) => {
-          setWeatherData(filterDataFromWeatherApi(data));
-        })
-        .catch((err) => console.log(err));
-    }
+  const handleEditProfileOpen = () => {
+    console.log("Opening edit profile modal");
+    setIsEditProfileModalOpen(true);
   };
 
-  const handleSetUserNull = useCallback(() => {
-    console.log("App: Setting current user to null");
-    setCurrentUser(null);
-  }, [setCurrentUser]);
-  useEffect(() => {
-    fetchWeatherData();
-  }, []);
+  const handleEditProfileClose = () => {
+    console.log("Closing edit profile modal");
+    setIsEditProfileModalOpen(false);
+  };
 
-  //* The App component saves default clothing items in the state
-  useEffect(() => {
-    if (token) {
-      api
-        .getCards(token)
-        .then(({ data }) => {
-          setCards(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [token]);
+  //! Refactor these below
 
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
+  };
+
+  //TODO Return here to polish this and update the weather data with the new format
+  const fetchWeatherData = () => {
+    if (location.latitude && location.longitude) {
+      getForecastWeather(location, APIKey)
+        .then((data) => {
+          setWeatherData(filterDataFromWeatherApi(data));
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -305,8 +299,6 @@ function App() {
             onAddNewClick={handleAddCardClick}
             openLoginModal={() => setIsLoginModalOpen(true)}
             openSignUpModal={() => setIsRegistrationModalOpen(true)}
-            // onCreateModal={handleCreateModal}
-            // location={city}
             setCurrentUser={setCurrentUser}
           />
           <Switch>
@@ -329,9 +321,6 @@ function App() {
                 cards={cards}
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
-                // weatherTemp={temp}
-                // onSelectCard={handleSelectedCard}
-                // clothingItems={clothingItems}
               />
             </Route>
           </Switch>

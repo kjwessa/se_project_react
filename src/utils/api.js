@@ -1,5 +1,4 @@
 import { baseUrl } from "./constants";
-//TODO Remove console.log statements
 
 export const checkStatus = (res) => {
   if (res.ok) {
