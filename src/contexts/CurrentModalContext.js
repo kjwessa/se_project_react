@@ -1,22 +1,35 @@
 import React, { createContext, useState } from "react";
 
-export const ModalsContext = createContext();
+export const ModalContext = createContext();
 
-export function ModalsProvider({ children }) {
-  // State and functions here
-  const [isOpen, setIsOpen] = useState("");
+export function ModalProvider({ children }) {
+  const [modals, setModals] = useState({
+    create: false,
+    preview: false,
+    register: false,
+    login: false,
+    edit: false,
+    delete: false,
+  });
 
   function openModal(name) {
-    setIsOpen(name);
+    setModals((prev) => ({ ...prev, [name]: true }));
   }
 
   function closeModals() {
-    setIsOpen("");
+    setModals({
+      create: false,
+      preview: false,
+      register: false,
+      login: false,
+      edit: false,
+      delete: false,
+    });
   }
 
   return (
-    <ModalsContext.Provider value={{ isOpen, openModal, closeModals }}>
+    <ModalContext.Provider value={{ modals, openModal, closeModals }}>
       {children}
-    </ModalsContext.Provider>
+    </ModalContext.Provider>
   );
 }

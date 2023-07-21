@@ -1,6 +1,7 @@
 //* Import React
 import { useEffect, useState, useCallback } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
+import { ModalContext, ModalProvider } from "./ModalContext";
 
 //* Import the components
 import Main from "../Main/Main";
@@ -9,10 +10,10 @@ import Footer from "../Footer/Footer";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { auth } from "../../utils/auth";
-import { APIKey } from "../../utils/constants";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
 
@@ -136,7 +137,7 @@ function App() {
       .then(() => {
         setCards((cards) => cards.filter((c) => c.id !== selectedCard._id));
         setActiveModal("");
-        setIsDeleteModalOpen(false);
+        setIsConfirmationModalOpen(false);
       })
       .catch((err) => {
         console.log(err);
@@ -156,7 +157,7 @@ function App() {
         setCurrentUser(res.data);
         setIsLoginModalOpen(false);
         setIsRegistrationModalOpen(false);
-        setIsDeleteModalOpen(false);
+        setIsConfirmationModalOpen(false);
         setAuthError("");
         setToken(token);
         console.log("App: User authenticated!");
@@ -297,105 +298,107 @@ function App() {
   }, []);
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <CurrentTemperatureUnitContext.Provider
-        value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
-        <div className="page">
-          <Header
-            city={city}
-            currentTemp={currentTemp}
-            onAddNewClick={handleAddCardClick}
-            openLoginModal={() => setIsLoginModalOpen(true)}
-            openSignUpModal={() => setIsRegistrationModalOpen(true)}
-            setCurrentUser={setCurrentUser}
-          />
-          <Switch>
-            <ProtectedRoute
-              path="/profile"
-              component={Profile}
-              isAuthenticated={currentUser}
-              cards={cards}
+    <ModalProvider>
+      <CurrentUserContext.Provider value={currentUser}>
+        <CurrentTemperatureUnitContext.Provider
+          value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
+          <div className="page">
+            <Header
+              city={city}
+              currentTemp={currentTemp}
               onAddNewClick={handleAddCardClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              handleSetUserNull={handleSetUserNull}
-              onEditProfileOpen={handleEditProfileOpen}
-              onSignOut={handleSignOut}
+              openLoginModal={() => setIsLoginModalOpen(true)}
+              openSignUpModal={() => setIsRegistrationModalOpen(true)}
+              setCurrentUser={setCurrentUser}
             />
-
-            <Route exact path="/">
-              <Main
-                currentTemp={currentTemp}
-                skyCondition={skyCondition}
+            <Switch>
+              <ProtectedRoute
+                path="/profile"
+                component={Profile}
+                isAuthenticated={currentUser}
                 cards={cards}
+                onAddNewClick={handleAddCardClick}
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
+                handleSetUserNull={handleSetUserNull}
+                onEditProfileOpen={handleEditProfileOpen}
+                onSignOut={handleSignOut}
               />
-            </Route>
-          </Switch>
-          <Footer />
-          {activeModal === "create" && (
-            <AddItemModal
-              onClose={handleCloseModals}
-              isOpen={activeModal === "create"}
-              onAddItem={handleAddCardSubmit}
-            />
-          )}
-          {activeModal === "preview" && (
-            <ItemModal
-              card={selectedCard}
-              onClose={handleCloseModals}
-              onOpenDeleteModal={openDeleteModal}
-            />
-          )}
-          {isRegistrationModalOpen && (
-            <RegisterModal
-              modalName={"Register"}
-              formTitle={"Sign up"}
-              buttonText={"Next"}
-              isOpen={isRegistrationModalOpen}
-              onClose={() => setIsRegistrationModalOpen(false)}
-              onRegister={handleRegistration}
-              authError={authError}
-              switchToLogin={() => {
-                setIsLoginModalOpen(true);
-                setIsRegistrationModalOpen(false);
-              }}
-            />
-          )}
-          {isLoginModalOpen && (
-            <LoginModal
-              modalName={"Login"}
-              formTitle={"Log In"}
-              buttonText={"Log In"}
-              isOpen={isLoginModalOpen}
-              onClose={() => setIsLoginModalOpen(false)}
-              onLogin={handleLogin}
-              authError={authError}
-              switchToRegister={() => {
-                setIsRegistrationModalOpen(true);
-                setIsLoginModalOpen(false);
-              }}
-            />
-          )}
-          {isConfirmationModalOpen && (
-            <ConfirmationModal
-              onClose={() => setIsConfirmationModalOpen(false)}
-              handleDelete={handleCardDeleteSubmit}
-              isLoading={isDeleting}
-              // onItemDeleted={closeAllModals}
-            />
-          )}
-          {isEditProfileModalOpen && (
-            <EditProfileModal
-              isOpen={isEditProfileModalOpen}
-              onClose={handleEditProfileClose}
-              onUpdateUser={handleEditProfile}
-            />
-          )}
-        </div>
-      </CurrentTemperatureUnitContext.Provider>
-    </CurrentUserContext.Provider>
+
+              <Route exact path="/">
+                <Main
+                  currentTemp={currentTemp}
+                  skyCondition={skyCondition}
+                  cards={cards}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                />
+              </Route>
+            </Switch>
+            <Footer />
+            {activeModal === "create" && (
+              <AddItemModal
+                onClose={handleCloseModals}
+                isOpen={activeModal === "create"}
+                onAddItem={handleAddCardSubmit}
+              />
+            )}
+            {activeModal === "preview" && (
+              <ItemModal
+                card={selectedCard}
+                onClose={handleCloseModals}
+                onOpenConfirmationModal={openConfirmationModal}
+              />
+            )}
+            {isRegistrationModalOpen && (
+              <RegisterModal
+                modalName={"Register"}
+                formTitle={"Sign up"}
+                buttonText={"Next"}
+                isOpen={isRegistrationModalOpen}
+                onClose={() => setIsRegistrationModalOpen(false)}
+                onRegister={handleRegistration}
+                authError={authError}
+                switchToLogin={() => {
+                  setIsLoginModalOpen(true);
+                  setIsRegistrationModalOpen(false);
+                }}
+              />
+            )}
+            {isLoginModalOpen && (
+              <LoginModal
+                modalName={"Login"}
+                formTitle={"Log In"}
+                buttonText={"Log In"}
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
+                onLogin={handleLogin}
+                authError={authError}
+                switchToRegister={() => {
+                  setIsRegistrationModalOpen(true);
+                  setIsLoginModalOpen(false);
+                }}
+              />
+            )}
+            {isConfirmationModalOpen && (
+              <ConfirmationModal
+                onClose={() => setIsConfirmationModalOpen(false)}
+                handleDelete={handleCardDeleteSubmit}
+                isLoading={isDeleting}
+                // onItemDeleted={closeAllModals}
+              />
+            )}
+            {isEditProfileModalOpen && (
+              <EditProfileModal
+                isOpen={isEditProfileModalOpen}
+                onClose={handleEditProfileClose}
+                onUpdateUser={handleEditProfile}
+              />
+            )}
+          </div>
+        </CurrentTemperatureUnitContext.Provider>
+      </CurrentUserContext.Provider>
+    </ModalProvider>
   );
 }
 
