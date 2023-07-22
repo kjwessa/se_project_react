@@ -1,7 +1,6 @@
 //* Import React
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
-import { ModalContext, ModalProvider } from "./ModalContext";
 
 //* Import the components
 import Main from "../Main/Main";
@@ -29,6 +28,8 @@ import { getForecastWeather, parseWeatherData, getWeatherCard } from "../../util
 import { api } from "../../utils/api";
 
 function App() {
+  //* Modal Handlers: Open, Close
+
   //* State: Weather Data
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [skyCondition, setSkyCondition] = useState();
@@ -246,6 +247,28 @@ function App() {
     }
   }, [token]);
 
+  //* Handlers: Weather Switch, Weather Data
+  const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? setCurrentTemperatureUnit("C")
+      : setCurrentTemperatureUnit("F");
+  };
+
+  useEffect(() => {
+    getForecastWeather()
+      .then((data) => {
+        const cityName = data && data.name;
+        setCity(cityName);
+        const temp = parseWeatherData(data);
+        setCurrentTemp(temp);
+        const weatherCardImg = getWeatherCard(data);
+        setSkyCondition(weatherCardImg);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   //! Refactor these below
   //* The App component saves the modal states
   const [activeModal, setActiveModal] = useState("");
@@ -275,130 +298,106 @@ function App() {
     setIsEditProfileModalOpen(false);
   };
 
-  //* Handlers: Weather Switch, Weather Data
-  const handleToggleSwitchChange = () => {
-    currentTemperatureUnit === "F"
-      ? setCurrentTemperatureUnit("C")
-      : setCurrentTemperatureUnit("F");
-  };
-
-  useEffect(() => {
-    getForecastWeather()
-      .then((data) => {
-        const cityName = data && data.name;
-        setCity(cityName);
-        const temp = parseWeatherData(data);
-        setCurrentTemp(temp);
-        const weatherCardImg = getWeatherCard(data);
-        setSkyCondition(weatherCardImg);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   return (
-    <ModalProvider>
-      <CurrentUserContext.Provider value={currentUser}>
-        <CurrentTemperatureUnitContext.Provider
-          value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
-          <div className="page">
-            <Header
-              city={city}
-              currentTemp={currentTemp}
+    <CurrentUserContext.Provider value={currentUser}>
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
+        <div className="page">
+          <Header
+            city={city}
+            currentTemp={currentTemp}
+            onAddNewClick={handleAddCardClick}
+            openLoginModal={() => setIsLoginModalOpen(true)}
+            openSignUpModal={() => setIsRegistrationModalOpen(true)}
+            setCurrentUser={setCurrentUser}
+          />
+          <Switch>
+            <ProtectedRoute
+              path="/profile"
+              component={Profile}
+              isAuthenticated={currentUser}
+              cards={cards}
               onAddNewClick={handleAddCardClick}
-              openLoginModal={() => setIsLoginModalOpen(true)}
-              openSignUpModal={() => setIsRegistrationModalOpen(true)}
-              setCurrentUser={setCurrentUser}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              handleSetUserNull={handleSetUserNull}
+              onEditProfileOpen={handleEditProfileOpen}
+              onSignOut={handleSignOut}
             />
-            <Switch>
-              <ProtectedRoute
-                path="/profile"
-                component={Profile}
-                isAuthenticated={currentUser}
+
+            <Route exact path="/">
+              <Main
+                currentTemp={currentTemp}
+                skyCondition={skyCondition}
                 cards={cards}
-                onAddNewClick={handleAddCardClick}
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
-                handleSetUserNull={handleSetUserNull}
-                onEditProfileOpen={handleEditProfileOpen}
-                onSignOut={handleSignOut}
               />
-
-              <Route exact path="/">
-                <Main
-                  currentTemp={currentTemp}
-                  skyCondition={skyCondition}
-                  cards={cards}
-                  onCardClick={handleCardClick}
-                  onCardLike={handleCardLike}
-                />
-              </Route>
-            </Switch>
-            <Footer />
-            {activeModal === "create" && (
-              <AddItemModal
-                onClose={handleCloseModals}
-                isOpen={activeModal === "create"}
-                onAddItem={handleAddCardSubmit}
-              />
-            )}
-            {activeModal === "preview" && (
-              <ItemModal
-                card={selectedCard}
-                onClose={handleCloseModals}
-                onOpenConfirmationModal={openConfirmationModal}
-              />
-            )}
-            {isRegistrationModalOpen && (
-              <RegisterModal
-                modalName={"Register"}
-                formTitle={"Sign up"}
-                buttonText={"Next"}
-                isOpen={isRegistrationModalOpen}
-                onClose={() => setIsRegistrationModalOpen(false)}
-                onRegister={handleRegistration}
-                authError={authError}
-                switchToLogin={() => {
-                  setIsLoginModalOpen(true);
-                  setIsRegistrationModalOpen(false);
-                }}
-              />
-            )}
-            {isLoginModalOpen && (
-              <LoginModal
-                modalName={"Login"}
-                formTitle={"Log In"}
-                buttonText={"Log In"}
-                isOpen={isLoginModalOpen}
-                onClose={() => setIsLoginModalOpen(false)}
-                onLogin={handleLogin}
-                authError={authError}
-                switchToRegister={() => {
-                  setIsRegistrationModalOpen(true);
-                  setIsLoginModalOpen(false);
-                }}
-              />
-            )}
-            {isConfirmationModalOpen && (
-              <ConfirmationModal
-                onClose={() => setIsConfirmationModalOpen(false)}
-                handleDelete={handleCardDeleteSubmit}
-                isLoading={isDeleting}
-                // onItemDeleted={closeAllModals}
-              />
-            )}
-            {isEditProfileModalOpen && (
-              <EditProfileModal
-                isOpen={isEditProfileModalOpen}
-                onClose={handleEditProfileClose}
-                onUpdateUser={handleEditProfile}
-              />
-            )}
-          </div>
-        </CurrentTemperatureUnitContext.Provider>
-      </CurrentUserContext.Provider>
-    </ModalProvider>
+            </Route>
+          </Switch>
+          <Footer />
+          {activeModal === "create" && (
+            <AddItemModal
+              onClose={handleCloseModals}
+              isOpen={activeModal === "create"}
+              onAddItem={handleAddCardSubmit}
+            />
+          )}
+          {activeModal === "preview" && (
+            <ItemModal
+              card={selectedCard}
+              onClose={handleCloseModals}
+              onOpenConfirmationModal={openConfirmationModal}
+            />
+          )}
+          {isRegistrationModalOpen && (
+            <RegisterModal
+              modalName={"Register"}
+              formTitle={"Sign up"}
+              buttonText={"Next"}
+              isOpen={isRegistrationModalOpen}
+              onClose={() => setIsRegistrationModalOpen(false)}
+              onRegister={handleRegistration}
+              authError={authError}
+              switchToLogin={() => {
+                setIsLoginModalOpen(true);
+                setIsRegistrationModalOpen(false);
+              }}
+            />
+          )}
+          {isLoginModalOpen && (
+            <LoginModal
+              modalName={"Login"}
+              formTitle={"Log In"}
+              buttonText={"Log In"}
+              isOpen={isLoginModalOpen}
+              onClose={() => setIsLoginModalOpen(false)}
+              onLogin={handleLogin}
+              authError={authError}
+              switchToRegister={() => {
+                setIsRegistrationModalOpen(true);
+                setIsLoginModalOpen(false);
+              }}
+            />
+          )}
+          {isConfirmationModalOpen && (
+            <ConfirmationModal
+              onClose={() => setIsConfirmationModalOpen(false)}
+              handleDelete={handleCardDeleteSubmit}
+              isLoading={isDeleting}
+              // onItemDeleted={closeAllModals}
+            />
+          )}
+          {isEditProfileModalOpen && (
+            <EditProfileModal
+              isOpen={isEditProfileModalOpen}
+              onClose={handleEditProfileClose}
+              onUpdateUser={handleEditProfile}
+            />
+          )}
+        </div>
+      </CurrentTemperatureUnitContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 
