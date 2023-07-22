@@ -271,16 +271,6 @@ function App() {
       });
   }, []);
 
-  // const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
-  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  // const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
-  // const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-
-  // const openConfirmationModal = () => {
-  //   setIsConfirmationModalOpen(true);
-  //   setActiveModal("");
-  // };
-
   const handleOpenModal = (modalName) => {
     console.log("Opening modal:", modalName);
     setActiveModal(modalName);
@@ -291,16 +281,6 @@ function App() {
     setActiveModal("");
   };
 
-  // const handleEditProfileOpen = () => {
-  //   console.log("Opening edit profile modal");
-  //   setIsEditProfileModalOpen(true);
-  // };
-
-  // const handleEditProfileClose = () => {
-  //   console.log("Closing edit profile modal");
-  //   setIsEditProfileModalOpen(false);
-  // };
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentTemperatureUnitContext.Provider
@@ -310,11 +290,8 @@ function App() {
             city={city}
             currentTemp={currentTemp}
             onAddNewClick={handleAddCardClick}
-            // openLoginModal={() => setIsLoginModalOpen(true)}
-            // openSignUpModal={() => setIsRegistrationModalOpen(true)}
             setCurrentUser={setCurrentUser}
             openModal={handleOpenModal}
-            // closeModal={handleCloseModal}
           />
           <Switch>
             <ProtectedRoute
@@ -326,7 +303,6 @@ function App() {
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
               handleSetUserNull={handleSetUserNull}
-              // onEditProfileOpen={handleEditProfileOpen}
               onSignOut={handleSignOut}
             />
 
@@ -341,33 +317,15 @@ function App() {
             </Route>
           </Switch>
           <Footer />
-          {activeModal === "create" && (
-            <AddItemModal
-              // onClose={handleCloseModals}
-              // isOpen={activeModal === "create"}
-              onAddItem={handleAddCardSubmit}
-            />
-          )}
-          {activeModal === "preview" && (
-            <ItemModal
-              card={selectedCard}
-              // onClose={handleCloseModals}
-              // onOpenConfirmationModal={openConfirmationModal}
-            />
-          )}
+          {activeModal === "create" && <AddItemModal onAddItem={handleAddCardSubmit} />}
+          {activeModal === "preview" && <ItemModal card={selectedCard} />}
           {activeModal === "register" && (
             <RegisterModal
               modalName={"register"}
               formTitle={"Sign up"}
               buttonText={"Next"}
-              // isOpen={isRegistrationModalOpen}
-              // onClose={() => setIsRegistrationModalOpen(false)}
               onRegister={handleRegistration}
               authError={authError}
-              // switchToLogin={() => {
-              //   setIsLoginModalOpen(true);
-              //   setIsRegistrationModalOpen(false);
-              // }}
               modalClose={handleCloseModal}
             />
           )}
@@ -376,32 +334,15 @@ function App() {
               modalName={"Login"}
               formTitle={"Log In"}
               buttonText={"Log In"}
-              // isOpen={isLoginModalOpen}
-              // onClose={() => setIsLoginModalOpen(false)}
               onLogin={handleLogin}
               authError={authError}
-              // switchToRegister={() => {
-              //   setIsRegistrationModalOpen(true);
-              //   setIsLoginModalOpen(false);
-              // }}
               modalClose={handleCloseModal}
             />
           )}
           {activeModal === "delete" && (
-            <ConfirmationModal
-              // onClose={() => setIsConfirmationModalOpen(false)}
-              handleDelete={handleCardDeleteSubmit}
-              isLoading={isDeleting}
-              // onItemDeleted={closeAllModals}
-            />
+            <ConfirmationModal handleDelete={handleCardDeleteSubmit} isLoading={isDeleting} />
           )}
-          {activeModal === "edit" && (
-            <EditProfileModal
-              // isOpen={isEditProfileModalOpen}
-              // onClose={handleEditProfileClose}
-              onUpdateUser={handleEditProfile}
-            />
-          )}
+          {activeModal === "edit" && <EditProfileModal onUpdateUser={handleEditProfile} />}
         </div>
       </CurrentTemperatureUnitContext.Provider>
     </CurrentUserContext.Provider>
@@ -409,64 +350,3 @@ function App() {
 }
 
 export default App;
-
-// const [temp, setTemp] = useState({
-//   temperature: {
-//     F: 0,
-//     C: 0,
-//   },
-// });
-// const [city, setCity] = useState("");
-// const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-
-// useEffect(() => {
-//   getForecastWeather()
-//     .then((data) => {
-//       const temperature = parseWeatherData(data);
-//       setTemp({
-//         F: `${Math.round(temperature)}°F`,
-//         C: `${Math.round(((temperature - 32) * 5) / 9)}°C`,
-//       });
-//       const location = parseWeatherLocation(data);
-//       setCity(location);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// }, []);
-
-// useEffect(() => {
-//   if (!activeModal) return;
-//   const handleEscUp = (evt) => {
-//     if (evt.key === "Escape") {
-//       handleCloseModals();
-//     }
-//   };
-
-//   const handleOverlayClick = (evt) => {
-//     if (
-//       evt.target.classList.contains("modal") ||
-//       evt.target.classList.contains("modal__close-button")
-//     ) {
-//       handleCloseModals();
-//     }
-//   };
-
-//   document.addEventListener("keyup", handleEscUp);
-//   document.addEventListener("click", handleOverlayClick);
-
-//   return () => {
-//     document.removeEventListener("keyup", handleEscUp);
-//     document.removeEventListener("click", handleOverlayClick);
-//   };
-// }, [activeModal]);
-
-// const fetchWeatherData = () => {
-//   if (location.latitude && location.longitude) {
-//     getForecastWeather(location, APIKey)
-//       .then((data) => {
-//         setWeatherData(filterDataFromWeatherApi(data));
-//       })
-//       .catch((err) => console.log(err));
-//   }
-// };
