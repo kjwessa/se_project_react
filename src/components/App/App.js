@@ -28,7 +28,8 @@ import { getForecastWeather, parseWeatherData, getWeatherCard } from "../../util
 import { api } from "../../utils/api";
 
 function App() {
-  //* Modal Handlers: Open, Close
+  //* State: Modals
+  const [activeModal, setActiveModal] = useState("");
 
   //* State: Weather Data
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
@@ -98,7 +99,7 @@ function App() {
     api
       .updateProfile(name, avatar, token)
       .then((res) => {
-        handleCloseModals();
+        handleCloseModal();
         setCurrentUser(res);
       })
       .catch((err) => {
@@ -123,7 +124,7 @@ function App() {
         console.log("Got add card response:", newCard);
         setCards([newCard, ...cards]);
         console.log("Updated cards state with new card");
-        handleCloseModals();
+        handleCloseModal();
         console.log("Closed modals after add");
       })
       .catch((err) => {
@@ -137,8 +138,8 @@ function App() {
       .deleteCard(selectedCard._id, token)
       .then(() => {
         setCards((cards) => cards.filter((c) => c.id !== selectedCard._id));
-        setActiveModal("");
-        setIsConfirmationModalOpen(false);
+        handleCloseModal();
+        // setIsConfirmationModalOpen(false);
       })
       .catch((err) => {
         console.log(err);
@@ -156,9 +157,10 @@ function App() {
       .then((res) => {
         console.log("App: Token check response", res);
         setCurrentUser(res.data);
-        setIsLoginModalOpen(false);
-        setIsRegistrationModalOpen(false);
-        setIsConfirmationModalOpen(false);
+        // setIsLoginModalOpen(false);
+        // setIsRegistrationModalOpen(false);
+        // setIsConfirmationModalOpen(false);
+        handleCloseModal();
         setAuthError("");
         setToken(token);
         console.log("App: User authenticated!");
@@ -269,34 +271,35 @@ function App() {
       });
   }, []);
 
-  //! Refactor these below
-  //* The App component saves the modal states
-  const [activeModal, setActiveModal] = useState("");
-  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  // const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
+  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  // const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
+  // const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
-  const openConfirmationModal = () => {
-    setIsConfirmationModalOpen(true);
+  // const openConfirmationModal = () => {
+  //   setIsConfirmationModalOpen(true);
+  //   setActiveModal("");
+  // };
+
+  const handleOpenModal = (modalName) => {
+    console.log("Opening modal:", modalName);
+    setActiveModal(modalName);
+  };
+
+  const handleCloseModal = () => {
+    console.log("Closing active modal");
     setActiveModal("");
   };
 
-  const handleCloseModals = () => {
-    console.log("Closing all modals");
-    setActiveModal("");
-    setIsEditProfileModalOpen(false);
-  };
+  // const handleEditProfileOpen = () => {
+  //   console.log("Opening edit profile modal");
+  //   setIsEditProfileModalOpen(true);
+  // };
 
-  const handleEditProfileOpen = () => {
-    console.log("Opening edit profile modal");
-    setIsEditProfileModalOpen(true);
-  };
-
-  const handleEditProfileClose = () => {
-    console.log("Closing edit profile modal");
-    setIsEditProfileModalOpen(false);
-  };
+  // const handleEditProfileClose = () => {
+  //   console.log("Closing edit profile modal");
+  //   setIsEditProfileModalOpen(false);
+  // };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -307,9 +310,11 @@ function App() {
             city={city}
             currentTemp={currentTemp}
             onAddNewClick={handleAddCardClick}
-            openLoginModal={() => setIsLoginModalOpen(true)}
-            openSignUpModal={() => setIsRegistrationModalOpen(true)}
+            // openLoginModal={() => setIsLoginModalOpen(true)}
+            // openSignUpModal={() => setIsRegistrationModalOpen(true)}
             setCurrentUser={setCurrentUser}
+            openModal={handleOpenModal}
+            // closeModal={handleCloseModal}
           />
           <Switch>
             <ProtectedRoute
@@ -321,7 +326,7 @@ function App() {
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
               handleSetUserNull={handleSetUserNull}
-              onEditProfileOpen={handleEditProfileOpen}
+              // onEditProfileOpen={handleEditProfileOpen}
               onSignOut={handleSignOut}
             />
 
@@ -338,60 +343,62 @@ function App() {
           <Footer />
           {activeModal === "create" && (
             <AddItemModal
-              onClose={handleCloseModals}
-              isOpen={activeModal === "create"}
+              // onClose={handleCloseModals}
+              // isOpen={activeModal === "create"}
               onAddItem={handleAddCardSubmit}
             />
           )}
           {activeModal === "preview" && (
             <ItemModal
               card={selectedCard}
-              onClose={handleCloseModals}
-              onOpenConfirmationModal={openConfirmationModal}
+              // onClose={handleCloseModals}
+              // onOpenConfirmationModal={openConfirmationModal}
             />
           )}
-          {isRegistrationModalOpen && (
+          {activeModal === "register" && (
             <RegisterModal
-              modalName={"Register"}
+              modalName={"register"}
               formTitle={"Sign up"}
               buttonText={"Next"}
-              isOpen={isRegistrationModalOpen}
-              onClose={() => setIsRegistrationModalOpen(false)}
+              // isOpen={isRegistrationModalOpen}
+              // onClose={() => setIsRegistrationModalOpen(false)}
               onRegister={handleRegistration}
               authError={authError}
-              switchToLogin={() => {
-                setIsLoginModalOpen(true);
-                setIsRegistrationModalOpen(false);
-              }}
+              // switchToLogin={() => {
+              //   setIsLoginModalOpen(true);
+              //   setIsRegistrationModalOpen(false);
+              // }}
+              modalClose={handleCloseModal}
             />
           )}
-          {isLoginModalOpen && (
+          {activeModal === "login" && (
             <LoginModal
               modalName={"Login"}
               formTitle={"Log In"}
               buttonText={"Log In"}
-              isOpen={isLoginModalOpen}
-              onClose={() => setIsLoginModalOpen(false)}
+              // isOpen={isLoginModalOpen}
+              // onClose={() => setIsLoginModalOpen(false)}
               onLogin={handleLogin}
               authError={authError}
-              switchToRegister={() => {
-                setIsRegistrationModalOpen(true);
-                setIsLoginModalOpen(false);
-              }}
+              // switchToRegister={() => {
+              //   setIsRegistrationModalOpen(true);
+              //   setIsLoginModalOpen(false);
+              // }}
+              modalClose={handleCloseModal}
             />
           )}
-          {isConfirmationModalOpen && (
+          {activeModal === "delete" && (
             <ConfirmationModal
-              onClose={() => setIsConfirmationModalOpen(false)}
+              // onClose={() => setIsConfirmationModalOpen(false)}
               handleDelete={handleCardDeleteSubmit}
               isLoading={isDeleting}
               // onItemDeleted={closeAllModals}
             />
           )}
-          {isEditProfileModalOpen && (
+          {activeModal === "edit" && (
             <EditProfileModal
-              isOpen={isEditProfileModalOpen}
-              onClose={handleEditProfileClose}
+              // isOpen={isEditProfileModalOpen}
+              // onClose={handleEditProfileClose}
               onUpdateUser={handleEditProfile}
             />
           )}

@@ -7,7 +7,14 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 //TODO Add CloseModal Prop
 //TODO Confirm how props are passed
 
-export default function LoginModal({ modalName, formTitle, buttonText, onLogin, handleOpenModal }) {
+export default function LoginModal({
+  modalName,
+  formTitle,
+  buttonText,
+  onLogin,
+  handleOpenModal,
+  closeModal,
+}) {
   //* Email State
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(undefined);
@@ -63,7 +70,8 @@ export default function LoginModal({ modalName, formTitle, buttonText, onLogin, 
       buttonText={buttonText}
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
-      handleOpenModal={handleOpenModal}>
+      handleOpenModal={handleOpenModal}
+      closeModal={closeModal}>
       <label className="modal-form__input-title">Email</label>
       <input
         required

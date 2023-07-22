@@ -8,13 +8,14 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 const Header = ({
   // weatherData,
   city,
-  currentTemp,
+  // currentTemp,
   handleAddCardClick,
-  openLoginModal,
-  openSignUpModal,
-  setCurrentUser,
-  onCreateModal,
-  location,
+  // openLoginModal,
+  // openSignUpModal,
+  // setCurrentUser,
+  // onCreateModal,
+  // location,
+  openModal,
 }) => {
   //* Get the current date
   const currentDate = new Date().toLocaleDateString("default", {
@@ -38,7 +39,7 @@ const Header = ({
         <ToggleSwitch />
         {currentUser ? (
           <>
-            <button className="header__button" type="text" onClick={handleAddCardClick}>
+            <button className="header__button" type="text" onClick={() => openModal("create")}>
               + Add Clothes
             </button>
             <Link className="header__profile-link" to="/profile">
@@ -52,10 +53,10 @@ const Header = ({
           </>
         ) : (
           <>
-            <span className="header__button" onClick={openLoginModal}>
+            <span className="header__button" onClick={() => openModal("login")}>
               Log in
             </span>
-            <span className="header__button" onClick={openSignUpModal}>
+            <span className="header__button" onClick={() => openModal("register")}>
               Sign up
             </span>
           </>

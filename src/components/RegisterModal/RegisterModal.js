@@ -86,9 +86,10 @@ export default function RegisterModal({
       modalName={modalName}
       formTitle={formTitle}
       buttonText={buttonText}
+      closeModal={closeModal}
       onSubmit={handleSubmit}
       isValid={isFormValid}
-      handleOpenModal={handleOpenModal}
+      // handleOpenModal={handleOpenModal}
       orButtonText={"or Login"}>
       <label className="modal-form__input-title">Email</label>
       <input
