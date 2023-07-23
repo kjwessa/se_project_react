@@ -1,5 +1,5 @@
 //* Import React
-import { useEffect, useState, useCallback, useContext } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 
 //* Import the components
@@ -36,7 +36,6 @@ function App() {
   const [skyCondition, setSkyCondition] = useState();
   const [city, setCity] = useState("");
   const [currentTemp, setCurrentTemp] = useState(0);
-  // const [weatherData, setWeatherData] = useState({});
 
   //* State: User, Token & AuthError
   const [token, setToken] = useState(null);
@@ -55,12 +54,12 @@ function App() {
     auth
       .signUp(name, avatar, email, password)
       .then((res) => {
-        console.log("Got signUp response:", res);
+        console.log("Handle Registration: Got signUp response:", res);
         handleLogin({ email, password });
-        console.log("Signed up, now logging in");
+        console.log("Handle Registration: Signed up, now logging in");
       })
       .catch((err) => {
-        console.log("Registration Error:", err);
+        console.log("Handle Registration: Registration Error:", err);
       });
   };
 
@@ -117,6 +116,25 @@ function App() {
       : setCurrentTemperatureUnit("F");
   };
 
+  //* Modal Handlers: Open, Close
+  const handleOpenModal = (modalName) => {
+    console.log("Opening modal:", modalName);
+    setActiveModal(modalName);
+  };
+
+  const handleCloseModal = () => {
+    console.log("Closing active modal");
+    setActiveModal("");
+  };
+
+  //TODO Get the modal to close when clicking outside of it
+  const handleClickOutsideModal = (e) => {
+    console.log("Clicked outside modal");
+    if (e.target.classList.contains("modal")) {
+      handleCloseModal();
+    }
+  };
+
   //* Card Handlers: Click, Add, Delete
   const handleAddCardClick = () => {
     console.log("Create modal function called");
@@ -146,7 +164,6 @@ function App() {
       .then(() => {
         setCards((cards) => cards.filter((c) => c.id !== selectedCard._id));
         handleCloseModal();
-        // setIsConfirmationModalOpen(false);
       })
       .catch((err) => {
         console.log(err);
@@ -164,9 +181,6 @@ function App() {
       .then((res) => {
         console.log("App: Token check response", res);
         setCurrentUser(res.data);
-        // setIsLoginModalOpen(false);
-        // setIsRegistrationModalOpen(false);
-        // setIsConfirmationModalOpen(false);
         handleCloseModal();
         setAuthError("");
         setToken(token);
@@ -271,16 +285,6 @@ function App() {
       });
   }, []);
 
-  const handleOpenModal = (modalName) => {
-    console.log("Opening modal:", modalName);
-    setActiveModal(modalName);
-  };
-
-  const handleCloseModal = () => {
-    console.log("Closing active modal");
-    setActiveModal("");
-  };
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentTemperatureUnitContext.Provider
@@ -288,10 +292,9 @@ function App() {
         <div className="page">
           <Header
             city={city}
-            currentTemp={currentTemp}
-            onAddNewClick={handleAddCardClick}
-            setCurrentUser={setCurrentUser}
-            openModal={handleOpenModal}
+            onModalOpen={handleOpenModal}
+            // currentTemp={currentTemp}
+            // setCurrentUser={setCurrentUser}
           />
           <Switch>
             <ProtectedRoute
@@ -302,7 +305,7 @@ function App() {
               onAddNewClick={handleAddCardClick}
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
-              handleSetUserNull={handleSetUserNull}
+              // handleSetUserNull={handleSetUserNull}
               onSignOut={handleSignOut}
             />
 
@@ -317,26 +320,47 @@ function App() {
             </Route>
           </Switch>
           <Footer />
-          {activeModal === "create" && <AddItemModal onAddItem={handleAddCardSubmit} />}
-          {activeModal === "preview" && <ItemModal card={selectedCard} />}
+          {activeModal === "create" && (
+            <AddItemModal
+              modalName={"create"}
+              formTitle={"Add Item"}
+              buttonText={"Add Item"}
+              onAddItem={handleAddCardSubmit}
+              onModalClose={handleCloseModal}
+              onClickOutsideModal={handleClickOutsideModal}
+            />
+          )}
+          {activeModal === "preview" && (
+            <ItemModal
+              modalName={"preview"}
+              card={selectedCard}
+              onCardDelete={handleCardDeleteSubmit}
+              onModalClose={handleCloseModal}
+              onClickOutsideModal={handleClickOutsideModal}
+            />
+          )}
           {activeModal === "register" && (
             <RegisterModal
               modalName={"register"}
               formTitle={"Sign up"}
               buttonText={"Next"}
-              onModalClose={handleCloseModal}
-              onRegister={handleRegistration}
+              orButtonText={"or Login"}
               authError={authError}
+              onRegister={handleRegistration}
+              onModalClose={handleCloseModal}
+              onClickOutsideModal={handleClickOutsideModal}
             />
           )}
           {activeModal === "login" && (
             <LoginModal
-              modalName={"Login"}
+              modalName={"login"}
               formTitle={"Log In"}
               buttonText={"Log In"}
-              onModalClose={handleCloseModal}
-              onLogin={handleLogin}
+              orButtonText={"or Register"}
               authError={authError}
+              onLogin={handleLogin}
+              onModalClose={handleCloseModal}
+              onClickOutsideModal={handleClickOutsideModal}
             />
           )}
           {activeModal === "delete" && (
@@ -344,9 +368,10 @@ function App() {
               modalName={"delete"}
               formTitle={"Confirm Delete"}
               buttonText={"Delete"}
-              onModalClose={handleCloseModal}
               handleDelete={handleCardDeleteSubmit}
               isLoading={isDeleting}
+              onModalClose={handleCloseModal}
+              onClickOutsideModal={handleClickOutsideModal}
             />
           )}
           {activeModal === "edit" && (
@@ -354,8 +379,9 @@ function App() {
               modalName={"edit"}
               formTitle={"Edit Profile"}
               buttonText={"Submit"}
-              onModalClose={handleCloseModal}
               onUpdateUser={handleEditProfile}
+              onModalClose={handleCloseModal}
+              onClickOutsideModal={handleClickOutsideModal}
             />
           )}
         </div>

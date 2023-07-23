@@ -3,8 +3,15 @@ import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 // TODO import FORMADD
 // TODO import NewItemValidation
-
-const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
+// TODO Make sure the submit action is right
+const AddItemModal = ({
+  modalName,
+  formTitle,
+  buttonText,
+  onAddItem,
+  onModalClose,
+  onClickOutsideModal,
+}) => {
   const [name, setName] = useState("");
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -15,22 +22,21 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
     setImageUrl(e.target.value);
   };
 
+  //TODO Submission: Remove this below if unneeded
   const [weather, setWeather] = useState("");
 
   const handleWeatherChange = (e) => {
     setWeather(e.target.value);
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAddItem({ name, weather, imageUrl });
-  };
+
   return (
     <ModalWithForm
-      title="New Garment"
-      buttonText="Add garment"
-      onClose={handleCloseModal}
-      isOpen={isOpen}
-      onSubmit={handleSubmit}>
+      modalName={modalName}
+      formTitle={formTitle}
+      buttonText={buttonText}
+      onSubmit={onAddItem}
+      onModalClose={onModalClose}
+      onClickOutsideModal={onClickOutsideModal}>
       <label>
         <h2 className="modal-form__input-title">Name</h2>
         <input
@@ -97,3 +103,9 @@ const AddItemModal = ({ isOpen, handleCloseModal, onAddItem }) => {
 };
 
 export default AddItemModal;
+
+//TODO Submission: Delete this if unused before submission
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+//   onAddItem({ name, weather, imageUrl });
+// };

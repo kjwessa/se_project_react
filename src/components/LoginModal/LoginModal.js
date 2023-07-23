@@ -3,16 +3,13 @@ import { validation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 //TODO Determine how to handle errors in the UI
-//TODO Add OpenModal Prop
-//TODO Add CloseModal Prop
-//TODO Confirm how props are passed
 
 export default function LoginModal({
   modalName,
   formTitle,
   buttonText,
+  orButtonText,
   onLogin,
-  handleOpenModal,
   onModalClose,
 }) {
   //* Email State
@@ -68,9 +65,9 @@ export default function LoginModal({
       modalName={modalName}
       formTitle={formTitle}
       buttonText={buttonText}
+      orButtonText={"or Login"}
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
-      handleOpenModal={handleOpenModal}
       onModalClose={onModalClose}>
       <label className="modal-form__input-title">Email</label>
       <input

@@ -5,18 +5,7 @@ import avatarPath from "../../images/avatar.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-const Header = ({
-  // weatherData,
-  city,
-  // currentTemp,
-  handleAddCardClick,
-  // openLoginModal,
-  // openSignUpModal,
-  // setCurrentUser,
-  // onCreateModal,
-  // location,
-  openModal,
-}) => {
+const Header = ({ city, onModalOpen }) => {
   //* Get the current date
   const currentDate = new Date().toLocaleDateString("default", {
     month: "long",
@@ -39,7 +28,7 @@ const Header = ({
         <ToggleSwitch />
         {currentUser ? (
           <>
-            <button className="header__button" type="text" onClick={() => openModal("create")}>
+            <button className="header__button" type="text" onClick={() => onModalOpen("create")}>
               + Add Clothes
             </button>
             <Link className="header__profile-link" to="/profile">
@@ -53,10 +42,10 @@ const Header = ({
           </>
         ) : (
           <>
-            <span className="header__button" onClick={() => openModal("login")}>
+            <span className="header__button" onClick={() => onModalOpen("login")}>
               Log in
             </span>
-            <span className="header__button" onClick={() => openModal("register")}>
+            <span className="header__button" onClick={() => onModalOpen("register")}>
               Sign up
             </span>
           </>
