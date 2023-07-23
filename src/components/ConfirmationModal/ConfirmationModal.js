@@ -1,3 +1,8 @@
+//TODO Return here and add in all the props that are needed for this component, none of the props are currently added
+//TODO Return here and check on this functionality because it's not been used yet
+//TODO Return here and ensure all the CSS classes are correct
+//TODO Return here and ensure all the functionality is correct
+
 function ConfirmationModal({ onClose, handleDelete, isLoading }) {
   return (
     <div className="modal modal__confirm">
