@@ -9,8 +9,10 @@ export default function LoginModal({
   formTitle,
   buttonText,
   orButtonText,
+  onModalOpen,
   onLogin,
   onModalClose,
+  onClickOutsideModal,
 }) {
   //* Email State
   const [email, setEmail] = useState("");
@@ -52,23 +54,26 @@ export default function LoginModal({
     }
   }, [isEmailValid, isPasswordValid]);
 
+  //TODO Submission: Remove this below if unneeded
   //* Handle Form Submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("LoginModal: Prevented default");
-    onLogin({ email, password });
-    console.log("LoginModal: Handled Login Submission");
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("LoginModal: Prevented default");
+  //   onLogin({ email, password });
+  //   console.log("LoginModal: Handled Login Submission");
+  // };
   //TODO Figure out why the formTitle is not being passed
   return (
     <ModalWithForm
       modalName={modalName}
       formTitle={formTitle}
       buttonText={buttonText}
-      orButtonText={"or Login"}
-      onSubmit={handleSubmit}
+      orButtonText={orButtonText}
+      onModalOpen={onModalOpen}
       isFormValid={isFormValid}
-      onModalClose={onModalClose}>
+      onSubmit={onLogin}
+      onModalClose={onModalClose}
+      onClickOutsideModal={onClickOutsideModal}>
       <label className="modal-form__input-title">Email</label>
       <input
         required
