@@ -1,12 +1,12 @@
 import closeButton from "../../images/close-icon-gray.svg";
 
-const ModalWithForm = ({ children, title, buttonText, closeModal, name, isOpen, onSubmit }) => {
+const ModalWithForm = ({ children, title, buttonText, onModalClose, name, isOpen, onSubmit }) => {
   return (
     <div className={`modal modal_type_${name}`}>
       <div className="modal__content">
         <img
           className="modal__close-button"
-          onClick={closeModal}
+          onClick={onModalClose}
           alt="close-icon"
           src={closeButton}
         />

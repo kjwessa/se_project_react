@@ -12,9 +12,9 @@ export default function RegisterModal({
   formTitle,
   buttonText,
   onRegister,
-  closeModal,
-  handleClickOutsideModal,
-  handleOpenModal,
+  onModalClose,
+  // handleClickOutsideModal,
+  // handleOpenModal,
 }) {
   //* Name State
   const [name, setName] = useState("");
@@ -86,7 +86,7 @@ export default function RegisterModal({
       modalName={modalName}
       formTitle={formTitle}
       buttonText={buttonText}
-      closeModal={closeModal}
+      onModalClose={onModalClose}
       onSubmit={handleSubmit}
       isValid={isFormValid}
       // handleOpenModal={handleOpenModal}

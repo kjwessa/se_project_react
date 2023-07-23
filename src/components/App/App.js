@@ -110,6 +110,13 @@ function App() {
       });
   };
 
+  //* Weather Handlers: Weather Toggle Switch
+  const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? setCurrentTemperatureUnit("C")
+      : setCurrentTemperatureUnit("F");
+  };
+
   //* Card Handlers: Click, Add, Delete
   const handleAddCardClick = () => {
     console.log("Create modal function called");
@@ -249,13 +256,6 @@ function App() {
     }
   }, [token]);
 
-  //* Handlers: Weather Switch, Weather Data
-  const handleToggleSwitchChange = () => {
-    currentTemperatureUnit === "F"
-      ? setCurrentTemperatureUnit("C")
-      : setCurrentTemperatureUnit("F");
-  };
-
   useEffect(() => {
     getForecastWeather()
       .then((data) => {
@@ -324,9 +324,9 @@ function App() {
               modalName={"register"}
               formTitle={"Sign up"}
               buttonText={"Next"}
+              onModalClose={handleCloseModal}
               onRegister={handleRegistration}
               authError={authError}
-              modalClose={handleCloseModal}
             />
           )}
           {activeModal === "login" && (
@@ -334,15 +334,30 @@ function App() {
               modalName={"Login"}
               formTitle={"Log In"}
               buttonText={"Log In"}
+              onModalClose={handleCloseModal}
               onLogin={handleLogin}
               authError={authError}
-              modalClose={handleCloseModal}
             />
           )}
           {activeModal === "delete" && (
-            <ConfirmationModal handleDelete={handleCardDeleteSubmit} isLoading={isDeleting} />
+            <ConfirmationModal
+              modalName={"delete"}
+              formTitle={"Confirm Delete"}
+              buttonText={"Delete"}
+              onModalClose={handleCloseModal}
+              handleDelete={handleCardDeleteSubmit}
+              isLoading={isDeleting}
+            />
           )}
-          {activeModal === "edit" && <EditProfileModal onUpdateUser={handleEditProfile} />}
+          {activeModal === "edit" && (
+            <EditProfileModal
+              modalName={"edit"}
+              formTitle={"Edit Profile"}
+              buttonText={"Submit"}
+              onModalClose={handleCloseModal}
+              onUpdateUser={handleEditProfile}
+            />
+          )}
         </div>
       </CurrentTemperatureUnitContext.Provider>
     </CurrentUserContext.Provider>

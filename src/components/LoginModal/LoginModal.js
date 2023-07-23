@@ -13,7 +13,7 @@ export default function LoginModal({
   buttonText,
   onLogin,
   handleOpenModal,
-  closeModal,
+  onModalClose,
 }) {
   //* Email State
   const [email, setEmail] = useState("");
@@ -71,7 +71,7 @@ export default function LoginModal({
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
       handleOpenModal={handleOpenModal}
-      closeModal={closeModal}>
+      onModalClose={onModalClose}>
       <label className="modal-form__input-title">Email</label>
       <input
         required
