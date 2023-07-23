@@ -379,7 +379,7 @@ function App() {
           {activeModal === "edit" && (
             <EditProfileModal
               modalName={"edit"}
-              formTitle={"Edit Profile"}
+              formTitle={"Change Profile Data"}
               buttonText={"Submit"}
               onUpdateUser={handleEditProfile}
               onModalClose={handleCloseModal}

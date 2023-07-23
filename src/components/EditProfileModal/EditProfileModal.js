@@ -2,12 +2,21 @@ import React, { useState, useEffect, useContext } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
+function EditProfileModal({
+  modalName,
+  formTitle,
+  buttonText,
+  onUpdateUser,
+  onModalClose,
+  onClickOutsideModal,
+}) {
+  //TODO Check which states are still needed
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser.name);
   const [avatar, setAvatar] = useState(currentUser.avatar);
   const [isValid, setIsValid] = useState(false);
 
+  //TODO Check if this is needed
   useEffect(() => {
     if (name.length > 0 && avatar.length > 0) {
       setIsValid(true);
@@ -16,20 +25,21 @@ function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
     }
   }, [name, avatar]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onUpdateUser(name, avatar);
-  };
+  //TODO Submission: Remove this below if unneeded
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   onUpdateUser(name, avatar);
+  // };
 
   return (
     <ModalWithForm
-      title="Change profile data"
-      name="edit-profile"
-      buttonText="Save changes"
-      onSubmit={handleSubmit}
-      isOpen={isOpen}
-      onClose={onClose}
-      isValid={isValid}>
+      modalName={modalName}
+      formTitle={formTitle}
+      buttonText={buttonText}
+      isValid={isValid}
+      onSubmit={onUpdateUser}
+      onClose={onModalClose}
+      onClickOutsideModal={onClickOutsideModal}>
       <label className="edit-profile-modal__input-label">
         Name
         <input
