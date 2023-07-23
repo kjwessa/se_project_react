@@ -345,6 +345,7 @@ function App() {
               formTitle={"Sign up"}
               buttonText={"Next"}
               orButtonText={"or Login"}
+              onModalOpen={handleOpenModal}
               // authError={authError}
               onRegister={handleRegistration}
               onModalClose={handleCloseModal}
@@ -357,6 +358,7 @@ function App() {
               formTitle={"Log In"}
               buttonText={"Log In"}
               orButtonText={"or Register"}
+              onModalOpen={handleOpenModal}
               // authError={authError}
               onLogin={handleLogin}
               onModalClose={handleCloseModal}

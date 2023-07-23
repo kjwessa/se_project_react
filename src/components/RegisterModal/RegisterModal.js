@@ -10,6 +10,8 @@ export default function RegisterModal({
   modalName,
   formTitle,
   buttonText,
+  orButtonText,
+  onModalOpen,
   onRegister,
   onModalClose,
   onClickOutsideModal,
@@ -84,7 +86,8 @@ export default function RegisterModal({
       modalName={modalName}
       formTitle={formTitle}
       buttonText={buttonText}
-      orButtonText={"or Login"}
+      orButtonText={orButtonText}
+      onModalOpen={onModalOpen}
       isValid={isFormValid}
       onSubmit={onRegister}
       onModalClose={onModalClose}
@@ -133,7 +136,6 @@ export default function RegisterModal({
         value={avatar}
         onChange={(e) => setAvatar(e.target.value)}
       />
-      <p className="or__log-in">or Log in</p>
     </ModalWithForm>
   );
 }
