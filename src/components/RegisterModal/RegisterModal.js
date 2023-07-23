@@ -3,6 +3,7 @@ import { validation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 //TODO Determine how to handle errors in the UI
+//TODO Do I pass through the AuthError?
 
 export default function RegisterModal({
   modalName,
@@ -84,7 +85,7 @@ export default function RegisterModal({
       buttonText={buttonText}
       orButtonText={"or Login"}
       isValid={isFormValid}
-      onSubmit={handleSubmit}
+      onSubmit={onRegister}
       onModalClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>
       <label className="modal-form__input-title">Email</label>
