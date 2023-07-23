@@ -4,6 +4,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 //TODO Determine how to handle errors in the UI
 //TODO Do I pass through the AuthError?
+//TODO Convert Or Login to a button, Polish the UI for or login in, create the CSS, and add the functionality to switch to the login modal
 
 export default function RegisterModal({
   modalName,
@@ -70,13 +71,13 @@ export default function RegisterModal({
     }
   }, [isNameValid, isEmailValid, isPasswordValid]);
 
-  //* Handle Form Submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Prevented default");
-    onRegister({ name, avatar, email, password });
-    console.log("RegisterModal: Handled Register Submission");
-  };
+  //TODO Submission: Remove this below if unneeded
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("Prevented default");
+  //   onRegister({ name, avatar, email, password });
+  //   console.log("RegisterModal: Handled Register Submission");
+  // };
 
   return (
     <ModalWithForm
@@ -132,6 +133,7 @@ export default function RegisterModal({
         value={avatar}
         onChange={(e) => setAvatar(e.target.value)}
       />
+      <p className="or__log-in">or Log in</p>
     </ModalWithForm>
   );
 }

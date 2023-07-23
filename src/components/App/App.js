@@ -357,7 +357,7 @@ function App() {
               formTitle={"Log In"}
               buttonText={"Log In"}
               orButtonText={"or Register"}
-              authError={authError}
+              // authError={authError}
               onLogin={handleLogin}
               onModalClose={handleCloseModal}
               onClickOutsideModal={handleClickOutsideModal}
