@@ -36,6 +36,18 @@ const signIn = (user) => {
   }).then(checkStatus);
 };
 
+// const signIn = (user) => {
+//   const { email, password } = user;
+//   console.log("Auth: Signing in user...");
+//   return fetch(`${baseUrl}/signin`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ email, password }),
+//   }).then(checkStatus);
+// };
+
 const checkToken = (token) => {
   console.log("Auth: Checking token...");
   return fetch(`${baseUrl}/users/me`, {

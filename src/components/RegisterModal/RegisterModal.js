@@ -18,7 +18,7 @@ export default function RegisterModal({
 }) {
   //* States: Registration Values + Validity
   const [registerValues, setRegisterValues] = useState({});
-  const [isRegisterFormValid, setIsRegisterFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   //* Handlers: Input Change + Submission
   const handleInputChange = (e) => {
@@ -38,9 +38,9 @@ export default function RegisterModal({
     const { email, password, name } = registerValues;
 
     if (email && password && name) {
-      setIsRegisterFormValid(SignUpValidation(email, password, name));
+      setIsFormValid(SignUpValidation(email, password, name));
     } else {
-      setIsRegisterFormValid(false);
+      setIsFormValid(false);
     }
   }, [registerValues]);
 
@@ -51,7 +51,7 @@ export default function RegisterModal({
       buttonText={buttonText}
       orButtonText={orButtonText}
       onModalOpen={onModalOpen}
-      isValid={isRegisterFormValid}
+      isValid={isFormValid}
       onSubmit={handleSubmit}
       onModalClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>

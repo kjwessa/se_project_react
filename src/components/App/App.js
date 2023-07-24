@@ -37,11 +37,14 @@ function App() {
   const [city, setCity] = useState("");
   const [currentTemp, setCurrentTemp] = useState(0);
 
-  //* State: User, Token & AuthError
+  //* State: User, Token & LoggedIn
   const [token, setToken] = useState(null);
   const [authError, setAuthError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [noAvatar, setNoAvatar] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //* State: Cards
   const [cards, setCards] = useState([]);
@@ -70,6 +73,7 @@ function App() {
       });
   };
 
+  //TODO Submission: remove code below
   // const handleRegistration = ({ name, avatar, email, password }) => {
   //   console.log("App: Handling sign up with:", { name, avatar, email, password });
   //   auth
@@ -84,28 +88,59 @@ function App() {
   //     });
   // };
 
-  const handleLogin = ({ email, password }) => {
-    console.log("App: Handling login with:", { email, password });
+  const handleLogin = (data) => {
+    setIsLoading(true);
+    console.log("App: Set isLoading to true");
+    console.log("App: Handling login with:", data);
     auth
-      .signIn(email, password)
+      .signin(data)
       .then((res) => {
-        console.log("App: Got signIn response:", res);
-        if (res && res.token) {
-          console.log("App: Got token in response", res.token);
-          localStorage.setItem("token", res.token);
-          console.log("App: Token saved to localStorage");
-          isReloading(res.token);
-        } else {
-          console.log("App: No token in response");
-          setAuthError(res.message || "App: Invalid credentials");
-          console.log("App: Set auth error message");
-        }
+        localStorage.setItem("jwt", res.token);
+        console.log("App: Set Token in Local Storage");
+        auth.checkToken(res.token).then((res) => {
+          setCurrentUser(res.data);
+          console.log("App: Set Current User");
+          setNoAvatar(currentUser?.name?.slice(0, 1));
+          console.log("App: Set No Avatar");
+          setIsLoggedIn(true);
+          console.log("App: Set Is Logged In to True");
+        });
+        handleCloseModal();
       })
-      .catch(() => {
-        console.log("App: Error signing in");
-        setAuthError("App: Invalid credentials");
+      .catch((err) => {
+        if (err === "Error: 401") {
+          setInvalidPassword(true);
+        }
+        console.error(`Error: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
+
+  //TODO Submission: remove code below
+  // const handleLogin = ({ email, password }) => {
+  //   console.log("App: Handling login with:", { email, password });
+  //   auth
+  //     .signIn(email, password)
+  //     .then((res) => {
+  //       console.log("App: Got signIn response:", res);
+  //       if (res && res.token) {
+  //         console.log("App: Got token in response", res.token);
+  //         localStorage.setItem("token", res.token);
+  //         console.log("App: Token saved to localStorage");
+  //         isReloading(res.token);
+  //       } else {
+  //         console.log("App: No token in response");
+  //         setAuthError(res.message || "App: Invalid credentials");
+  //         console.log("App: Set auth error message");
+  //       }
+  //     })
+  //     .catch(() => {
+  //       console.log("App: Error signing in");
+  //       setAuthError("App: Invalid credentials");
+  //     });
+  // };
 
   const handleSignOut = () => {
     console.log("Signing out user");
@@ -380,6 +415,8 @@ function App() {
               buttonText={"Log In"}
               orButtonText={"or Register"}
               onModalOpen={handleOpenModal}
+              invalidPassword={invalidPassword}
+              setInvalidPassword={setInvalidPassword}
               // authError={authError}
               onLogin={handleLogin}
               onModalClose={handleCloseModal}
