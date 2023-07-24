@@ -73,21 +73,6 @@ function App() {
       });
   };
 
-  //TODO Submission: remove code below
-  // const handleRegistration = ({ name, avatar, email, password }) => {
-  //   console.log("App: Handling sign up with:", { name, avatar, email, password });
-  //   auth
-  //     .signUp(name, avatar, email, password)
-  //     .then((res) => {
-  //       console.log("Handle Registration: Got signUp response:", res);
-  //       handleLogin({ email, password });
-  //       console.log("Handle Registration: Signed up, now logging in");
-  //     })
-  //     .catch((err) => {
-  //       console.log("Handle Registration: Registration Error:", err);
-  //     });
-  // };
-
   const handleLogin = (data) => {
     setIsLoading(true);
     console.log("App: Set isLoading to true");
@@ -117,30 +102,6 @@ function App() {
         setIsLoading(false);
       });
   };
-
-  //TODO Submission: remove code below
-  // const handleLogin = ({ email, password }) => {
-  //   console.log("App: Handling login with:", { email, password });
-  //   auth
-  //     .signIn(email, password)
-  //     .then((res) => {
-  //       console.log("App: Got signIn response:", res);
-  //       if (res && res.token) {
-  //         console.log("App: Got token in response", res.token);
-  //         localStorage.setItem("token", res.token);
-  //         console.log("App: Token saved to localStorage");
-  //         isReloading(res.token);
-  //       } else {
-  //         console.log("App: No token in response");
-  //         setAuthError(res.message || "App: Invalid credentials");
-  //         console.log("App: Set auth error message");
-  //       }
-  //     })
-  //     .catch(() => {
-  //       console.log("App: Error signing in");
-  //       setAuthError("App: Invalid credentials");
-  //     });
-  // };
 
   const handleSignOut = () => {
     console.log("Signing out user");
@@ -247,15 +208,6 @@ function App() {
         setAuthError("App: Please enter a valid email and password");
       });
   };
-
-  //TODO Return here to repair null
-  // const handleSetUserNull = useCallback(() => {
-  //   console.log("App: Setting current user to null");
-  //   setCurrentUser(null);
-  // }, [setCurrentUser]);
-  // useEffect(() => {
-  //   // fetchWeatherData();
-  // }, []);
 
   //* Card Handlers: Like, Unlike, Click
   const handleCardLike = (card, isLiked) => {
