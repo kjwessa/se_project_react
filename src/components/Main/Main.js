@@ -3,7 +3,13 @@ import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 
-export default function Main({ currentTemp, skyCondition, cards, onCardClick, onCardLike }) {
+export default function Main({
+  currentTemp,
+  skyCondition,
+  cards,
+  handleCardLike,
+  handleSelectedCard,
+}) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
   const weatherType = getWeatherType();
@@ -33,8 +39,8 @@ export default function Main({ currentTemp, skyCondition, cards, onCardClick, on
               <ItemCard
                 key={item._id}
                 item={item}
-                // handleSelectedCard={handleSelectedCard}
-                // handleLike={handleLike}
+                handleCardLike={handleCardLike}
+                handleSelectedCard={handleSelectedCard}
               />
             ))}
         </div>

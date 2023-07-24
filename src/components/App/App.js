@@ -294,16 +294,11 @@ function App() {
   }, [localStorage.getItem("jwt")]);
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={{ currentUser, isLoggedIn, noAvatar }}>
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
-          <Header
-            city={city}
-            onModalOpen={handleOpenModal}
-            // currentTemp={currentTemp}
-            // setCurrentUser={setCurrentUser}
-          />
+          <Header city={city} onModalOpen={handleOpenModal} />
           <Switch>
             <ProtectedRoute
               path="/profile"
@@ -313,7 +308,6 @@ function App() {
               onAddNewClick={handleAddCardClick}
               onCardClick={handleSelectedCard}
               onCardLike={handleCardLike}
-              // handleSetUserNull={handleSetUserNull}
               onSignOut={handleSignOut}
             />
 
@@ -322,8 +316,10 @@ function App() {
                 currentTemp={currentTemp}
                 skyCondition={skyCondition}
                 cards={cards}
-                onCardClick={handleSelectedCard}
-                onCardLike={handleCardLike}
+                // onCardClick={handleSelectedCard}
+                // onCardLike={handleCardLike}
+                handleCardLike={handleCardLike}
+                handleSelectedCard={handleSelectedCard}
               />
             </Route>
           </Switch>
