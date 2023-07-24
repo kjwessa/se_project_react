@@ -231,7 +231,7 @@ function App() {
     }
   };
 
-  const handleCardClick = (card) => {
+  const handleSelectedCard = (card) => {
     console.log("Card clicked:", card);
     setSelectedCard(card);
     console.log("Set selected card to:", card);
@@ -303,7 +303,7 @@ function App() {
               isAuthenticated={currentUser}
               cards={cards}
               onAddNewClick={handleAddCardClick}
-              onCardClick={handleCardClick}
+              onCardClick={handleSelectedCard}
               onCardLike={handleCardLike}
               // handleSetUserNull={handleSetUserNull}
               onSignOut={handleSignOut}
@@ -314,7 +314,7 @@ function App() {
                 currentTemp={currentTemp}
                 skyCondition={skyCondition}
                 cards={cards}
-                onCardClick={handleCardClick}
+                onCardClick={handleSelectedCard}
                 onCardLike={handleCardLike}
               />
             </Route>
