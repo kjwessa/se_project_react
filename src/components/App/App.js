@@ -39,7 +39,6 @@ function App() {
 
   //* State: User, Token & LoggedIn
   const [token, setToken] = useState(null);
-  // const [authError, setAuthError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
@@ -355,7 +354,6 @@ function App() {
               buttonText={"Next"}
               orButtonText={"or Login"}
               onModalOpen={handleOpenModal}
-              // authError={authError}
               onRegister={handleRegistration}
               onModalClose={handleCloseModal}
               onClickOutsideModal={handleClickOutsideModal}
@@ -370,7 +368,6 @@ function App() {
               onModalOpen={handleOpenModal}
               invalidPassword={invalidPassword}
               setInvalidPassword={setInvalidPassword}
-              // authError={authError}
               onLogin={handleLogin}
               onModalClose={handleCloseModal}
               onClickOutsideModal={handleClickOutsideModal}
