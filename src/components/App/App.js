@@ -105,13 +105,14 @@ function App() {
 
   const handleSignOut = () => {
     console.log("Signing out user");
-    localStorage.removeItem("token");
+    localStorage.removeItem("jwt");
     setCurrentUser(null);
   };
 
+  //TODO Update handleEdit Profile to pass through data + local storage
   const handleEditProfile = (name, avatar) => {
     setIsLoading(true);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("jwt");
     api
       .updateProfile(name, avatar, token)
       .then((res) => {
@@ -213,7 +214,7 @@ function App() {
   const handleCardLike = (card, isLiked) => {
     console.log("Handle like for card:", card);
     const { _id: id } = card;
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("jwt");
     if (isLiked) {
       console.log("Card already liked, removing like...");
       api
