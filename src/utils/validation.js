@@ -23,38 +23,3 @@ const UpdateProfileValidation = (name, avatar) => {
 };
 
 export { SignUpValidation, LoginValidation, NewItemValidation, UpdateProfileValidation };
-
-//TODO Submission: Remove this below if unneeded
-// export const validation = {
-
-//   LoginValidation,
-
-//   NewItemValidation,
-//   UpdateProfileValidation,
-// };
-
-// const SignUpValidation = (email, password, name) => {
-//   console.log("Validation: Validating signup...");
-//   return (
-//     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) &&
-//     password.length >= 4 &&
-//     name.length > 2
-//   );
-// };
-
-// const validateName = (name) => {
-//   return name.length > 2;
-// };
-
-// const validateEmail = (email) => {
-//   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email);
-// };
-
-// const validatePassword = (password) => {
-//   return password.length >= 8;
-// };
-
-// const LoginValidation = (email, password) => {
-//   console.log("Validation: Validating login...");
-//   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) && password.length >= 4;
-// };
