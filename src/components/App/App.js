@@ -39,7 +39,7 @@ function App() {
 
   //* State: User, Token & LoggedIn
   const [token, setToken] = useState(null);
-  const [authError, setAuthError] = useState("");
+  // const [authError, setAuthError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
@@ -93,7 +93,7 @@ function App() {
     console.log("App: Set isLoading to true");
     console.log("App: Handling login with:", data);
     auth
-      .signin(data)
+      .signIn(data)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
         console.log("App: Set Token in Local Storage");
@@ -249,13 +249,13 @@ function App() {
   };
 
   //TODO Return here to repair null
-  const handleSetUserNull = useCallback(() => {
-    console.log("App: Setting current user to null");
-    setCurrentUser(null);
-  }, [setCurrentUser]);
-  useEffect(() => {
-    // fetchWeatherData();
-  }, []);
+  // const handleSetUserNull = useCallback(() => {
+  //   console.log("App: Setting current user to null");
+  //   setCurrentUser(null);
+  // }, [setCurrentUser]);
+  // useEffect(() => {
+  //   // fetchWeatherData();
+  // }, []);
 
   //* Card Handlers: Like, Unlike, Click
   const handleCardLike = (card, isLiked) => {

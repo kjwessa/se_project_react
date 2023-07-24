@@ -1,17 +1,6 @@
 import { baseUrl } from "./constants";
 import { checkStatus } from "./api";
 
-// const signUp = (name, avatar, email, password) => {
-//   console.log("Auth: Signing up user...");
-//   return fetch(`${baseUrl}/signup`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({ name, avatar, email, password }),
-//   }).then(checkStatus);
-// };
-
 const signUp = (data) => {
   const { name, avatar, email, password } = data;
   console.log("Auth: Signing up user...", name, avatar, email, password);
@@ -35,18 +24,6 @@ const signIn = (user) => {
     body: JSON.stringify({ email, password }),
   }).then(checkStatus);
 };
-
-// const signIn = (user) => {
-//   const { email, password } = user;
-//   console.log("Auth: Signing in user...");
-//   return fetch(`${baseUrl}/signin`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({ email, password }),
-//   }).then(checkStatus);
-// };
 
 const checkToken = (token) => {
   console.log("Auth: Checking token...");
