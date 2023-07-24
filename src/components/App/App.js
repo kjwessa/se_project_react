@@ -1,5 +1,5 @@
 //* Import React
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 
 //* Import the components
@@ -144,7 +144,6 @@ function App() {
     setActiveModal("");
   };
 
-  //TODO Get the modal to close when clicking outside of it
   const handleClickOutsideModal = (e) => {
     console.log("Clicked outside modal");
     if (e.target.classList.contains("modal")) {
@@ -190,24 +189,25 @@ function App() {
       });
   };
 
+  //TODO Remove this function if not needed
   //* User Handlers: Reloading, Null User
-  const isReloading = (token) => {
-    console.log("App: Checking token...", token);
-    auth
-      .checkToken(token)
-      .then((res) => {
-        console.log("App: Token check response", res);
-        setCurrentUser(res.data);
-        handleCloseModal();
-        setAuthError("");
-        setToken(token);
-        console.log("App: User authenticated!");
-      })
-      .catch((err) => {
-        console.log("App: Error checking token", err);
-        setAuthError("App: Please enter a valid email and password");
-      });
-  };
+  // const isReloading = (token) => {
+  //   console.log("App: Checking token...", token);
+  //   auth
+  //     .checkToken(token)
+  //     .then((res) => {
+  //       console.log("App: Token check response", res);
+  //       setCurrentUser(res.data);
+  //       handleCloseModal();
+  //       setAuthError("");
+  //       setToken(token);
+  //       console.log("App: User authenticated!");
+  //     })
+  //     .catch((err) => {
+  //       console.log("App: Error checking token", err);
+  //       setAuthError("App: Please enter a valid email and password");
+  //     });
+  // };
 
   //* Card Handlers: Like, Unlike, Click
   const handleCardLike = (card, isLiked) => {
@@ -248,21 +248,21 @@ function App() {
   };
 
   //* useEffect: Check for valid token on load
-  useEffect(() => {
-    console.log("App: Setting isLoading to true");
-    console.log("App:", currentUser);
-    setIsLoading(true);
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      console.log("App: Found stored token", storedToken);
-    } else {
-      console.log("App: No stored token found");
-    }
-    if (storedToken) {
-      isReloading(storedToken);
-    }
-    setIsLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   console.log("App: Setting isLoading to true");
+  //   console.log("App:", currentUser);
+  //   setIsLoading(true);
+  //   const storedToken = localStorage.getItem("token");
+  //   if (storedToken) {
+  //     console.log("App: Found stored token", storedToken);
+  //   } else {
+  //     console.log("App: No stored token found");
+  //   }
+  //   if (storedToken) {
+  //     isReloading(storedToken);
+  //   }
+  //   setIsLoading(false);
+  // }, []);
 
   //* useEffect: Render Cards
   useEffect(() => {
@@ -278,6 +278,7 @@ function App() {
     }
   }, [token]);
 
+  //* useEffect: Get Weather Data
   useEffect(() => {
     getForecastWeather()
       .then((data) => {
@@ -292,6 +293,20 @@ function App() {
         console.log(err);
       });
   }, []);
+
+  //* useEffect: Close Modal on Escape
+  useEffect(() => {
+    if (!activeModal) return;
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        handleCloseModal();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [activeModal]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
