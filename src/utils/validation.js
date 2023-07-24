@@ -3,8 +3,16 @@ const LoginValidation = (email, password) => {
   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) && password.length >= 4;
 };
 
+// const SignUpValidation = (email, password, name) => {
+//   console.log("Validation: Validating signup...");
+//   return (
+//     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) &&
+//     password.length >= 4 &&
+//     name.length > 2
+//   );
+// };
+
 const SignUpValidation = (email, password, name) => {
-  console.log("Validation: Validating signup...");
   return (
     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) &&
     password.length >= 4 &&
@@ -45,3 +53,5 @@ export const validation = {
   NewItemValidation,
   UpdateProfileValidation,
 };
+
+export { SignUpValidation, LoginValidation, NewItemValidation, UpdateProfileValidation };

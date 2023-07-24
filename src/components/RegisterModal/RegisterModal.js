@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { validation } from "../../utils/validation";
+import { SignUpValidation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 //TODO Determine how to handle errors in the UI
@@ -16,70 +16,33 @@ export default function RegisterModal({
   onModalClose,
   onClickOutsideModal,
 }) {
-  //* Name State
-  const [name, setName] = useState("");
-  const [isNameValid, setIsNameValid] = useState(undefined);
-  const [isNameError, setIsNameError] = useState("");
+  //* States: Registration Values + Validity
+  const [registerValues, setRegisterValues] = useState({});
+  const [isRegisterFormValid, setIsRegisterFormValid] = useState(false);
 
-  //* Avatar State
-  const [avatar, setAvatar] = useState("");
+  //* Handlers: Input Change + Submission
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setRegisterValues({ ...registerValues, [name]: value });
+  };
 
-  //* Email State
-  const [email, setEmail] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(undefined);
-  const [isEmailError, setIsEmailError] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Prevented default");
+    onRegister(registerValues);
+    console.log("RegisterModal: Handled Register Submission");
+  };
 
-  //* Password State
-  const [password, setPassword] = useState("");
-  const [isPasswordValid, setIsPasswordValid] = useState(undefined);
-  const [isPasswordError, setIsPasswordError] = useState("");
-
-  //* Form State
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  //* Check Name Validity
+  //* UseEffect: Check Form Validity
   useEffect(() => {
-    const isValid = validation.validateName(name);
-    setIsNameValid(isValid);
-    if (!isValid) {
-      setIsNameError("Invalid name");
-    }
-  }, [name]);
+    const { email, password, name } = registerValues;
 
-  //* Check Email Validity
-  useEffect(() => {
-    const isValid = validation.validateEmail(email);
-    setIsEmailValid(isValid);
-    if (!isValid) {
-      setIsEmailError("Invalid email");
-    }
-  }, [email]);
-
-  //* Check Password Validity
-  useEffect(() => {
-    const isValid = validation.validatePassword(password);
-    setIsPasswordValid(isValid);
-    if (!isValid) {
-      setIsPasswordError("Invalid password");
-    }
-  }, [password]);
-
-  //* Check Form Validity
-  useEffect(() => {
-    if (isNameValid && isEmailValid && isPasswordValid) {
-      setIsFormValid(true);
+    if (email && password && name) {
+      setIsRegisterFormValid(SignUpValidation(email, password, name));
     } else {
-      setIsFormValid(false);
+      setIsRegisterFormValid(false);
     }
-  }, [isNameValid, isEmailValid, isPasswordValid]);
-
-  //TODO Submission: Remove this below if unneeded
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("Prevented default");
-  //   onRegister({ name, avatar, email, password });
-  //   console.log("RegisterModal: Handled Register Submission");
-  // };
+  }, [registerValues]);
 
   return (
     <ModalWithForm
@@ -88,8 +51,8 @@ export default function RegisterModal({
       buttonText={buttonText}
       orButtonText={orButtonText}
       onModalOpen={onModalOpen}
-      isValid={isFormValid}
-      onSubmit={onRegister}
+      isValid={isRegisterFormValid}
+      onSubmit={handleSubmit}
       onModalClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>
       <label className="modal-form__input-title">Email</label>
@@ -100,8 +63,8 @@ export default function RegisterModal({
         name="email"
         id="email"
         placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={registerValues.email || ""}
+        onChange={handleInputChange}
       />
       <label className="modal-form__input-title">Password</label>
       <input
@@ -111,8 +74,8 @@ export default function RegisterModal({
         name="password"
         id="password"
         placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={registerValues.password || ""}
+        onChange={handleInputChange}
       />
       <label className="modal-form__input-title">Name</label>
       <input
@@ -122,8 +85,8 @@ export default function RegisterModal({
         name="name"
         id="name"
         placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={registerValues.name || ""}
+        onChange={handleInputChange}
       />
 
       <label className="modal-form__input-title">Avatar URL</label>
@@ -133,9 +96,68 @@ export default function RegisterModal({
         name="avatar"
         id="avatar"
         placeholder="Avatar URL"
-        value={avatar}
-        onChange={(e) => setAvatar(e.target.value)}
+        value={registerValues.avatar || ""}
+        onChange={handleInputChange}
       />
     </ModalWithForm>
   );
 }
+
+//TODO Submission: Remove this below if unneeded
+
+//* Name State
+// const [name, setName] = useState("");
+// const [isNameValid, setIsNameValid] = useState(undefined);
+// const [isNameError, setIsNameError] = useState("");
+
+//* Avatar State
+// const [avatar, setAvatar] = useState("");
+
+//* Email State
+// const [email, setEmail] = useState("");
+// const [isEmailValid, setIsEmailValid] = useState(undefined);
+// const [isEmailError, setIsEmailError] = useState("");
+
+//* Password State
+// const [password, setPassword] = useState("");
+// const [isPasswordValid, setIsPasswordValid] = useState(undefined);
+// const [isPasswordError, setIsPasswordError] = useState("");
+
+//* Form State
+// const [isFormValid, setIsFormValid] = useState(false);
+
+//* Check Name Validity
+// useEffect(() => {
+//   const isValid = validation.validateName(name);
+//   setIsNameValid(isValid);
+//   if (!isValid) {
+//     setIsNameError("Invalid name");
+//   }
+// }, [name]);
+
+//* Check Email Validity
+// useEffect(() => {
+//   const isValid = validation.validateEmail(email);
+//   setIsEmailValid(isValid);
+//   if (!isValid) {
+//     setIsEmailError("Invalid email");
+//   }
+// }, [email]);
+
+//* Check Password Validity
+// useEffect(() => {
+//   const isValid = validation.validatePassword(password);
+//   setIsPasswordValid(isValid);
+//   if (!isValid) {
+//     setIsPasswordError("Invalid password");
+//   }
+// }, [password]);
+
+//* Check Form Validity
+// useEffect(() => {
+//   if (isNameValid && isEmailValid && isPasswordValid) {
+//     setIsFormValid(true);
+//   } else {
+//     setIsFormValid(false);
+//   }
+// }, [isNameValid, isEmailValid, isPasswordValid]);

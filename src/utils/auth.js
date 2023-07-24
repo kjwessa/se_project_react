@@ -12,8 +12,9 @@ import { checkStatus } from "./api";
 //   }).then(checkStatus);
 // };
 
-const signUp = (name, avatar, email, password) => {
-  console.log("Auth: Signing up user...");
+const signUp = (data) => {
+  const { name, avatar, email, password } = data;
+  console.log("Auth: Signing up user...", name, avatar, email, password);
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
     headers: {

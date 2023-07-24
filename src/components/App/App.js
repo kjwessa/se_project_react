@@ -49,19 +49,40 @@ function App() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   //* Profile Handlers: Register, Login, SignOut, Edit Profile
-  const handleRegistration = ({ name, avatar, email, password }) => {
-    console.log("App: Handling sign up with:", { name, avatar, email, password });
+  const handleRegistration = (data) => {
+    setIsLoading(true);
+    console.log("App: Set isLoading to true");
+    const { email, password } = data;
+    console.log("App: Handling sign up with:", data);
     auth
-      .signUp(name, avatar, email, password)
+      .signUp(data)
       .then((res) => {
         console.log("Handle Registration: Got signUp response:", res);
         handleLogin({ email, password });
         console.log("Handle Registration: Signed up, now logging in");
+        handleCloseModal();
       })
       .catch((err) => {
         console.log("Handle Registration: Registration Error:", err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
+
+  // const handleRegistration = ({ name, avatar, email, password }) => {
+  //   console.log("App: Handling sign up with:", { name, avatar, email, password });
+  //   auth
+  //     .signUp(name, avatar, email, password)
+  //     .then((res) => {
+  //       console.log("Handle Registration: Got signUp response:", res);
+  //       handleLogin({ email, password });
+  //       console.log("Handle Registration: Signed up, now logging in");
+  //     })
+  //     .catch((err) => {
+  //       console.log("Handle Registration: Registration Error:", err);
+  //     });
+  // };
 
   const handleLogin = ({ email, password }) => {
     console.log("App: Handling login with:", { email, password });
