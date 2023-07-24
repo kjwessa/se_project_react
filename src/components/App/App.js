@@ -191,24 +191,22 @@ function App() {
   };
 
   //TODO Remove this function if not needed
-  //* User Handlers: Reloading, Null User
-  // const isReloading = (token) => {
-  //   console.log("App: Checking token...", token);
-  //   auth
-  //     .checkToken(token)
-  //     .then((res) => {
-  //       console.log("App: Token check response", res);
-  //       setCurrentUser(res.data);
-  //       handleCloseModal();
-  //       setAuthError("");
-  //       setToken(token);
-  //       console.log("App: User authenticated!");
-  //     })
-  //     .catch((err) => {
-  //       console.log("App: Error checking token", err);
-  //       setAuthError("App: Please enter a valid email and password");
-  //     });
-  // };
+  //* User Handlers: Check Token
+  const confirmToken = () => {
+    const jwt = localStorage.getItem("jwt");
+
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then((res) => {
+          setCurrentUser(res.data);
+          setIsLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log("user not found", err.message);
+        });
+    }
+  };
 
   //* Card Handlers: Like, Unlike, Click
   const handleCardLike = (card, isLiked) => {
@@ -248,23 +246,6 @@ function App() {
     console.log("Opened preview modal");
   };
 
-  //* useEffect: Check for valid token on load
-  // useEffect(() => {
-  //   console.log("App: Setting isLoading to true");
-  //   console.log("App:", currentUser);
-  //   setIsLoading(true);
-  //   const storedToken = localStorage.getItem("token");
-  //   if (storedToken) {
-  //     console.log("App: Found stored token", storedToken);
-  //   } else {
-  //     console.log("App: No stored token found");
-  //   }
-  //   if (storedToken) {
-  //     isReloading(storedToken);
-  //   }
-  //   setIsLoading(false);
-  // }, []);
-
   //* useEffect: Render Cards
   useEffect(() => {
     api
@@ -277,18 +258,6 @@ function App() {
         console.log(err);
       });
   }, []);
-  // useEffect(() => {
-  //   if (token) {
-  //     api
-  //       .getCards(token)
-  //       .then(({ data }) => {
-  //         setCards(data);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [token]);
 
   //* useEffect: Get Weather Data
   useEffect(() => {
@@ -435,3 +404,52 @@ function App() {
 }
 
 export default App;
+
+//TODO Submission: Remove code below
+// const isReloading = (token) => {
+//   console.log("App: Checking token...", token);
+//   auth
+//     .checkToken(token)
+//     .then((res) => {
+//       console.log("App: Token check response", res);
+//       setCurrentUser(res.data);
+//       handleCloseModal();
+//       setAuthError("");
+//       setToken(token);
+//       console.log("App: User authenticated!");
+//     })
+//     .catch((err) => {
+//       console.log("App: Error checking token", err);
+//       setAuthError("App: Please enter a valid email and password");
+//     });
+// };
+
+// useEffect(() => {
+//   if (token) {
+//     api
+//       .getCards(token)
+//       .then(({ data }) => {
+//         setCards(data);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }
+// }, [token]);
+
+//* useEffect: Check for valid token on load
+// useEffect(() => {
+//   console.log("App: Setting isLoading to true");
+//   console.log("App:", currentUser);
+//   setIsLoading(true);
+//   const storedToken = localStorage.getItem("token");
+//   if (storedToken) {
+//     console.log("App: Found stored token", storedToken);
+//   } else {
+//     console.log("App: No stored token found");
+//   }
+//   if (storedToken) {
+//     isReloading(storedToken);
+//   }
+//   setIsLoading(false);
+// }, []);
