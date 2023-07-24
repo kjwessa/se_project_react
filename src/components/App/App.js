@@ -266,17 +266,28 @@ function App() {
 
   //* useEffect: Render Cards
   useEffect(() => {
-    if (token) {
-      api
-        .getCards(token)
-        .then(({ data }) => {
-          setCards(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [token]);
+    api
+      .getCards()
+      .then((data) => {
+        const byDate = data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+        setCards(byDate);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  // useEffect(() => {
+  //   if (token) {
+  //     api
+  //       .getCards(token)
+  //       .then(({ data }) => {
+  //         setCards(data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [token]);
 
   //* useEffect: Get Weather Data
   useEffect(() => {
@@ -307,6 +318,11 @@ function App() {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [activeModal]);
+
+  //* useEffect: Confirm JWT Token
+  useEffect(() => {
+    confirmToken();
+  }, [localStorage.getItem("jwt")]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
