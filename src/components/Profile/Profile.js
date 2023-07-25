@@ -1,15 +1,15 @@
 import ClothesSection from "../ClothesSection/ClothesSection";
 import SideBar from "../Sidebar/SideBar";
 
-export function Profile({ cards, onAddNewClick, onSelectCard, onCreateModal }) {
+export function Profile({ cards, onModalOpen, handleSelectedCard, handleCardLike, handleSignOut }) {
   return (
     <section className="profile">
-      <SideBar />
+      <SideBar onModalOpen={onModalOpen} handleSignOut={handleSignOut} />
       <ClothesSection
-        onAddNewClick={onAddNewClick}
         cards={cards}
-        onSelectCard={onSelectCard}
-        onCreateModal={onCreateModal}
+        onModalOpen={onModalOpen}
+        handleSelectedCard={handleSelectedCard}
+        handleCardLike={handleCardLike}
       />
     </section>
   );

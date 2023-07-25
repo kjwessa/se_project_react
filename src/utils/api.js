@@ -40,7 +40,7 @@ const deleteCard = ({ _id, token }) => {
   }).then(checkStatus);
 };
 
-const addCardLike = ({ _id, user }, token) => {
+const addCardLike = (id, token) => {
   console.log(`Adding like for card with ID: ${_id}`);
   return fetch(`${baseUrl}/items/${_id}/likes`, {
     method: "PUT",
@@ -52,7 +52,7 @@ const addCardLike = ({ _id, user }, token) => {
   }).then(checkStatus);
 };
 
-const removeCardLike = ({ _id }, token) => {
+const removeCardLike = (id, token) => {
   console.log(`Removing like for card with ID: ${_id}`);
   return fetch(`${baseUrl}/items/${_id}/likes`, {
     method: "DELETE",

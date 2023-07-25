@@ -153,11 +153,11 @@ function App() {
     }
   };
 
-  //* Card Handlers: Click, Add, Delete
-  const handleAddCardClick = () => {
-    console.log("Create modal function called");
-    setActiveModal("create");
-  };
+  //* Card Handlers: Click, Add, Delete, Like
+  // const handleAddCardClick = () => {
+  //   console.log("Create modal function called");
+  //   setActiveModal("create");
+  // };
 
   const handleAddCardSubmit = (data) => {
     setIsLoading(true);
@@ -173,7 +173,7 @@ function App() {
         handleCloseModal();
         console.log("App: Closed modals after adding card");
         api
-          .getClothingItems()
+          .getCards()
           .then((data) => {
             const byDate = data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
             setCards(byDate);
@@ -206,6 +206,26 @@ function App() {
       });
   };
 
+  // const handleLike = (_id, isLiked) => {
+  //   const jwt = localStorage.getItem("jwt");
+
+  //   if (!isLiked) {
+  //     api
+  //       .addCardLike(_id, jwt)
+  //       .then((like) => {
+  //         setCards((cards) => cards.map((item) => (item._id === _id ? like.data : item)));
+  //       })
+  //       .catch((err) => console.log(err));
+  //   } else {
+  //     api
+  //       .removeCardLike(_id, jwt)
+  //       .then((unlike) => {
+  //         setCards((cards) => cards.map((item) => (item._id === _id ? unlike.data : item)));
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // };
+
   //TODO Remove this function if not needed
   //* User Handlers: Check Token
   const confirmToken = () => {
@@ -225,32 +245,75 @@ function App() {
   };
 
   //* Card Handlers: Like, Unlike, Click
+  // const handleCardLike = (card, isLiked) => {
+  //   console.log("Handle like for card:", card);
+  //   const { _id: id } = card;
+  //   const token = localStorage.getItem("jwt");
+  //   if (isLiked) {
+  //     console.log("Card already liked, removing like...");
+  //     api
+  //       .removeCardLike(id, token)
+  //       .then((updatedCard) => {
+  //         console.log("Got updated card:", updatedCard);
+  //         setCards((cards) =>
+  //           cards.map((card) => {
+  //             if (card._id === id) {
+  //               return updatedCard.data;
+  //             } else {
+  //               return card;
+  //             }
+  //           })
+  //         );
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error removing like:", err);
+  //       });
+  //   } else {
+  //     console.log("Card not liked, adding like...");
+  //     api.addCardLike(id, token).then().catch();
+  //   }
+  // };
   const handleCardLike = (card, isLiked) => {
-    console.log("Handle like for card:", card);
-    const { _id: id } = card;
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("token");
+
     if (isLiked) {
-      console.log("Card already liked, removing like...");
+      // Call API to unlike
       api
-        .removeCardLike(id, token)
+        .removeLike(card, token)
         .then((updatedCard) => {
-          console.log("Got updated card:", updatedCard);
-          setCards((cards) =>
-            cards.map((card) => {
-              if (card._id === id) {
-                return updatedCard.data;
+          // Update cards state
+          setCards((currentCards) => {
+            return currentCards.map((c) => {
+              if (c._id === card._id) {
+                return updatedCard;
               } else {
-                return card;
+                return c;
               }
-            })
-          );
+            });
+          });
         })
-        .catch((err) => {
-          console.log("Error removing like:", err);
+        .catch((error) => {
+          console.log(error);
         });
     } else {
-      console.log("Card not liked, adding like...");
-      api.addCardLike(id, token).then().catch();
+      // Call API to like
+      api
+        .addLike(card, token)
+        .then((updatedCard) => {
+          // Update cards state
+          setCards((currentCards) => {
+            return currentCards.map((c) => {
+              if (c._id === card._id) {
+                return updatedCard;
+              } else {
+                return c;
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -318,28 +381,26 @@ function App() {
         <div className="page">
           <Header city={city} onModalOpen={handleOpenModal} onSignOut={handleSignOut} />
           <Switch>
-            <ProtectedRoute
-              path="/profile"
-              component={Profile}
-              isAuthenticated={currentUser}
-              cards={cards}
-              onAddNewClick={handleAddCardClick}
-              onCardClick={handleSelectedCard}
-              onCardLike={handleCardLike}
-              onSignOut={handleSignOut}
-            />
-
             <Route exact path="/">
               <Main
                 currentTemp={currentTemp}
                 skyCondition={skyCondition}
                 cards={cards}
-                // onCardClick={handleSelectedCard}
-                // onCardLike={handleCardLike}
                 handleCardLike={handleCardLike}
                 handleSelectedCard={handleSelectedCard}
               />
             </Route>
+            <ProtectedRoute path="/profile">
+              <Route path="/profile">
+                <Profile
+                  cards={cards}
+                  onModalOpen={handleOpenModal}
+                  handleSelectedCard={handleSelectedCard}
+                  handleCardLike={handleCardLike}
+                  onSignOut={handleSignOut}
+                />
+              </Route>
+            </ProtectedRoute>
           </Switch>
           <Footer />
           {activeModal === "create" && (

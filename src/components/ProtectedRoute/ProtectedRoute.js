@@ -6,7 +6,7 @@ function ProtectedRoute({ children, ...props }) {
   console.log("Protected Route: rendering protected route.");
   const { isLoggedIn } = useContext(CurrentUserContext);
 
-  return <Route {...props}>{isLoggedIn ? children : <Redirect to="/main" />}</Route>;
+  return <Route {...props}>{isLoggedIn ? children : <Redirect to="/" />}</Route>;
 }
 
 export default ProtectedRoute;
