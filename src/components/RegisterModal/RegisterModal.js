@@ -52,7 +52,7 @@ export default function RegisterModal({
       buttonText={buttonText}
       orButtonText={orButtonText}
       onModalOpen={onModalOpen}
-      isValid={isFormValid}
+      isFormValid={isFormValid}
       onSubmit={handleSubmit}
       onModalClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>

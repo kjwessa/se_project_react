@@ -1,26 +1,27 @@
+import { useContext } from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import closeButton from "../../images/close-icon-gray.svg";
 
-//TODO Improve the order of the props for consistency and clarity
-//TODO Add missing props (like button text and orButtonText)
 const ModalWithForm = ({
   children,
   modalName,
-  onSubmit,
   formTitle,
   orButtonText,
   buttonText,
   onModalOpen,
+  isFormValid,
+  onSubmit,
   onModalClose,
   onClickOutsideModal,
 }) => {
-  //TODO Check that the prop names are correct and what is needed. I'm trying to pass function parameters to the props but it's not the original function name. Loop back here if it's not working.
+  const { isLoggedIn } = useContext(CurrentUserContext);
   const handleOrClick = (modal) => {
     switch (modal) {
-      case "signup":
+      case "register":
         onModalOpen("login");
         break;
       case "login":
-        onModalOpen("signup");
+        onModalOpen("register");
         break;
       default:
         onModalClose();
@@ -39,15 +40,30 @@ const ModalWithForm = ({
         <h3 className="modal-form__heading">{formTitle}</h3>
         <form className="modal-form__children" onSubmit={onSubmit}>
           {children}
-          <button type="submit" className="modal-form__submit-button">
-            {buttonText}
-          </button>
-          <button
-            type="button"
-            className="modal__or-button"
-            onClick={() => handleOrClick(modalName)}>
-            {orButtonText}
-          </button>
+          <div>
+            {isLoggedIn ? (
+              <button
+                className={`modal__logged-user ${isFormValid ? "modal__logged-user-valid" : ""}`}>
+                {buttonText}
+              </button>
+            ) : (
+              <>
+                <button
+                  className={`modal-form__submit-button ${
+                    isFormValid ? "modal-form__submit-button_valid" : ""
+                  }`}
+                  type="submit">
+                  {buttonText}
+                </button>
+                <button
+                  type="button"
+                  className="modal__or-button"
+                  onClick={() => handleOrClick(modalName)}>
+                  {orButtonText}
+                </button>
+              </>
+            )}
+          </div>
         </form>
       </div>
     </div>

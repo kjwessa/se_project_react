@@ -107,7 +107,28 @@
   transition: all 0.3s ease-in-out;
 }
 
+.modal-form__submit-button_valid {
+  background-color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
 .modal-form__submit-button:hover {
   cursor: pointer;
   background-color: rgb(0, 0, 0, 1);
+}
+
+.modal__or-button {
+  background-color: transparent;
+  border: none;
+  font-family: "Cabinet-Grotesk", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: bold;
+  margin: 0 8px 0;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.modal__or-button:hover {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
