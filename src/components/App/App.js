@@ -291,6 +291,7 @@ function App() {
   //* useEffect: Confirm JWT Token
   useEffect(() => {
     confirmToken();
+    console.log(localStorage.getItem("jwt"));
   }, [localStorage.getItem("jwt")]);
 
   return (
@@ -298,7 +299,7 @@ function App() {
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
-          <Header city={city} onModalOpen={handleOpenModal} />
+          <Header city={city} onModalOpen={handleOpenModal} onSignOut={handleSignOut} />
           <Switch>
             <ProtectedRoute
               path="/profile"

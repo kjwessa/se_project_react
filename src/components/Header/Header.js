@@ -1,18 +1,16 @@
-import { useState, useContext } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import logoPath from "../../images/logo.svg";
-import avatarPath from "../../images/avatar.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-const Header = ({ city, onModalOpen }) => {
-  //* Get the current date
+const Header = ({ city, onModalOpen, onSignOut }) => {
+  const { currentUser, isLoggedIn, noAvatar } = useContext(CurrentUserContext);
+
   const currentDate = new Date().toLocaleDateString("default", {
     month: "long",
     day: "numeric",
   });
-  //* Get the current city
-  const currentUser = useContext(CurrentUserContext);
 
   return (
     <header className="header">
@@ -23,10 +21,11 @@ const Header = ({ city, onModalOpen }) => {
         <h2 className="header__date">
           {currentDate}, {city}
         </h2>
+        <button onClick={onSignOut}>SignOut</button>
       </div>
       <div className="header__right">
         <ToggleSwitch />
-        {currentUser ? (
+        {isLoggedIn ? (
           <>
             <button className="header__button" type="text" onClick={() => onModalOpen("create")}>
               + Add Clothes
@@ -35,8 +34,10 @@ const Header = ({ city, onModalOpen }) => {
               <div className="header__name">
                 {currentUser ? currentUser.name : "Terrence Tegegne"}
               </div>
-              {currentUser && (
-                <img className="header__avatar" src={currentUser.avatar} alt="avatar" />
+              {currentUser ? (
+                <img className="header__avatar_set_true" src={currentUser.avatar} alt="avatar" />
+              ) : (
+                <p className="header__avatar_set_false">{noAvatar}</p>
               )}
             </Link>
           </>
@@ -56,3 +57,6 @@ const Header = ({ city, onModalOpen }) => {
 };
 
 export default Header;
+
+//TODO Remove this below if unneeded
+// import avatarPath from "../../images/avatar.svg";
