@@ -9,9 +9,7 @@
 @import url(./components/Profile/profile.css);
 @import url(./components/ClothesSection/clothesSection.css);
 @import url(./components/Sidebar/sidebar.css);
-
 @import url(./components/AddItemModal/addItemModal.css);
 @import url(./components/ConfirmationModal/confirmationModal.css);
-@import url(./components/ProtectedRoute/protectedRoute.css);
 @import url(./components/ToggleSwitch/toggleSwitch.css);
 @import url(./components/WeatherCard/weatherCard.css);

@@ -9,6 +9,7 @@ export default function Main({
   cards,
   handleCardLike,
   handleSelectedCard,
+  onModalOpen,
 }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 

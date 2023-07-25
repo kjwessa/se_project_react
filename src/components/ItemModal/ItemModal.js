@@ -1,6 +1,22 @@
+import { useContext } from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import closeButton from "../../images/close-icon-white.svg";
 
-const ItemModal = ({ card, onCardDelete, onModalClose, onClickOutsideModal }) => {
+const ItemModal = ({
+  card,
+  onModalOpen,
+  onModalClose,
+  onClickOutsideModal,
+  handleSelectedCard,
+}) => {
+  const { currentUser } = useContext(CurrentUserContext);
+  // const isOwn = handleSelectedCard.owner === currentUser?._id;
+
+  const capitalizeWord = (word) => {
+    if (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+  };
   return (
     <div className={`modal`} onMouseDown={onClickOutsideModal}>
       <div className="modal__content item-modal__content">
@@ -14,7 +30,7 @@ const ItemModal = ({ card, onCardDelete, onModalClose, onClickOutsideModal }) =>
         <div className="item-modal__bottom">
           <div>{card.name}</div>
           <div>Weather Type: {card.weather}</div>
-          <button className="item-modal__delete" onClick={() => onCardDelete(card)}>
+          <button className="item-modal__delete" onClick={() => onModalOpen("confirmation")}>
             Delete Item
           </button>
         </div>

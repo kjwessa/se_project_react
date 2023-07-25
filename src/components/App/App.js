@@ -365,6 +365,7 @@ function App() {
               onCardDelete={handleCardDeleteSubmit}
               onModalClose={handleCloseModal}
               onClickOutsideModal={handleClickOutsideModal}
+              onModalOpen={handleOpenModal}
             />
           )}
           {activeModal === "register" && (
@@ -393,13 +394,10 @@ function App() {
               onClickOutsideModal={handleClickOutsideModal}
             />
           )}
-          {activeModal === "delete" && (
+          {activeModal === "confirmation" && (
             <ConfirmationModal
-              modalName={"delete"}
-              formTitle={"Confirm Delete"}
-              buttonText={"Delete"}
-              handleDelete={handleCardDeleteSubmit}
-              isLoading={isDeleting}
+              modalName={"confirmation"}
+              onDeleteSubmit={handleCardDeleteSubmit}
               onModalClose={handleCloseModal}
               onClickOutsideModal={handleClickOutsideModal}
             />

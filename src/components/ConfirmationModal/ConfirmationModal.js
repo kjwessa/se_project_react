@@ -1,26 +1,28 @@
-//TODO Return here and add in all the props that are needed for this component, none of the props are currently added
-//TODO Return here and check on this functionality because it's not been used yet
-//TODO Return here and ensure all the CSS classes are correct
-//TODO Return here and ensure all the functionality is correct
+import closeButton from "../../images/close-icon-gray.svg";
 
-function ConfirmationModal({ onClose, handleDelete, isLoading }) {
+const ConfirmationModal = ({ onDeleteSubmit, onModalClose }) => {
   return (
-    <div className="modal modal__confirm">
-      <div className="modal__delete-container">
-        <button className="modal__close modal__close-item" onClick={onClose} />
-        <div className="modal__message">
-          <p className="modal__message-line">Are you sure you want to delete this item?</p>
-          <p className="modal__message-line">This action is irreversable.</p>
+    <div className="modal">
+      <div className="modal__confirm-container">
+        <img
+          className="modal__close-button"
+          onClick={onModalClose}
+          alt="close-icon"
+          src={closeButton}
+        />
+        <div className="modal__confirm-message">
+          <p className="modal__confirm-text">Are you sure you want to delete this item?</p>
+          <p className="modal__confirm-text">This action is irreversable.</p>
         </div>
-        <p className="modal__yes" onClick={handleDelete}>
-          {isLoading ? "Saving..." : "Yes, delete item"}
+        <p className="modal__confirm-yes" onClick={onDeleteSubmit}>
+          Yes, delete item
         </p>
-        <p className="modal__cancel" onClick={onClose}>
+        <p className="modal__confirm-cancel" onClick={onModalClose}>
           Cancel
         </p>
       </div>
     </div>
   );
-}
+};
 
 export default ConfirmationModal;
