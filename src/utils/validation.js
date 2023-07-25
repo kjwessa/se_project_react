@@ -10,11 +10,9 @@ const LoginValidation = (email, password) => {
   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/gim.test(email) && password.length >= 4;
 };
 
-const NewItemValidation = (itemName, itemLink, weatherType) => {
+const NewItemValidation = (name, imageUrl, weather) => {
   console.log("Validation: Validating new item...");
-  return (
-    itemName.length > 0 && itemLink.length > 0 && ["hot", "warm", "cold"].includes(weatherType)
-  );
+  return name.length > 0 && imageUrl.length > 0 && ["hot", "warm", "cold"].includes(weather);
 };
 
 const UpdateProfileValidation = (name, avatar) => {

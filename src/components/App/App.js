@@ -105,7 +105,9 @@ function App() {
   const handleSignOut = () => {
     console.log("Signing out user");
     localStorage.removeItem("jwt");
-    setCurrentUser(null);
+    setCurrentUser({});
+    setNoAvatar("");
+    setIsLoggedIn(false);
   };
 
   //TODO Update handleEdit Profile to pass through data + local storage
@@ -157,19 +159,34 @@ function App() {
     setActiveModal("create");
   };
 
-  const handleAddCardSubmit = ({ name, imageUrl, weather }) => {
-    console.log("Handling add card submit with:", { name, imageUrl, weather });
+  const handleAddCardSubmit = (data) => {
+    setIsLoading(true);
+    console.log("App: Set isLoading to true");
+    const { name, imageUrl, weather } = data;
+    console.log("Handling add card submit with:", data);
     api
-      .addCard({ name, imageUrl, weather })
+      .addCard({ name, imageUrl, weather }, localStorage.getItem("jwt"))
       .then((newCard) => {
-        console.log("Got add card response:", newCard);
+        console.log("App: Got add card response:", newCard);
         setCards([newCard, ...cards]);
-        console.log("Updated cards state with new card");
+        console.log("App: Updated cards state with new card");
         handleCloseModal();
-        console.log("Closed modals after add");
+        console.log("App: Closed modals after adding card");
+        api
+          .getClothingItems()
+          .then((data) => {
+            const byDate = data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+            setCards(byDate);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log("Error adding card:", err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 

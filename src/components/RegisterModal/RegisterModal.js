@@ -24,11 +24,12 @@ export default function RegisterModal({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setRegisterValues({ ...registerValues, [name]: value });
+    console.log("RegisterModal: Handled Input Change");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Prevented default");
+    console.log("RegisterModal: Prevented default");
     onRegister(registerValues);
     console.log("RegisterModal: Handled Register Submission");
   };
