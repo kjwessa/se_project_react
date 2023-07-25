@@ -138,14 +138,14 @@
 }
 
 .header__avatar_set_true {
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
 }
 
 .header__avatar_set_false {
   display: flex;
-  height: 40px;
-  width: 40px;
+  height: 56px;
+  width: 56px;
   border-radius: 100%;
   background-color: #b1b1ef;
   color: white;

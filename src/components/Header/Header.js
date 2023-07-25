@@ -4,7 +4,7 @@ import logoPath from "../../images/logo.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-const Header = ({ city, onModalOpen, onSignOut }) => {
+const Header = ({ city, onModalOpen }) => {
   const { currentUser, isLoggedIn, noAvatar } = useContext(CurrentUserContext);
 
   const currentDate = new Date().toLocaleDateString("default", {
@@ -21,7 +21,6 @@ const Header = ({ city, onModalOpen, onSignOut }) => {
         <h2 className="header__date">
           {currentDate}, {city}
         </h2>
-        <button onClick={onSignOut}>SignOut</button>
       </div>
       <div className="header__right">
         <ToggleSwitch />

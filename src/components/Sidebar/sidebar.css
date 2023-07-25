@@ -1,23 +1,35 @@
 .sidebar {
-  display: flex;
-  flex-direction: row;
-  width: 345px;
-}
-
-.sidebar__info {
-  display: flex;
-  height: 56px;
-}
-
-.sidebar__avatar {
-  height: 56px;
-  width: 56px;
-  margin-right: 16px;
-}
-
-.sidebar__name {
-  font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-size: 20px;
-  align-self: center;
+}
+
+.sidebar__meta-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar__username {
+  margin: 0 16px;
+}
+
+.sidebar__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.sidebar__button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin: 14px 0 0 0;
+  font-weight: 700;
+  transition: 0.1s;
+}
+
+.sidebar__button:hover {
+  color: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
 }

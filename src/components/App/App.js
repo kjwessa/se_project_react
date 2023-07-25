@@ -324,7 +324,7 @@ function App() {
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
-          <Header city={city} onModalOpen={handleOpenModal} onSignOut={handleSignOut} />
+          <Header city={city} onModalOpen={handleOpenModal} />
           <Switch>
             <Route exact path="/">
               <Main
