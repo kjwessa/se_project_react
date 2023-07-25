@@ -154,11 +154,6 @@ function App() {
   };
 
   //* Card Handlers: Click, Add, Delete, Like
-  // const handleAddCardClick = () => {
-  //   console.log("Create modal function called");
-  //   setActiveModal("create");
-  // };
-
   const handleAddCardSubmit = (data) => {
     setIsLoading(true);
     console.log("App: Set isLoading to true");
@@ -206,73 +201,7 @@ function App() {
       });
   };
 
-  // const handleLike = (_id, isLiked) => {
-  //   const jwt = localStorage.getItem("jwt");
-
-  //   if (!isLiked) {
-  //     api
-  //       .addCardLike(_id, jwt)
-  //       .then((like) => {
-  //         setCards((cards) => cards.map((item) => (item._id === _id ? like.data : item)));
-  //       })
-  //       .catch((err) => console.log(err));
-  //   } else {
-  //     api
-  //       .removeCardLike(_id, jwt)
-  //       .then((unlike) => {
-  //         setCards((cards) => cards.map((item) => (item._id === _id ? unlike.data : item)));
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // };
-
-  //TODO Remove this function if not needed
-  //* User Handlers: Check Token
-  const confirmToken = () => {
-    const jwt = localStorage.getItem("jwt");
-
-    if (jwt) {
-      auth
-        .checkToken(jwt)
-        .then((res) => {
-          setCurrentUser(res.data);
-          setIsLoggedIn(true);
-        })
-        .catch((err) => {
-          console.log("user not found", err.message);
-        });
-    }
-  };
-
   //* Card Handlers: Like, Unlike, Click
-  // const handleCardLike = (card, isLiked) => {
-  //   console.log("Handle like for card:", card);
-  //   const { _id: id } = card;
-  //   const token = localStorage.getItem("jwt");
-  //   if (isLiked) {
-  //     console.log("Card already liked, removing like...");
-  //     api
-  //       .removeCardLike(id, token)
-  //       .then((updatedCard) => {
-  //         console.log("Got updated card:", updatedCard);
-  //         setCards((cards) =>
-  //           cards.map((card) => {
-  //             if (card._id === id) {
-  //               return updatedCard.data;
-  //             } else {
-  //               return card;
-  //             }
-  //           })
-  //         );
-  //       })
-  //       .catch((err) => {
-  //         console.log("Error removing like:", err);
-  //       });
-  //   } else {
-  //     console.log("Card not liked, adding like...");
-  //     api.addCardLike(id, token).then().catch();
-  //   }
-  // };
   const handleCardLike = (card, isLiked) => {
     const token = localStorage.getItem("token");
 
@@ -325,6 +254,22 @@ function App() {
     console.log("Opened preview modal");
   };
 
+  //* User Handlers: Check Token
+  const confirmToken = () => {
+    const jwt = localStorage.getItem("jwt");
+
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then((res) => {
+          setCurrentUser(res.data);
+          setIsLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log("user not found", err.message);
+        });
+    }
+  };
   //* useEffect: Render Cards
   useEffect(() => {
     api
@@ -476,52 +421,3 @@ function App() {
 }
 
 export default App;
-
-//TODO Submission: Remove code below
-// const isReloading = (token) => {
-//   console.log("App: Checking token...", token);
-//   auth
-//     .checkToken(token)
-//     .then((res) => {
-//       console.log("App: Token check response", res);
-//       setCurrentUser(res.data);
-//       handleCloseModal();
-//       setAuthError("");
-//       setToken(token);
-//       console.log("App: User authenticated!");
-//     })
-//     .catch((err) => {
-//       console.log("App: Error checking token", err);
-//       setAuthError("App: Please enter a valid email and password");
-//     });
-// };
-
-// useEffect(() => {
-//   if (token) {
-//     api
-//       .getCards(token)
-//       .then(({ data }) => {
-//         setCards(data);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
-// }, [token]);
-
-//* useEffect: Check for valid token on load
-// useEffect(() => {
-//   console.log("App: Setting isLoading to true");
-//   console.log("App:", currentUser);
-//   setIsLoading(true);
-//   const storedToken = localStorage.getItem("token");
-//   if (storedToken) {
-//     console.log("App: Found stored token", storedToken);
-//   } else {
-//     console.log("App: No stored token found");
-//   }
-//   if (storedToken) {
-//     isReloading(storedToken);
-//   }
-//   setIsLoading(false);
-// }, []);
