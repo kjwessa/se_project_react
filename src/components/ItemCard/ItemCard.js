@@ -11,17 +11,17 @@ const ItemCard = ({ item, handleCardLike, handleSelectedCard }) => {
   const handleLikeClick = () => {
     handleCardLike(item._id, isLiked);
   };
-  //TODO Polish the UI and improve the classes
+
   return (
     <div className="card-section__container">
       <img
         src={item.imageUrl}
         alt={item.name}
-        className="card-section__image"
+        className="card__image"
         onClick={() => handleSelectedCard(item)}
       />
-      <div className="card-section__name-wrap">
-        <p className="card-section__name">{item.name}</p>
+      <div className="card__name-wrap">
+        <p className="card__name">{item.name}</p>
         {isLoggedIn && (
           <button
             onClick={handleLikeClick}
