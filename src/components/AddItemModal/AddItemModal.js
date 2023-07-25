@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { NewItemValidation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-// TODO import FORMADD
-// TODO import NewItemValidation
-// TODO Make sure the submit action is right
+
 const AddItemModal = ({
   modalName,
   formTitle,
@@ -52,27 +50,26 @@ const AddItemModal = ({
       <label>
         <h2 className="modal-form__input-title">Name</h2>
         <input
+          required
           type="text"
           name="name"
+          id="name"
           placeholder="Name"
-          minLength="1"
-          maxLength="30"
           value={itemValues.name || ""}
           onChange={handleInputChange}
-          className="modal-form__input-field"
-          required></input>
+          className="modal-form__input-field"></input>
       </label>
       <label>
         <h2 className="modal-form__input-title">Image</h2>
         <input
+          required
           type="url"
-          name="link"
+          name="imageUrl"
+          id="imageUrl"
           placeholder="Image URL"
-          minLength="1"
           value={itemValues.imageUrl || ""}
           onChange={handleInputChange}
-          className="modal-form__input-field"
-          required></input>
+          className="modal-form__input-field"></input>
       </label>
       <p className="modal-form__text">Select the weather type:</p>
       <div className="modal-form__radio-wrap">
@@ -82,7 +79,7 @@ const AddItemModal = ({
             id="hot"
             value="hot"
             className="modal-form__radio-button"
-            name="weather-type"
+            name="weather"
             onChange={handleInputChange}
           />
           <label htmlFor="hot">Hot</label>
@@ -93,7 +90,7 @@ const AddItemModal = ({
             id="warm"
             value="warm"
             className="modal-form__radio-button"
-            name="weather-type"
+            name="weather"
             onChange={handleInputChange}
           />
           <label htmlFor="warm">Warm</label>
@@ -104,7 +101,7 @@ const AddItemModal = ({
             id="cold"
             value="cold"
             className="modal-form__radio-button"
-            name="weather-type"
+            name="weather"
             onChange={handleInputChange}
           />
           <label htmlFor="cold">Cold</label>
