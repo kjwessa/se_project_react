@@ -112,17 +112,3 @@ const AddItemModal = ({
 };
 
 export default AddItemModal;
-
-//TODO Submission: Delete this if unused before submission
-//  const [name, setName] = useState("");
-//  const handleNameChange = (e) => {
-//    setName(e.target.value);
-//  };
-
-//  const [imageUrl, setImageUrl] = useState("");
-//  const handleImageUrlChange = (e) => {
-//    setImageUrl(e.target.value);
-//  };
-
-//  //TODO Submission: Remove this below if unneeded
-//  const [weather, setWeather] = useState("");
