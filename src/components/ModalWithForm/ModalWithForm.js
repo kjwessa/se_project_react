@@ -43,7 +43,9 @@ const ModalWithForm = ({
           <div>
             {isLoggedIn ? (
               <button
-                className={`modal__logged-user ${isFormValid ? "modal__logged-user-valid" : ""}`}>
+                className={`modal-form__submit-button ${
+                  isFormValid ? "modal-form__submit-button_valid" : ""
+                }`}>
                 {buttonText}
               </button>
             ) : (

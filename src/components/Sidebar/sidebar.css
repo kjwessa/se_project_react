@@ -31,5 +31,4 @@
 
 .sidebar__button:hover {
   color: rgba(0, 0, 0, 0.5);
-  transform: scale(1.05);
 }

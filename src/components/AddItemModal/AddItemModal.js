@@ -23,9 +23,7 @@ const AddItemModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("AddItemModal: Prevented default");
     onAddItem(itemValues);
-    console.log("AddItemModal: Handled Add Item Submission");
   };
 
   //* UseEffect: Check Form Validity
@@ -34,7 +32,9 @@ const AddItemModal = ({
 
     if (name && imageUrl && weather) {
       setIsFormValid(NewItemValidation(name, imageUrl, weather));
+      console.log("item validated");
     } else {
+      console.log("item not validated");
       setIsFormValid(false);
     }
   }, [itemValues]);
