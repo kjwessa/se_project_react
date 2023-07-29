@@ -164,10 +164,11 @@ function App() {
 
   const handleCardDeleteSubmit = () => {
     setIsDeleting(true);
+    const token = localStorage.getItem("jwt");
     api
       .deleteCard(selectedCard._id, token)
       .then(() => {
-        setCards((cards) => cards.filter((c) => c.id !== selectedCard._id));
+        setCards((cards) => cards.filter((card) => card.id !== selectedCard._id));
         handleCloseModal();
       })
       .catch((err) => {
@@ -198,6 +199,7 @@ function App() {
   };
 
   const handleSelectedCard = (card) => {
+    console.log("Selected Card:", card);
     setSelectedCard(card);
     setActiveModal("preview");
   };

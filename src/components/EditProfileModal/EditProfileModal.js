@@ -50,7 +50,7 @@ function EditProfileModal({
       buttonText={buttonText}
       isFormValid={isFormValid}
       onSubmit={handleSubmit}
-      onClose={onModalClose}
+      onModalClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>
       <label className="modal-form__input-title">
         Name

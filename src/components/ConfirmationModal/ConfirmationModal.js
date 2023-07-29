@@ -1,8 +1,8 @@
 import closeButton from "../../images/close-icon-gray.svg";
 
-const ConfirmationModal = ({ onDeleteSubmit, onModalClose }) => {
+const ConfirmationModal = ({ onDeleteSubmit, onModalClose, onClickOutsideModal }) => {
   return (
-    <div className="modal">
+    <div className="modal" onMouseDown={onClickOutsideModal}>
       <div className="modal__confirm-container">
         <img
           className="modal__close-button"
