@@ -180,21 +180,18 @@ function App() {
 
   //* Card Handlers: Like, Unlike, Click
   const handleCardLike = (id, isLiked) => {
-    console.log("App: Handling card like with:", id, isLiked);
     const jwt = localStorage.getItem("jwt");
 
     !isLiked
       ? api
           .addCardLike(id, jwt)
           .then((updatedCard) => {
-            console.log("Handling Card Like for: ", id, jwt);
             setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.card : card)));
           })
           .catch((err) => console.log(err))
       : api
           .removeCardLike(id, jwt)
           .then((updatedCard) => {
-            console.log("Handling Card Unlike");
             setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.card : card)));
           })
           .catch((err) => console.log(err));
