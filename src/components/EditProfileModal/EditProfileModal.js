@@ -24,12 +24,9 @@ function EditProfileModal({
     console.log("AddItemModal: Handled Input Change");
   };
 
-  //TODO Return here and see why this is failing
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("EditProfileModal: Prevented default");
     onUpdateUser(profileValues);
-    console.log("EditProfileModal: Handled Input Change");
   };
 
   //* UseEffect: Check Form Validity
@@ -46,7 +43,6 @@ function EditProfileModal({
     setProfileValues({ name: currentUser.name, avatar: currentUser.avatar });
   }, []);
 
-  //TODO Figure out why the button is unstyled
   return (
     <ModalWithForm
       modalName={modalName}
