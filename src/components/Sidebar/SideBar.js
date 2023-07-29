@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export function SideBar({ onModalOpen, onSignOut }) {
-  const { currentUser, noAvatar } = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   return (
     <section className="sidebar">
@@ -10,7 +10,7 @@ export function SideBar({ onModalOpen, onSignOut }) {
         {currentUser.avatar ? (
           <img className="header__avatar_set_true" src={currentUser.avatar} alt="avatar" />
         ) : (
-          <p className="header__avatar_set_false">{noAvatar}</p>
+          <p className="header__avatar_set_false">{currentUser.name.charAt(0).toUpperCase()}</p>
         )}
         <div className="sidebar__username">
           {currentUser ? currentUser.name : "Please, log in."}

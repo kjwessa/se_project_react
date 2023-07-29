@@ -36,7 +36,9 @@ const Header = ({ city, onModalOpen }) => {
               {currentUser.avatar ? (
                 <img className="header__avatar_set_true" src={currentUser.avatar} alt="avatar" />
               ) : (
-                <p className="header__avatar_set_false">{noAvatar}</p>
+                <p className="header__avatar_set_false">
+                  {currentUser.name.charAt(0).toUpperCase()}
+                </p>
               )}
             </Link>
           </>

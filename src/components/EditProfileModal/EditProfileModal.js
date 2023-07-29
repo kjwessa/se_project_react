@@ -24,6 +24,7 @@ function EditProfileModal({
     console.log("AddItemModal: Handled Input Change");
   };
 
+  //TODO Return here and see why this is failing
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("EditProfileModal: Prevented default");
@@ -75,7 +76,7 @@ function EditProfileModal({
         Avatar URL
         <input
           className="modal-form__input-field"
-          type="url"
+          type="text"
           name="avatar"
           id="avatar"
           placeholder="Avatar URL"

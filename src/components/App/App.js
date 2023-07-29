@@ -42,7 +42,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
-  const [noAvatar, setNoAvatar] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //* State: Cards
@@ -84,8 +83,6 @@ function App() {
         auth.checkToken(res.token).then((res) => {
           setCurrentUser(res.data);
           console.log("App: Set Current User");
-          setNoAvatar(currentUser?.name?.slice(0, 1));
-          console.log("App: Set No Avatar");
           setIsLoggedIn(true);
           console.log("App: Set Is Logged In to True");
         });
@@ -106,7 +103,6 @@ function App() {
     console.log("Signing out user");
     localStorage.removeItem("jwt");
     setCurrentUser({});
-    setNoAvatar("");
     setIsLoggedIn(false);
   };
 
@@ -298,13 +294,8 @@ function App() {
     console.log(localStorage.getItem("jwt"));
   }, [localStorage.getItem("jwt")]);
 
-  useEffect(() => {
-    console.log("UseEffect: No Avatar", noAvatar);
-    console.log(noAvatar);
-  }, [noAvatar]);
-
   return (
-    <CurrentUserContext.Provider value={{ currentUser, isLoggedIn, noAvatar }}>
+    <CurrentUserContext.Provider value={{ currentUser, isLoggedIn }}>
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
