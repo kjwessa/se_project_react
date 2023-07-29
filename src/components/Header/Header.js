@@ -58,6 +58,3 @@ const Header = ({ city, onModalOpen }) => {
 };
 
 export default Header;
-
-//TODO Remove this below if unneeded
-// import avatarPath from "../../images/avatar.svg";
