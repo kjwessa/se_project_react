@@ -29,9 +29,7 @@ export default function LoginModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("LoginModal: Prevented default");
     onLogin(loginValues);
-    console.log("LoginModal: Handled Login Submission");
   };
 
   //* UseEffect: Check Form Validity
@@ -44,7 +42,6 @@ export default function LoginModal({
     }
   }, [loginValues]);
 
-  //TODO Figure out why the formTitle is not being passed
   return (
     <ModalWithForm
       modalName={modalName}
@@ -83,44 +80,3 @@ export default function LoginModal({
     </ModalWithForm>
   );
 }
-
-//TODO Submission: Remove this below if unneeded
-//* Email State
-// const [email, setEmail] = useState("");
-// const [isEmailValid, setIsEmailValid] = useState(undefined);
-// const [isEmailError, setIsEmailError] = useState("");
-
-//* Password State
-// const [password, setPassword] = useState("");
-// const [isPasswordValid, setIsPasswordValid] = useState(undefined);
-// const [isPasswordError, setIsPasswordError] = useState("");
-
-//* Form State
-// const [isFormValid, setIsFormValid] = useState(false);
-
-//* Check Password Validity
-// useEffect(() => {
-//   const isValid = validation.validatePassword(password);
-//   setIsPasswordValid(isValid);
-//   if (!isValid) {
-//     setIsPasswordError("Invalid password");
-//   }
-// }, [password]);
-
-//* Check Email Validity
-// useEffect(() => {
-//   const isValid = validation.validateEmail(email);
-//   setIsEmailValid(isValid);
-//   if (!isValid) {
-//     setIsEmailError("Invalid email");
-//   }
-// }, [email]);
-
-//* Check Form Validity
-// useEffect(() => {
-//   if (isEmailValid && isPasswordValid) {
-//     setIsFormValid(true);
-//   } else {
-//     setIsFormValid(false);
-//   }
-// }, [isEmailValid, isPasswordValid]);

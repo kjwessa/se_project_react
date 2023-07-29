@@ -2,10 +2,6 @@ import { useState, useEffect } from "react";
 import { SignUpValidation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-//TODO Determine how to handle errors in the UI
-//TODO Do I pass through the AuthError?
-//TODO Convert Or Login to a button, Polish the UI for or login in, create the CSS, and add the functionality to switch to the login modal
-
 export default function RegisterModal({
   modalName,
   formTitle,
@@ -24,14 +20,11 @@ export default function RegisterModal({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setRegisterValues({ ...registerValues, [name]: value });
-    console.log("RegisterModal: Handled Input Change");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("RegisterModal: Prevented default");
     onRegister(registerValues);
-    console.log("RegisterModal: Handled Register Submission");
   };
 
   //* UseEffect: Check Form Validity
