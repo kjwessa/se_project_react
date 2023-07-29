@@ -11,7 +11,7 @@ const Header = ({ city, onModalOpen }) => {
     month: "long",
     day: "numeric",
   });
-
+  console.log("Header: currentUser", noAvatar);
   return (
     <header className="header">
       <div className="header__left">
@@ -33,7 +33,7 @@ const Header = ({ city, onModalOpen }) => {
               <div className="header__name">
                 {currentUser ? currentUser.name : "Terrence Tegegne"}
               </div>
-              {currentUser ? (
+              {currentUser.avatar ? (
                 <img className="header__avatar_set_true" src={currentUser.avatar} alt="avatar" />
               ) : (
                 <p className="header__avatar_set_false">{noAvatar}</p>

@@ -298,6 +298,11 @@ function App() {
     console.log(localStorage.getItem("jwt"));
   }, [localStorage.getItem("jwt")]);
 
+  useEffect(() => {
+    console.log("UseEffect: No Avatar", noAvatar);
+    console.log(noAvatar);
+  }, [noAvatar]);
+
   return (
     <CurrentUserContext.Provider value={{ currentUser, isLoggedIn, noAvatar }}>
       <CurrentTemperatureUnitContext.Provider
