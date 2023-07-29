@@ -33,20 +33,6 @@ const ToggleSwitch = () => {
           }`}>
           C
         </span>
-        {/* <span
-          className={`header__toggle_text ${
-            currentTemperatureUnit === "F" ? "header__toggle_text_active" : ""
-          }`}>
-          F
-        </span>
-        <span
-          className={`header__toggle_text ${
-            currentTemperatureUnit === "C" ? "header__toggle_text_active" : ""
-          }`}>
-          C
-        </span> */}
-        {/* <p className={`header__toggle_text_f ${checked && "header__toggle_text_active"}`}>F</p>
-        <p className={`header__toggle_text_c ${!checked && "header__toggle_text_active"}`}>C</p> */}
       </div>
     </label>
   );
