@@ -65,10 +65,17 @@ export default function LoginModal({
         onChange={handleInputChange}
         autoComplete="email"
       />
-      <label className="modal-form__input-title">Password</label>
+      <label
+        className={`modal-form__input-title ${
+          invalidPassword ? "modal-form__input-title_invalid" : ""
+        }`}>
+        Password
+      </label>
       <input
         required
-        className="modal-form__input-field"
+        className={
+          "modal-form__input-field" + (invalidPassword ? " modal-form__input-field_invalid" : "")
+        }
         type="password"
         name="password"
         id="password"

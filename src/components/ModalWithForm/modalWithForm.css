@@ -45,6 +45,15 @@
   flex-direction: column;
 }
 
+.modal-form__input-title {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.modal-form__input-title_invalid {
+  color: red;
+}
+
 .modal-form__input-field {
   border-style: none none solid none;
   border-bottom-width: 1px;
@@ -55,9 +64,8 @@
   width: 100%;
 }
 
-.modal-form__input-title {
-  margin: 0 0 8px 0;
-  font-size: 16px;
+.modal-form__input-field_invalid {
+  color: red;
 }
 
 .modal-form__text {
