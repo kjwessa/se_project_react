@@ -4,14 +4,9 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export function ClothesSection({ cards, onModalOpen, handleSelectedCard, handleCardLike }) {
   const { currentUser } = useContext(CurrentUserContext);
-  console.log(cards);
   const filteredCards = cards.filter((item) => {
     return item.owner === currentUser?._id;
   });
-
-  // const filteredCards = cards.filter((item) => {
-  //   return item.weather?.toLowerCase() === weatherType;
-  // });
 
   console.log(filteredCards);
   return (
