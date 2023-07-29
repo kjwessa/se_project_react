@@ -188,14 +188,14 @@ function App() {
           .addCardLike(id, jwt)
           .then((updatedCard) => {
             console.log("Handling Card Like for: ", id, jwt);
-            setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.data : card)));
+            setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.card : card)));
           })
           .catch((err) => console.log(err))
       : api
           .removeCardLike(id, jwt)
           .then((updatedCard) => {
             console.log("Handling Card Unlike");
-            setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.data : card)));
+            setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.card : card)));
           })
           .catch((err) => console.log(err));
   };
@@ -267,7 +267,6 @@ function App() {
   //* useEffect: Confirm JWT Token
   useEffect(() => {
     confirmToken();
-    console.log(localStorage.getItem("jwt"));
   }, [localStorage.getItem("jwt")]);
 
   return (

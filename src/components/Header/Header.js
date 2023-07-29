@@ -5,13 +5,12 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const Header = ({ city, onModalOpen }) => {
-  const { currentUser, isLoggedIn, noAvatar } = useContext(CurrentUserContext);
+  const { currentUser, isLoggedIn } = useContext(CurrentUserContext);
 
   const currentDate = new Date().toLocaleDateString("default", {
     month: "long",
     day: "numeric",
   });
-  console.log("Header: currentUser", noAvatar);
   return (
     <header className="header">
       <div className="header__left">
