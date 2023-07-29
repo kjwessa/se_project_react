@@ -52,15 +52,11 @@ function App() {
   //* Profile Handlers: Register, Login, SignOut, Edit Profile
   const handleRegistration = (data) => {
     setIsLoading(true);
-    console.log("App: Set isLoading to true");
     const { email, password } = data;
-    console.log("App: Handling sign up with:", data);
     auth
       .signUp(data)
       .then((res) => {
-        console.log("Handle Registration: Got signUp response:", res);
         handleLogin({ email, password });
-        console.log("Handle Registration: Signed up, now logging in");
         handleCloseModal();
       })
       .catch((err) => {
@@ -73,18 +69,13 @@ function App() {
 
   const handleLogin = (data) => {
     setIsLoading(true);
-    console.log("App: Set isLoading to true");
-    console.log("App: Handling login with:", data);
     auth
       .signIn(data)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
-        console.log("App: Set Token in Local Storage");
         auth.checkToken(res.token).then((res) => {
           setCurrentUser(res.data);
-          console.log("App: Set Current User");
           setIsLoggedIn(true);
-          console.log("App: Set Is Logged In to True");
         });
         handleCloseModal();
       })
@@ -100,7 +91,6 @@ function App() {
   };
 
   const handleSignOut = () => {
-    console.log("Signing out user");
     localStorage.removeItem("jwt");
     setCurrentUser({});
     setIsLoggedIn(false);
@@ -108,8 +98,6 @@ function App() {
 
   const handleEditProfile = (data) => {
     setIsLoading(true);
-    console.log("App: Set isLoading to true");
-    console.log("App: Handling edit profile with:", data);
     const token = localStorage.getItem("jwt");
     auth
       .updateProfile(data, token)
@@ -122,7 +110,6 @@ function App() {
       })
       .finally(() => {
         setIsLoading(false);
-        console.log("App: Set isLoading to false");
       });
   };
 
@@ -135,17 +122,14 @@ function App() {
 
   //* Modal Handlers: Open, Close
   const handleOpenModal = (modalName) => {
-    console.log("Opening modal:", modalName);
     setActiveModal(modalName);
   };
 
   const handleCloseModal = () => {
-    console.log("Closing active modal");
     setActiveModal("");
   };
 
   const handleClickOutsideModal = (e) => {
-    console.log("Clicked outside modal");
     if (e.target.classList.contains("modal")) {
       handleCloseModal();
     }
@@ -154,17 +138,12 @@ function App() {
   //* Card Handlers: Click, Add, Delete, Like
   const handleAddCardSubmit = (data) => {
     setIsLoading(true);
-    console.log("App: Set isLoading to true");
     const { name, imageUrl, weather } = data;
-    console.log("Handling add card submit with:", data);
     api
       .addCard({ name, imageUrl, weather }, localStorage.getItem("jwt"))
       .then((newCard) => {
-        console.log("App: Got add card response:", newCard);
         setCards([newCard, ...cards]);
-        console.log("App: Updated cards state with new card");
         handleCloseModal();
-        console.log("App: Closed modals after adding card");
         api
           .getCards()
           .then((data) => {
@@ -222,11 +201,8 @@ function App() {
   };
 
   const handleSelectedCard = (card) => {
-    console.log("Card clicked:", card);
     setSelectedCard(card);
-    console.log("Set selected card to:", card);
     setActiveModal("preview");
-    console.log("Opened preview modal");
   };
 
   //* User Handlers: Check Token
