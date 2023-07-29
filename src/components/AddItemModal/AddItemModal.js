@@ -47,8 +47,8 @@ const AddItemModal = ({
       onSubmit={handleSubmit}
       onModalClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>
-      <label>
-        <h2 className="modal-form__input-title">Name</h2>
+      <label className="modal-form__input-title">
+        Name
         <input
           required
           type="text"
@@ -59,8 +59,8 @@ const AddItemModal = ({
           onChange={handleInputChange}
           className="modal-form__input-field"></input>
       </label>
-      <label>
-        <h2 className="modal-form__input-title">Image</h2>
+      <label className="modal-form__input-title">
+        Image
         <input
           required
           type="url"

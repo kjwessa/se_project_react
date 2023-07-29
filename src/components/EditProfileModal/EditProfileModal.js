@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { useState, useEffect, useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { UpdateProfileValidation } from "../../utils/validation";
 
 function EditProfileModal({
   modalName,
@@ -10,56 +11,76 @@ function EditProfileModal({
   onModalClose,
   onClickOutsideModal,
 }) {
-  //TODO Check which states are still needed
-  const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState(currentUser.name);
-  const [avatar, setAvatar] = useState(currentUser.avatar);
-  const [isValid, setIsValid] = useState(false);
+  const { currentUser } = useContext(CurrentUserContext);
 
-  //TODO Check if this is needed
+  //* State: Form Values + Validity
+  const [profileValues, setProfileValues] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  //* Handlers: Input Change + Submission
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfileValues({ ...profileValues, [name]: value });
+    console.log("AddItemModal: Handled Input Change");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("EditProfileModal: Prevented default");
+    onUpdateUser(profileValues);
+    console.log("EditProfileModal: Handled Input Change");
+  };
+
+  //* UseEffect: Check Form Validity
   useEffect(() => {
-    if (name.length > 0 && avatar.length > 0) {
-      setIsValid(true);
+    const { email, password, name } = profileValues;
+
+    if (email && password && name) {
+      setIsFormValid(UpdateProfileValidation(email, password, name));
     } else {
-      setIsValid(false);
+      setIsFormValid(false);
     }
-  }, [name, avatar]);
+  }, [profileValues]);
 
-  //TODO Submission: Remove this below if unneeded
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   onUpdateUser(name, avatar);
-  // };
+  useEffect(() => {
+    setProfileValues({ name: currentUser.name, avatar: currentUser.avatar });
+  }, []);
 
+  //TODO Figure out why the button is unstyled
   return (
     <ModalWithForm
       modalName={modalName}
       formTitle={formTitle}
       buttonText={buttonText}
-      isValid={isValid}
-      onSubmit={onUpdateUser}
+      isFormValid={isFormValid}
+      onSubmit={handleSubmit}
       onClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>
-      <label className="edit-profile-modal__input-label">
+      <label className="modal-form__input-title">
         Name
         <input
-          className="edit-profile-modal__input"
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
           required
+          className="modal-form__input-field"
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Name"
+          minLength="1"
+          maxLength="30"
+          value={profileValues.name || ""}
+          onChange={handleInputChange}
         />
       </label>
-      <label className="edit-profile-modal__input-label">
+      <label className="modal-form__input-title">
         Avatar URL
         <input
-          className="edit-profile-modal__input"
+          className="modal-form__input-field"
           type="url"
+          name="avatar"
+          id="avatar"
           placeholder="Avatar URL"
-          value={avatar}
-          onChange={(e) => setAvatar(e.target.value)}
-          required
+          value={profileValues.avatar || ""}
+          onChange={handleInputChange}
         />
       </label>
     </ModalWithForm>

@@ -110,21 +110,23 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  //TODO Update handleEdit Profile to pass through data + local storage
-  const handleEditProfile = (name, avatar) => {
+  const handleEditProfile = (data) => {
     setIsLoading(true);
+    console.log("App: Set isLoading to true");
+    console.log("App: Handling edit profile with:", data);
     const token = localStorage.getItem("jwt");
-    api
-      .updateProfile(name, avatar, token)
+    auth
+      .updateProfile(data, token)
       .then((res) => {
-        handleCloseModal();
         setCurrentUser(res);
+        handleCloseModal();
       })
       .catch((err) => {
-        console.log(err);
+        console.log(`Error: ${err}`);
       })
       .finally(() => {
         setIsLoading(false);
+        console.log("App: Set isLoading to false");
       });
   };
 
@@ -202,48 +204,25 @@ function App() {
   };
 
   //* Card Handlers: Like, Unlike, Click
-  const handleCardLike = (card, isLiked) => {
-    const token = localStorage.getItem("token");
+  const handleCardLike = (id, isLiked) => {
+    console.log("App: Handling card like with:", id, isLiked);
+    const jwt = localStorage.getItem("jwt");
 
-    if (isLiked) {
-      // Call API to unlike
-      api
-        .removeLike(card, token)
-        .then((updatedCard) => {
-          // Update cards state
-          setCards((currentCards) => {
-            return currentCards.map((c) => {
-              if (c._id === card._id) {
-                return updatedCard;
-              } else {
-                return c;
-              }
-            });
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      // Call API to like
-      api
-        .addLike(card, token)
-        .then((updatedCard) => {
-          // Update cards state
-          setCards((currentCards) => {
-            return currentCards.map((c) => {
-              if (c._id === card._id) {
-                return updatedCard;
-              } else {
-                return c;
-              }
-            });
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    !isLiked
+      ? api
+          .addCardLike(id, jwt)
+          .then((updatedCard) => {
+            console.log("Handling Card Like for: ", id, jwt);
+            setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.data : card)));
+          })
+          .catch((err) => console.log(err))
+      : api
+          .removeCardLike(id, jwt)
+          .then((updatedCard) => {
+            console.log("Handling Card Unlike");
+            setCards((cards) => cards.map((card) => (card._id === id ? updatedCard.data : card)));
+          })
+          .catch((err) => console.log(err));
   };
 
   const handleSelectedCard = (card) => {

@@ -9,15 +9,10 @@ export default function Main({
   cards,
   handleCardLike,
   handleSelectedCard,
-  onModalOpen,
 }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
   const weatherType = getWeatherType();
-
-  const filteredCards = cards.filter((item) => {
-    return item.weather?.toLowerCase() === weatherType;
-  });
 
   function getWeatherType() {
     if (currentTemp?.temp?.main >= 86) {
@@ -28,6 +23,13 @@ export default function Main({
       return "cold";
     }
   }
+
+  console.log("Total cards:", cards.length);
+  console.log("Filtering on weather:", weatherType);
+  const filteredCards = cards.filter((item) => {
+    console.log("Filtering item:", item);
+    return item.weather?.toLowerCase() === weatherType;
+  });
 
   return (
     <main className="main">

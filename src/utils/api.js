@@ -40,7 +40,7 @@ const deleteCard = ({ _id, token }) => {
   }).then(checkStatus);
 };
 
-const addCardLike = (id, token) => {
+const addCardLike = (_id, token) => {
   console.log(`Adding like for card with ID: ${_id}`);
   return fetch(`${baseUrl}/items/${_id}/likes`, {
     method: "PUT",
@@ -48,11 +48,10 @@ const addCardLike = (id, token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ _id, user }),
   }).then(checkStatus);
 };
 
-const removeCardLike = (id, token) => {
+const removeCardLike = (_id, token) => {
   console.log(`Removing like for card with ID: ${_id}`);
   return fetch(`${baseUrl}/items/${_id}/likes`, {
     method: "DELETE",
@@ -60,7 +59,6 @@ const removeCardLike = (id, token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ _id }),
   }).then(checkStatus);
 };
 
