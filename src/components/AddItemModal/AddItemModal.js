@@ -44,6 +44,7 @@ const AddItemModal = ({
       modalName={modalName}
       formTitle={formTitle}
       buttonText={buttonText}
+      isFormValid={isFormValid}
       onSubmit={handleSubmit}
       onModalClose={onModalClose}
       onClickOutsideModal={onClickOutsideModal}>

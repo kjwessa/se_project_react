@@ -34,10 +34,9 @@ function EditProfileModal({
 
   //* UseEffect: Check Form Validity
   useEffect(() => {
-    const { email, password, name } = profileValues;
-
-    if (email && password && name) {
-      setIsFormValid(UpdateProfileValidation(email, password, name));
+    const { name, avatar } = profileValues;
+    if (name && avatar) {
+      setIsFormValid(UpdateProfileValidation(name, avatar));
     } else {
       setIsFormValid(false);
     }
