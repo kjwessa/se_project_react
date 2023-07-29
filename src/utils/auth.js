@@ -3,7 +3,6 @@ import { checkStatus } from "./api";
 
 const signUp = (data) => {
   const { name, avatar, email, password } = data;
-  console.log("Auth: Signing up user...", name, avatar, email, password);
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
     headers: {
@@ -15,7 +14,6 @@ const signUp = (data) => {
 
 const signIn = (user) => {
   const { email, password } = user;
-  console.log("Auth: Signing in user...");
   return fetch(`${baseUrl}/signin`, {
     method: "POST",
     headers: {
@@ -26,7 +24,6 @@ const signIn = (user) => {
 };
 
 const checkToken = (token) => {
-  console.log("Auth: Checking token...");
   return fetch(`${baseUrl}/users/me`, {
     method: "GET",
     headers: {
@@ -38,7 +35,6 @@ const checkToken = (token) => {
 
 const updateProfile = (data, token) => {
   const { name, avatar } = data;
-  console.log("Auth: Updating user profile...");
   return fetch(`${baseUrl}/users/me`, {
     method: "PATCH",
     headers: {

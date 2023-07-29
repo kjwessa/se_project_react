@@ -2,14 +2,12 @@ import { baseUrl } from "./constants";
 
 export const checkStatus = (res) => {
   if (res.ok) {
-    console.log("API: Response is ok");
     return res.json();
   }
   return Promise.reject(`Error: ${res.status}`);
 };
 
 const getCards = () => {
-  console.log("API: Getting items");
   return fetch(`${baseUrl}/items`, {
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +16,6 @@ const getCards = () => {
 };
 
 const addCard = ({ name, imageUrl, weather }, token) => {
-  console.log("API: Adding item...");
   return fetch(`${baseUrl}/items`, {
     method: "POST",
     headers: {
