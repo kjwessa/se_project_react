@@ -38,7 +38,6 @@ const deleteCard = ({ _id, token }) => {
 };
 
 const addCardLike = (_id, token) => {
-  console.log(`Adding like for card with ID: ${_id}`);
   return fetch(`${baseUrl}/items/${_id}/likes`, {
     method: "PUT",
     headers: {
@@ -49,7 +48,6 @@ const addCardLike = (_id, token) => {
 };
 
 const removeCardLike = (_id, token) => {
-  console.log(`Removing like for card with ID: ${_id}`);
   return fetch(`${baseUrl}/items/${_id}/likes`, {
     method: "DELETE",
     headers: {
