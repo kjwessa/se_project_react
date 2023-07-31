@@ -21,3 +21,6 @@ When the user clicks on an item card, a modal appears, highlighting the selected
 ![ScreenshotOfItemModal](/src/images/WTWR-new-garment-image.png)
 
 By clicking on the "+ New Clothes" text, users are prompted to fill out a modal that lists all the required information for creating a new garment card.
+
+'Backend'
+The GitHub repo for the backend is [available here](https://github.com/kjwessa/se_project_express).
