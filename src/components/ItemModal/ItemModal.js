@@ -4,7 +4,7 @@ import closeButton from "../../images/close-icon-white.svg";
 
 const ItemModal = ({ card, onModalOpen, onModalClose, onClickOutsideModal }) => {
   const { currentUser } = useContext(CurrentUserContext);
-  const isCardOwner = card.owner === currentUser._id ? true : false;
+  const isCardOwner = card.owner === currentUser?._id ? true : false;
 
   return (
     <div className={`modal`} onMouseDown={onClickOutsideModal}>
