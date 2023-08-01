@@ -142,17 +142,8 @@ function App() {
     api
       .addCard({ name, imageUrl, weather }, localStorage.getItem("jwt"))
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         handleCloseModal();
-        api
-          .getCards()
-          .then((data) => {
-            const byDate = data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
-            setCards(byDate);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       })
       .catch((err) => {
         console.log("Error adding card:", err);
