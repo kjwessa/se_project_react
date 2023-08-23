@@ -19,8 +19,10 @@ export const location = { latitude, longitude };
 export const APIKey = "8f8faa090162b60e560bccce20cff5b2";
 
 //* Server Constants
-export const baseUrl = "http://localhost:3001";
-// export const baseUrl = "https://my-json-server.typicode.com/kjwessa/se_project_react";
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.kjw-wtwr.chickenkiller.com"
+    : "http://localhost:3000";
 
 //* Weather Options
 export const dayWeatherCards = {
