@@ -33,28 +33,3 @@ export function ClothesSection({ cards, onModalOpen, handleSelectedCard, handleC
 }
 
 export default ClothesSection;
-
-// import { useContext } from "react";
-// import ItemCard from "../ItemCard/ItemCard";
-// import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-
-// export function ClothesSection({ onSelectCard, cards, onCreateModal, onAddNewClick }) {
-//   const { currentUser } = useContext(CurrentUserContext);
-//   return (
-//     <section className="clothes-section">
-//       <div className="clothes-section__text">
-//         <h2 className="clothes-section__your-items">Your items</h2>
-//         <button onClick={onAddNewClick} className="clothes-section__add-new">
-//           + Add new
-//         </button>
-//       </div>
-//       <div className="clothes-section__items">
-//         {cards.map((card) => {
-//           return <ItemCard key={card._id} card={card} onSelectCard={onSelectCard} />;
-//         })}
-//       </div>
-//     </section>
-//   );
-// }
-
-// export default ClothesSection;

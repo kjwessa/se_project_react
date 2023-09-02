@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { LoginValidation } from "../../utils/validation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-//TODO Return and add the error state to the UI for a bad password
-
 export default function LoginModal({
   modalName,
   formTitle,

@@ -18,7 +18,6 @@ const AddItemModal = ({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setItemValues({ ...itemValues, [name]: value });
-    console.log("AddItemModal: Handled Input Change");
   };
 
   const handleSubmit = (e) => {
@@ -32,9 +31,7 @@ const AddItemModal = ({
 
     if (name && imageUrl && weather) {
       setIsFormValid(NewItemValidation(name, imageUrl, weather));
-      console.log("item validated");
     } else {
-      console.log("item not validated");
       setIsFormValid(false);
     }
   }, [itemValues]);

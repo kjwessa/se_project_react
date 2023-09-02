@@ -186,7 +186,6 @@ function App() {
   };
 
   const handleSelectedCard = (card) => {
-    console.log("Selected Card:", card);
     setSelectedCard(card);
     setActiveModal("preview");
   };
