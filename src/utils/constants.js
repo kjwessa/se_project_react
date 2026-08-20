@@ -20,7 +20,7 @@ export const APIKey = "8f8faa090162b60e560bccce20cff5b2";
 
 //* Server Constants
 export const baseUrl =
-  process.env.NODE_ENV === "production"
+  import.meta.env.PROD
     ? "https://api.kjw-wtwr.chickenkiller.com"
     : "http://localhost:3000";
 

@@ -1,6 +1,6 @@
 //* Import React
 import { useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
+import { Route, Routes } from "react-router-dom";
 
 //* Import the components
 import Main from "../Main/Main";
@@ -260,28 +260,32 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="page">
           <Header city={city} onModalOpen={handleOpenModal} />
-          <Switch>
-            <Route exact path="/">
-              <Main
+          <Routes>
+            <Route
+              path="/"
+              element={<Main
                 currentTemp={currentTemp}
                 skyCondition={skyCondition}
                 cards={cards}
                 handleCardLike={handleCardLike}
                 handleSelectedCard={handleSelectedCard}
-              />
-            </Route>
-            <ProtectedRoute path="/profile">
-              <Route path="/profile">
-                <Profile
+              />}
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile
                   cards={cards}
                   onModalOpen={handleOpenModal}
                   handleSelectedCard={handleSelectedCard}
                   handleCardLike={handleCardLike}
                   onSignOut={handleSignOut}
-                />
-              </Route>
-            </ProtectedRoute>
-          </Switch>
+                  />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
           <Footer />
           {activeModal === "create" && (
             <AddItemModal
